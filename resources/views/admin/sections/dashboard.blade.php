@@ -1,260 +1,174 @@
-
-
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Dashboard</h1>
-        <ul class="breadcrumb">
-            <li><a href="#">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="#">Dashboard</a></li>
-        </ul>
+
+@section('main-content')
+    <!--**********************************
+                                        Content body start
+                                    ***********************************-->
+    <div class="content-body default-height">
+        <!-- row -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card tryal-gradient">
+                                        <div class="card-body tryal row">
+                                            <div class="col-xl-7 col-sm-7">
+                                                <h2 class="mb-0">Manage your project in one touch</h2>
+                                                <span>Let Adzquare manage your project automatically with our best
+                                                    AI systems </span>
+                                                <a href="javascript:void(0);" class="btn btn-rounded">Try Our
+                                                    Services Now</a>
+                                            </div>
+                                            <div class="col-xl-5 col-sm-5 ">
+                                                <img src="{{ asset('admin_new/images/chart.png') }}" alt=""
+                                                    class="sd-shape">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-primary">
+                                        <div class="card-body  p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-users"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Domains & Hosting</p>
+                                                    <h3 class="text-white">{{ DB::table('domain_hostings')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-secondary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 80%"></div>
+                                                    </div>
+                                                    <small>80% Increase in 20 Days</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-secondary">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-graduation-cap"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Total Leads</p>
+                                                    <h3 class="text-white">{{ DB::table('leads')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-primary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 76%"></div>
+                                                    </div>
+                                                    <small>76% Increase in 20 Days</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card">
+                                                <div
+                                                    class="card-body card-padding d-flex align-items-center justify-content-between">
+                                                    <div>
+                                                        <h4 class="mb-3 text-nowrap">Total Clients</h4>
+                                                        <div class="d-flex align-items-center">
+                                                            <h2 class="fs-32 font-w700 mb-0 counter">
+                                                                {{ DB::table('customers')->count() }}</h2>
+                                                            <div class="ms-4 d-flex align-items-center">
+                                                                <svg width="16" height="11" viewBox="0 0 21 11"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z"
+                                                                        fill="#09BD3C" />
+                                                                </svg>
+                                                                <strong class="text-success">+0,5%</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="columnChart"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card">
+                                                <div class="card-body d-flex px-4  justify-content-between">
+                                                    <div>
+                                                        <div class="">
+                                                            <h2 class="fs-32 font-w700 counter">
+                                                                {{ DB::table('projects')->count() }}</h2>
+                                                            <h4 class="mb-0 text-nowrap">Total Projects</h4>
+                                                            <p class="mb-0"><strong class="text-success">+2%</strong> than
+                                                                last
+                                                                month</p>
+                                                        </div>
+                                                    </div>
+                                                    <div id="NewCustomers1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-warning">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-user"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Admin Access</p>
+                                                    <h3 class="text-white">{{ DB::table('admins')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-primary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 50%"></div>
+                                                    </div>
+                                                    <small>50% Increase in 25 Days</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-danger ">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-dollar"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Employees</p>
+                                                    <h3 class="text-white">{{ DB::table('employees')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-secondary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 30%"></div>
+                                                    </div>
+                                                    <small>30% Increase in 30 Days</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-@endsection
-
-@section('panel-body')
-    <div class="grid md:grid-cols-4 md:gap-10 sm:gap-5">
-
-        <a href="{{route('admin.view.campaign.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Campaign</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('campaigns')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-indigo-600 rounded-full text-white">
-                            <i data-feather="layers"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Todays Enquires 
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.group.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Groups</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('groups')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-purple-600 rounded-full text-white">
-                            <i data-feather="grid"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.employee.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Employees</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('employees')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-orange-600 rounded-full text-white">
-                            <i data-feather="user"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.customer.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Customers</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('customers')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-pink-600 rounded-full text-white">
-                            <i data-feather="user"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.project.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Projects</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('projects')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-green-600 rounded-full text-white">
-                            <i data-feather="pie-chart"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.admin.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Admin Access</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('admins')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-blue-600 rounded-full text-white">
-                            <i data-feather="shield"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.domain.hosting.list')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Domain Hostings</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('domain_hostings')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-violet-600 rounded-full text-white">
-                            <i data-feather="server"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{route('admin.view.lead.import')}}" class="panel-card">
-            <div class="panel-card-body">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="space-y-2">
-                        <p class="text-sm text-slate-500 font-medium tracking-wider uppercase">Leads</p>
-                        <h1 class="font-bold text-3xl">{{DB::table('leads')->count()}}</h1>
-                    </div>
-                    <div>
-                        <div class="h-12 w-12 flex items-center justify-center bg-cyan-600 rounded-full text-white">
-                            <i data-feather="list"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p class="flex items-center justify-start font-medium text-slate-500 text-sm whitespace-nowrap">
-                       Listed on Website
-                    </p>
-                </div>
-            </div>
-        </a>
-
-        <figure class="panel-card md:col-span-2 sm:col-span-1">
-            <div class="panel-card-header">
-                <div>
-                    <h1 class="panel-card-title">All Domain Hostings</h1>
-                    <p class="panel-card-description">All domain hostings in the website </p>
-                </div>
-            </div>
-            <div>
-            @foreach (DB::table('domain_hostings')->get() as $item)
-            <a href="{{route('admin.view.domain.hosting.list')}}" class="">
-                @if (\Carbon\Carbon::now()->diffInDays($item->domain_expiry, false) <= 10 && \Carbon\Carbon::now()->diffInDays($item->domain_expiry, false) > 0)
-                <div class="notification-body w-full">
-                    <div class="icon"><i data-feather="server"></i></div>
-                    <div class="content w-full">
-                        <div>
-                            <h1 class="title">{{DB::table('customers')->find($item->customer_id)?->name}}`s domain will expire in {{\Carbon\Carbon::now()->diffInDays($item->domain_expiry, false)}} days</h1>
-                        </div>
-                        
-                        <p class="description">{{$item->domain_name}} will expire on {{ date('D d-m-Y',strtotime($item->domain_expiry)) }}</p>
-                    </div>
-                </div>
-                @endif
-
-                @if (\Carbon\Carbon::now()->diffInDays($item->domain_expiry, false) <= 0)
-                <div class="notification-body w-full">
-                    <div class="icon"><i data-feather="server"></i></div>
-                    <div class="content w-full">
-                        <div>
-                            <h1 class="title">{{DB::table('customers')->find($item->customer_id)?->name}}`s domain is expired</h1>
-                        </div>
-                        <p class="description">{{$item->domain_name}} is expired on {{ date('D d-m-Y',strtotime($item->domain_expiry)) }}</p>
-                    </div>
-                </div>
-                @endif
-                
-                @if (\Carbon\Carbon::now()->diffInDays($item->hosting_expiry, false) <= 10 && \Carbon\Carbon::now()->diffInDays($item->hosting_expiry, false) > 0)
-                <div class="notification-body w-full">
-                    <div class="icon"><i data-feather="server"></i></div>
-                    <div class="content w-full">
-                        <div>
-                            <h1 class="title">{{DB::table('customers')->find($item->customer_id)?->name}}`s hosting will expire in {{\Carbon\Carbon::now()->diffInDays($item->hosting_expiry, false)}} days</h1>
-                        </div>
-                        
-                        <p class="description">The hosting of {{DB::table('customers')->find($item->customer_id)?->name}} will expire on {{ date('D d-m-Y',strtotime($item->hosting_expiry)) }}</p>
-                    </div>
-                </div>
-                @endif
-
-                @if (\Carbon\Carbon::now()->diffInDays($item->hosting_expiry, false) <= 0)
-                <div class="notification-body w-full">
-                    <div class="icon"><i data-feather="server"></i></div>
-                    <div class="content w-full">
-                        <div>
-                            <h1 class="title">{{DB::table('customers')->find($item->customer_id)?->name}}`s hosting is expired</h1>
-                        </div>
-                        <p class="description">The hosting of {{DB::table('customers')->find($item->customer_id)?->name}} is expired on {{ date('D d-m-Y',strtotime($item->domain_expiry)) }}</p>
-                    </div>
-                </div>
-                @endif
-
-            </a>
-            @endforeach
-            </div>
-        </figure>
-
-
-    </div>
-@endsection
-
-@section('panel-script')
-    <script>
-        document.getElementById('dashboard-tab').classList.add('active');
-    </script>
+    <!--**********************************
+                                        Content body end
+                                    ***********************************-->
 @endsection

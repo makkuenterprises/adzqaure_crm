@@ -180,6 +180,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Lead Import **/
     public function viewLeadImport()
     {
+
         $groups = Group::all();
         $employees = Employee::all();
         return view('admin.sections.lead.lead-import', ['groups' => $groups, 'employees' => $employees]);
@@ -188,6 +189,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Lead Create **/
     public function viewLeadCreate()
     {
+
         $groups = Group::all();
         $employees = Employee::all();
         return view('admin.sections.lead.lead-create', ['groups' => $groups, 'employees' => $employees]);

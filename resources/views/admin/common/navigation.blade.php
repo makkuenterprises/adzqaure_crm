@@ -1,432 +1,91 @@
-<header class="bg-white top-0 shadow-lg fixed z-20 w-full md:border-b" id="top-navigation">
-    <nav class="md:block sm:hidden">
-        <div class="py-6 md:px-10 sm:px-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <ul class="flex space-x-1">
+<!--**********************************
+            Sidebar start
+        ***********************************-->
+<div class="dlabnav">
+    <div class="dlabnav-scroll">
+        <ul class="metismenu" id="menu">
 
-                        <li class="navigation-tab"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
+            <li><a href="index.html" aria-expanded="false">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Data Records <span class="badge badge-xs badge-danger ms-2">New</span></span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('admin.view.lead.create') }}">Create Data</a></li>
+                    <li><a href="{{ route('admin.view.lead.import') }}">Import Data</a></li>
+                    <li><a href="datagroups.html">Data Groups</a></li>
+                    <li><a href="email-template.html">Campaigns</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">Work</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="app-profile.html">Plan</a></li>
+                    <li><a href="edit-profile.html">Package</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Management</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="chart-flot.html">Cashflow</a></li>
+                    <li><a href="chart-morris.html">Admin Access</a></li>
+                    <li><a href="chart-chartjs.html">Settings</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fab fa-bootstrap"></i>
+                    <span class="nav-text">Customers</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="ui-accordion.html">Manage Customers</a></li>
+                    <li><a href="ui-alert.html">Customer Projects</a></li>
+                    <li><a href="ui-badge.html">Domain & Hosting</a></li>
+                    <li><a href="ui-button.html">Payment & Bills</a></li>
+                    <li><a href="ui-modal.html">Paassword Manager</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-heart"></i>
+                    <span class="nav-text">Employees</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="uc-select2.html">Manage Employees</a></li>
+                    <li><a href="uc-nestable.html">Task Manager</a></li>
+                </ul>
+            </li>
+            <li><a href="widget-basic.html" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </li>
 
-                        <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                            open: false,
-                            toggle() {
-                                if (this.open) {
-                                    return this.close()
-                                }
-                                this.$refs.button.focus()
-                                this.open = true
-                            },
-                            close(focusAfter) {
-                                if (!this.open) return
-                                this.open = false
-                                focusAfter && focusAfter.focus()
-                            }
-                        }"
-                            x-on:keydown.escape.prevent.stop="close($refs.button)"
-                            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                            x-id="['dashboard-dropdown-button']">
-
-                            <button x-ref="button" x-on:click="toggle()">
-                                Data Records <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                            </button>
-
-                            <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open"
-                                x-transition.origin.top x-on:click.outside="close($refs.button)"
-                                :id="$id('dashboard-dropdown-button')" style="display: none;">
-                                <ul>
-                                    <li><a href="{{ route('admin.view.lead.create') }}"
-                                            class="dropdown-link-primary">Create Data</a></li>
-                                    <li><a href="{{ route('admin.view.lead.import') }}"
-                                            class="dropdown-link-primary">Import Data</a></li>
-                                    <li><a href="{{ route('admin.view.group.list') }}"
-                                            class="dropdown-link-primary">Data Groups</a></li>
-                                    <li><a href="{{ route('admin.view.campaign.list') }}"
-                                            class="dropdown-link-primary">Campaigns</a></li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                            open: false,
-                            toggle() {
-                                if (this.open) {
-                                    return this.close()
-                                }
-                                this.$refs.button.focus()
-                                this.open = true
-                            },
-                            close(focusAfter) {
-                                if (!this.open) return
-                                this.open = false
-                                focusAfter && focusAfter.focus()
-                            }
-                        }"
-                            x-on:keydown.escape.prevent.stop="close($refs.button)"
-                            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                            x-id="['dashboard-dropdown-button']">
-
-                            <button x-ref="button" x-on:click="toggle()">
-                                Work <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                            </button>
-
-                            <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open"
-                                x-transition.origin.top x-on:click.outside="close($refs.button)"
-                                :id="$id('dashboard-dropdown-button')" style="display: none;">
-                                <ul>
-
-
-                                    <li><a href="{{ route('admin.view.plan.list') }}"
-                                            class="dropdown-link-primary">Plan</a></li>
-                                    <li><a href="{{ route('admin.view.package.list') }}"
-                                            class="dropdown-link-primary">Packages</a></li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-clone"></i>
+                    <span class="nav-text">Pages</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="page-login.html">Login</a></li>
+                    <li><a href="page-register.html">Register</a></li>
+                </ul>
+            </li>
+        </ul>
 
 
-                                </ul>
-                            </div>
-                        </li>
-
-
-
-                        <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                            open: false,
-                            toggle() {
-                                if (this.open) {
-                                    return this.close()
-                                }
-                                this.$refs.button.focus()
-                                this.open = true
-                            },
-                            close(focusAfter) {
-                                if (!this.open) return
-                                this.open = false
-                                focusAfter && focusAfter.focus()
-                            }
-                        }"
-                            x-on:keydown.escape.prevent.stop="close($refs.button)"
-                            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                            x-id="['dashboard-dropdown-button']">
-
-                            <button x-ref="button" x-on:click="toggle()">
-                                Management <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                            </button>
-
-                            <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open"
-                                x-transition.origin.top x-on:click.outside="close($refs.button)"
-                                :id="$id('dashboard-dropdown-button')" style="display: none;">
-                                <ul>
-                                    <li><a href="{{ route('admin.view.payment.list') }}"
-                                            class="dropdown-link-primary">Cashflow</a></li>
-                                    <li><a href="{{ route('admin.view.admin.list') }}"
-                                            class="dropdown-link-primary">Admin Access</a></li>
-                                    <li><a href="{{ route('admin.view.setting') }}"
-                                            class="dropdown-link-primary">Settings</a></li>
-                                </ul>
-                            </div>
-
-                        </li>
-
-                        <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                            open: false,
-                            toggle() {
-                                if (this.open) {
-                                    return this.close()
-                                }
-                                this.$refs.button.focus()
-                                this.open = true
-                            },
-                            close(focusAfter) {
-                                if (!this.open) return
-                                this.open = false
-                                focusAfter && focusAfter.focus()
-                            }
-                        }"
-                            x-on:keydown.escape.prevent.stop="close($refs.button)"
-                            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                            x-id="['dashboard-dropdown-button']">
-
-                            <button x-ref="button" x-on:click="toggle()">
-                                Customers <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                            </button>
-
-                            <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open"
-                                x-transition.origin.top x-on:click.outside="close($refs.button)"
-                                :id="$id('dashboard-dropdown-button')" style="display: none;">
-                                <ul>
-                                    <li><a href="{{ route('admin.view.customer.list') }}"
-                                            class="dropdown-link-primary">Manage Customers</a></li>
-                                    <li><a href="{{ route('admin.view.project.list') }}"
-                                            class="dropdown-link-primary">Customer Projects</a></li>
-                                    <li><a href="{{ route('admin.view.domain.hosting.list') }}"
-                                            class="dropdown-link-primary">Domain & Hosting</a></li>
-                                    <li><a href="{{ route('admin.view.bill.list') }}"
-                                            class="dropdown-link-primary">Payments & Bills</a></li>
-                                    <li><a href="{{ route('admin.view.password.list') }}"
-                                            class="dropdown-link-primary">Password Manager</a></li>
-
-                                </ul>
-                            </div>
-
-                        </li>
-
-
-                        <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                            open: false,
-                            toggle() {
-                                if (this.open) {
-                                    return this.close()
-                                }
-                                this.$refs.button.focus()
-                                this.open = true
-                            },
-                            close(focusAfter) {
-                                if (!this.open) return
-                                this.open = false
-                                focusAfter && focusAfter.focus()
-                            }
-                        }"
-                            x-on:keydown.escape.prevent.stop="close($refs.button)"
-                            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                            x-id="['dashboard-dropdown-button']">
-
-                            <button x-ref="button" x-on:click="toggle()">
-                                Employees <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                            </button>
-
-                            <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open"
-                                x-transition.origin.top x-on:click.outside="close($refs.button)"
-                                :id="$id('dashboard-dropdown-button')" style="display: none;">
-                                <ul>
-                                    <li><a href="{{ route('admin.view.employee.list') }}"
-                                            class="dropdown-link-primary">Manage Employees</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-link-primary">Task Manager</a>
-                                    </li>
-
-
-                                </ul>
-                            </div>
-
-                        </li>
-
-
-                    </ul>
-                </div>
-                @include('admin.common.profile-dropdown')
-            </div>
-    </nav>
-
-    <nav class="md:hidden sm:block">
-        <div class="py-6 md:px-10 sm:px-5 border-b border-b-slate-300">
-            <div class="flex items-center justify-between">
-                <div>
-                    <a href="{{ route('admin.view.dashboard') }}"
-                        class="text-lg font-semibold text-admin-ascent">Adzquare</a>
-                </div>
-                <button>
-                    <i data-feather="menu" onclick="$('#navigation-list-mobile').slideToggle(200)"></i>
-                </button>
-            </div>
+        <div class="copyright">
+            <p>Makku Enterprises © 2025 All Rights Reserved</p>
+            <p class="fs-12">Made with <span class="heart"></span> by Adzquare</p>
         </div>
-        <div class="py-4 px-5" style="display: none;" id="navigation-list-mobile">
-            <ul class="flex flex-col">
-
-                <li class="navigation-tab"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
-                <hr>
-                <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                    open: false,
-                    toggle() {
-                        if (this.open) {
-                            return this.close()
-                        }
-                        this.$refs.button.focus()
-                        this.open = true
-                    },
-                    close(focusAfter) {
-                        if (!this.open) return
-                        this.open = false
-                        focusAfter && focusAfter.focus()
-                    }
-                }"
-                    x-on:keydown.escape.prevent.stop="close($refs.button)"
-                    x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                    x-id="['dashboard-dropdown-button']">
-
-                    <button x-ref="button" x-on:click="toggle()">
-                        Data Records <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                    </button>
-
-                    <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open" x-transition.origin.top
-                        x-on:click.outside="close($refs.button)" :id="$id('dashboard-dropdown-button')"
-                        style="display: none;">
-                        <ul>
-                            <li><a href="{{ route('admin.view.lead.create') }}" class="dropdown-link-primary">Create
-                                    Data</a></li>
-                            <li><a href="{{ route('admin.view.lead.import') }}" class="dropdown-link-primary">Import
-                                    Data</a></li>
-                            <li><a href="{{ route('admin.view.group.list') }}" class="dropdown-link-primary">Data
-                                    Groups</a></li>
-                            <li><a href="{{ route('admin.view.campaign.list') }}"
-                                    class="dropdown-link-primary">Campaigns</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <hr>
-                <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                    open: false,
-                    toggle() {
-                        if (this.open) {
-                            return this.close()
-                        }
-                        this.$refs.button.focus()
-                        this.open = true
-                    },
-                    close(focusAfter) {
-                        if (!this.open) return
-                        this.open = false
-                        focusAfter && focusAfter.focus()
-                    }
-                }"
-                    x-on:keydown.escape.prevent.stop="close($refs.button)"
-                    x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                    x-id="['dashboard-dropdown-button']">
-
-                    <button x-ref="button" x-on:click="toggle()">
-                        Work <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                    </button>
-
-                    <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open" x-transition.origin.top
-                        x-on:click.outside="close($refs.button)" :id="$id('dashboard-dropdown-button')"
-                        style="display: none;">
-                        <ul>
-
-
-                            <li><a href="{{ route('admin.view.plan.list') }}" class="dropdown-link-primary">Plan</a>
-                            </li>
-                            <li><a href="{{ route('admin.view.package.list') }}"
-                                    class="dropdown-link-primary">Packages</a></li>
-
-                        </ul>
-                    </div>
-                </li>
-                <hr>
-                <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                    open: false,
-                    toggle() {
-                        if (this.open) {
-                            return this.close()
-                        }
-                        this.$refs.button.focus()
-                        this.open = true
-                    },
-                    close(focusAfter) {
-                        if (!this.open) return
-                        this.open = false
-                        focusAfter && focusAfter.focus()
-                    }
-                }"
-                    x-on:keydown.escape.prevent.stop="close($refs.button)"
-                    x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                    x-id="['dashboard-dropdown-button']">
-
-                    <button x-ref="button" x-on:click="toggle()">
-                        Management <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                    </button>
-
-                    <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open" x-transition.origin.top
-                        x-on:click.outside="close($refs.button)" :id="$id('dashboard-dropdown-button')"
-                        style="display: none;">
-                        <ul>
-                            <li><a href="{{ route('admin.view.payment.list') }}"
-                                    class="dropdown-link-primary">Cashflow</a></li>
-                            <li><a href="{{ route('admin.view.admin.list') }}" class="dropdown-link-primary">Admin
-                                    Access</a></li>
-                            <li><a href="{{ route('admin.view.setting') }}"
-                                    class="dropdown-link-primary">Settings</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <hr>
-                <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                    open: false,
-                    toggle() {
-                        if (this.open) {
-                            return this.close()
-                        }
-                        this.$refs.button.focus()
-                        this.open = true
-                    },
-                    close(focusAfter) {
-                        if (!this.open) return
-                        this.open = false
-                        focusAfter && focusAfter.focus()
-                    }
-                }"
-                    x-on:keydown.escape.prevent.stop="close($refs.button)"
-                    x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                    x-id="['dashboard-dropdown-button']">
-
-                    <button x-ref="button" x-on:click="toggle()">
-                        Customers <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                    </button>
-
-                    <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open" x-transition.origin.top
-                        x-on:click.outside="close($refs.button)" :id="$id('dashboard-dropdown-button')"
-                        style="display: none;">
-                        <ul>
-                            <li><a href="{{ route('admin.view.customer.list') }}"
-                                    class="dropdown-link-primary">Manage Customers</a></li>
-                            <li><a href="{{ route('admin.view.project.list') }}"
-                                    class="dropdown-link-primary">Customer Projects</a></li>
-                            <li><a href="{{ route('admin.view.domain.hosting.list') }}"
-                                    class="dropdown-link-primary">Domain & Hosting</a></li>
-                            <li><a href="{{ route('admin.view.bill.list') }}" class="dropdown-link-primary">Payments
-                                    & Bills</a></li>
-                            <li><a href="{{ route('admin.view.password.list') }}"
-                                    class="dropdown-link-primary">Password Manager</a></li>
-
-                        </ul>
-                    </div>
-                </li>
-                <hr>
-                <li class="navigation-tab" :class="open ? 'active' : ''" x-data="{
-                    open: false,
-                    toggle() {
-                        if (this.open) {
-                            return this.close()
-                        }
-                        this.$refs.button.focus()
-                        this.open = true
-                    },
-                    close(focusAfter) {
-                        if (!this.open) return
-                        this.open = false
-                        focusAfter && focusAfter.focus()
-                    }
-                }"
-                    x-on:keydown.escape.prevent.stop="close($refs.button)"
-                    x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                    x-id="['dashboard-dropdown-button']">
-
-                    <button x-ref="button" x-on:click="toggle()">
-                        Employees <i data-feather="chevron-down" class="ml-1 toggler-icon"></i>
-                    </button>
-
-                    <div class="navigation-tab-dropdown-menu" x-ref="panel" x-show="open" x-transition.origin.top
-                        x-on:click.outside="close($refs.button)" :id="$id('dashboard-dropdown-button')"
-                        style="display: none;">
-                        <ul>
-                            <li><a href="{{ route('admin.view.employee.list') }}"
-                                    class="dropdown-link-primary">Manage Employees</a></li>
-                            <li><a href="javascript:void(0);" class="dropdown-link-primary">Task Manager</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <hr>
-                <li class="navigation-tab"><button onclick="handleLogout()">Logout<i data-feather="log-out"
-                            class="ml-1 toggler-icon"></i></button></li>
-
-
-            </ul>
-        </div>
-    </nav>
-</header>
+    </div>
+</div>
+<!--**********************************
+            Sidebar end
+        ***********************************-->
