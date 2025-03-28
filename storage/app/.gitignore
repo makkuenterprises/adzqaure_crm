@@ -1,0 +1,4 @@
+admins/
+employees/
+customers/
+!.gitignore

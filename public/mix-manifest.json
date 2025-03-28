@@ -1,0 +1,8 @@
+{
+    "/web/js/app.js": "/web/js/app.js",
+    "/admin/js/app.js": "/admin/js/app.js",
+    "/employee/js/app.js": "/employee/js/app.js",
+    "/employee/css/app.css": "/employee/css/app.css",
+    "/admin/css/app.css": "/admin/css/app.css",
+    "/web/css/app.css": "/web/css/app.css"
+}
