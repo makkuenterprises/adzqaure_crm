@@ -5,7 +5,7 @@
     <div class="dlabnav-scroll">
         <ul class="metismenu" id="menu">
 
-            <li><a href="index.html" aria-expanded="false">
+            <li><a href="{{route('/')}}" aria-expanded="false">
                     <i class="fas fa-home"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
@@ -37,7 +37,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="chart-flot.html">Cashflow</a></li>
-                    <li><a href="chart-morris.html">Admin Access</a></li>
+                    <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     <li><a href="chart-chartjs.html">Settings</a></li>
                 </ul>
             </li>

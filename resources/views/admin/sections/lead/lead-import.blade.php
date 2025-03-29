@@ -55,8 +55,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="formFile" class="form-label">Leads file <span
-                                                class="text-red-500">*</span></label>
+                                        <label for="formFile" class="form-label">Leads file <span class="text-danger">*</span></label>
                                         <input type="file"
                                             class="form-control @error('lead_file') input-invalid @enderror"
                                             name="lead_file" id="formFile" value="{{ old('lead_file') }}" required>
@@ -64,7 +63,7 @@
                                             <span class="input-error">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <label for="basic-form" class="form-label">Select Groups</label>
+                                    <label for="basic-form" class="form-label">Select Groups <span class="text-danger">*</span></label>
                                     <div class="basic-form">
                                         <select class="default-select form-control wide mb-3" name="group_id">
                                             @if (!empty($groups))
