@@ -5,7 +5,7 @@
     <div class="dlabnav-scroll">
         <ul class="metismenu" id="menu">
 
-            <li><a href="{{route('/')}}" aria-expanded="false">
+            <li><a href="{{ route('admin.view.dashboard') }}" aria-expanded="false">
                     <i class="fas fa-home"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
@@ -63,7 +63,7 @@
                 </ul>
             </li>
             <li><a href="widget-basic.html" aria-expanded="false">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
                 </a>
             </li>
