@@ -133,9 +133,12 @@
     <script src="{{ asset('admin_new/vendor/counter/counter.min.js') }}"></script>
     <script src="{{ asset('admin_new/vendor/counter/waypoint.min.js') }}"></script>
 
+    <!-- Popup -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!-- Apex Chart -->
     <script src="{{ asset('admin_new/vendor/apexchart/apexchart.js') }}"></script>
-    <script src="{{ asset('admin_new/vendor/chart-js/chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('admin_new/vendor/chart-js/chart.bundle.min.js') }}"></>
     <!-- Chart piety plugin files -->
     <script src="{{ asset('admin_new/vendor/peity/jquery.peity.min.js') }}"></script>
     <!-- Dashboard 1 -->

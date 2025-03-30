@@ -1,69 +1,51 @@
 @extends('admin.layouts.app')
-@section('css')
-    <style>
-        /* Style for the required field marker */
-        .input-label span.text-red-500 {
-            color: red;
-            font-weight: bold;
-        }
 
-        .input-invalid {
-            border-color: red;
-        }
 
-        /* Style for error messages */
-        .input-error {
-            color: red;
-            font-size: 0.875rem;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
+@section('main-content')
+      <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body default-height">
+            <div class="container-fluid">
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="javascript:void(0)">Data Records</a></li>
+						<li class="breadcrumb-item active"><a href="javascript:void(0)">Create Data</a></li>
+					</ol>
+                </div>
+                <!-- row -->
+                <div class="row">
+					<div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Add Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form action="{{ route('admin.handle.group.create') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Group Name<span class="text-danger">*</span></label>
+                                                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') input-invalid @enderror" placeholder="Enter Group Name" minlength="1" maxlength="250">
+                                                @error('name')
+                                                    <span class="input-error">{{ $message }}</span>
+                                                @enderror
+                                            </div>
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Add Group</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.group.list') }}">Groups</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.group.create') }}">Add Group</a></li>
-        </ul>
-    </div>
-@endsection
-
-@section('panel-body')
-    <form action="{{ route('admin.handle.group.create') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <figure class="panel-card">
-            <div class="panel-card-header">
-                <div>
-                    <h1 class="panel-card-title">Add Information</h1>
-                    <p class="panel-card-description">Please fill the required fields</p>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Create Group</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
                 </div>
             </div>
-            <div class="panel-card-body">
-                <div class="grid md:grid-cols-4 sm:grid-cols-1 md:gap-7 sm:gap-5">
-
-                    {{-- Name --}}
-                    <div class="flex flex-col">
-                        <label for="name" class="input-label">Name <span class="text-red-500">*</span> </label>
-                        <input type="text" name="name" value="{{ old('name') }}"
-                            class="input-box-md @error('name') input-invalid @enderror" placeholder="Enter name" required
-                            minlength="1" maxlength="250">
-                        @error('name')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                </div>
-            </div>
-            <div class="panel-card-footer">
-                <button type="submit" class="btn-primary-md md:w-fit sm:w-full">Add Group</button>
-            </div>
-        </figure>
-    </form>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
 @endsection
 
 @section('panel-script')

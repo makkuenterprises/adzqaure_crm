@@ -18,7 +18,7 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.view.lead.create') }}">Create Data</a></li>
                     <li><a href="{{ route('admin.view.lead.import') }}">Import Data</a></li>
-                    <li><a href="datagroups.html">Data Groups</a></li>
+                    <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
                     <li><a href="email-template.html">Campaigns</a></li>
                 </ul>
             </li>
@@ -46,7 +46,7 @@
                     <span class="nav-text">Customers</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="ui-accordion.html">Manage Customers</a></li>
+                    <li><a href="{{route('admin.view.customer.list')}}">Manage Customers</a></li>
                     <li><a href="ui-alert.html">Customer Projects</a></li>
                     <li><a href="ui-badge.html">Domain & Hosting</a></li>
                     <li><a href="ui-button.html">Payment & Bills</a></li>

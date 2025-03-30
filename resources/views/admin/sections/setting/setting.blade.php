@@ -1,89 +1,97 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Settings</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.setting') }}">Settings</a></li>
-        </ul>
+@section('main-content')
+
+ <!--**********************************
+        Content body start
+***********************************-->
+<div class="content-body default-height">
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Management</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Settings</a></li>
+            </ol>
+        </div>
+
+        <!-- Row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="row"> <!-- Added row wrapper -->
+                    <div class="col-xl-4 col-lg-12 col-sm-12">
+						<div class="card overflow-hidden">
+							<div class="text-center p-5 overlay-box" style="background-image: url(images/big/img5.jpg);">
+								<img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="100" class="img-fluid rounded-circle" alt="">
+								<h3 class="mt-3 mb-0 text-white">{{auth()->user()->name}}</h3>
+							</div>
+                            <div class="card-body">
+								<div class="row text-center">
+									<div class="col-12">
+										<div class="bgl-primary rounded p-3">
+											<h4 class="mb-0">Account Info</h4>
+											<small>Manage your account information</small>
+										</div>
+									</div>
+
+								</div>
+                            </div>
+							<div class="card-footer mt-0">
+								<a href="{{route('admin.view.account.setting')}}" class="btn btn-primary btn-block">Edit Infomation</a>
+                            </div>
+                        </div>
+					</div>
+                    <div class="col-xl-4 col-lg-12 col-sm-12">
+						<div class="card overflow-hidden">
+							<div class="text-center p-5 overlay-box" style="background-image: url(images/big/img5.jpg);">
+								<img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="100" class="img-fluid rounded-circle" alt="">
+								<h3 class="mt-3 mb-0 text-white">Company</h3>
+							</div>
+                            <div class="card-body">
+								<div class="row text-center">
+									<div class="col-12">
+										<div class="bgl-primary rounded p-3">
+											<h4 class="mb-0">Company Info</h4>
+											<small>Manage your company information</small>
+										</div>
+									</div>
+
+								</div>
+                            </div>
+							<div class="card-footer mt-0">
+								<a href="{{route('admin.view.company.details.setting')}}" class="btn btn-primary btn-block">Edit Infomation</a>
+                            </div>
+                        </div>
+					</div>
+                    <div class="col-xl-4 col-lg-12 col-sm-12">
+						<div class="card overflow-hidden">
+							<div class="text-center p-5 overlay-box" style="background-image: url(images/big/img5.jpg);">
+								<img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="100" class="img-fluid rounded-circle" alt="">
+								<h3 class="mt-3 mb-0 text-white">Mail Settings</h3>
+							</div>
+                            <div class="card-body">
+								<div class="row text-center">
+									<div class="col-12">
+										<div class="bgl-primary rounded p-3">
+											<h4 class="mb-0">Mail Credentials</h4>
+											<small>Manage & Setup your mail credentials</small>
+										</div>
+									</div>
+
+								</div>
+                            </div>
+							<div class="card-footer mt-0">
+								<a href="{{route('admin.view.mail.credentials.setting')}}" class="btn btn-primary btn-block">Edit Infomation</a>
+                            </div>
+                        </div>
+					</div>
+
+                </div> <!-- End of row wrapper -->
+            </div>
+        </div>
     </div>
-@endsection
+</div>
+<!--**********************************
+        Content body end
+***********************************-->
 
-@section('panel-body')
-    <div class="grid md:grid-cols-4 sm:grid-cols-1 md:gap-10 sm:gap-5">
-
-        {{-- Account Information Card (Start) --}}
-        <figure class="panel-card">
-            <div class="h-[220px] w-full bg-admin-ascent border-admin-ascent bg-opacity-50 flex items-center justify-center">
-
-                <img src="{{ is_null(auth()->user()->profile) || auth()->user()->profile == '' ? asset('admin/profile/default-profile.png') : asset('admin/profile/' . auth()->user()->profile) }}"
-                    alt="profile" class="h-[100px] w-[100px] rounded-full border bg-white">
-            </div>
-            <div class="space-y-5 p-7">
-                <div class="space-y-2">
-                    <h1 class="font-semibold text-2xl">{{ auth()->user()->name }}</h1>
-                    <p class="text-slate-600 text-sm">
-                        Manage your account information
-                    </p>
-                </div>
-                <div>
-                    <a href="{{ route('admin.view.account.setting') }}">
-                        <button type="button" class="btn-primary-md w-full"><i data-feather="edit"
-                                class="h-4 w-4 opacity-50 absolute mr-auto"></i>Edit Information</button></a>
-                </div>
-            </div>
-        </figure>
-        {{-- Account Information Card (End) --}}
-
-        {{-- Account Information Card (Start) --}}
-        <figure class="panel-card">
-            <div class="h-[220px] w-full flex items-center justify-center overflow-clip border-b">
-                <img src="{{ asset('admin/images/setting-company-details.png') }}" alt="company-info" class="w-full">
-            </div>
-            <div class="space-y-5 p-7">
-                <div class="space-y-2">
-                    <h1 class="font-semibold text-2xl">Company Details</h1>
-                    <p class="text-slate-600 text-sm">
-                        Manage your company information
-                    </p>
-                </div>
-                <div>
-                    <a href="{{ route('admin.view.company.details.setting') }}">
-                        <button type="button" class="btn-primary-md w-full"><i data-feather="edit"
-                                class="h-4 w-4 opacity-50 absolute mr-auto"></i>Edit Information</button></a>
-                </div>
-            </div>
-        </figure>
-        {{-- Account Information Card (End) --}}
-
-        {{-- Mail Credentials Card (Start) --}}
-        <figure class="panel-card">
-            <div class="h-[220px] w-full flex items-center justify-center overflow-clip border-b">
-                <img src="{{ asset('admin/images/setting-mail-credentials.png') }}" alt="mail-credentials" class="w-full">
-            </div>
-            <div class="space-y-5 p-7">
-                <div class="space-y-2">
-                    <h1 class="font-semibold text-2xl">Mail Credentials</h1>
-                    <p class="text-slate-600 text-sm">
-                        Manage & Setup your mail credentials
-                    </p>
-                </div>
-                <div>
-                    <a href="{{ route('admin.view.mail.credentials.setting') }}">
-                        <button type="button" class="btn-primary-md w-full"><i data-feather="edit"
-                                class="h-4 w-4 opacity-50 absolute mr-auto"></i>Edit Information</button></a>
-                </div>
-            </div>
-        </figure>
-        {{-- Mail Credentials Card (End) --}}
-
-    </div>
-@endsection
-
-@section('panel-script')
-    <script>
-        document.getElementById('setting-tab').classList.add('active');
-    </script>
 @endsection

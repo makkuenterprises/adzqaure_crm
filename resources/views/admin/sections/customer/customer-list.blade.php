@@ -1,167 +1,166 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Customers</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.customer.list') }}">Customers</a></li>
-        </ul>
-    </div>
-@endsection
+@section('main-content')
 
-
-@section('panel-body')
-    <figure class="panel-card">
-        <div class="panel-card-header">
-            <div>
-                <h1 class="panel-card-title">All Customers</h1>
-                <p class="panel-card-description">All customers in the website </p>
-            </div>
-            <div>
-                <a href="{{ route('admin.view.customer.create') }}" class="btn-primary-md">Add Customer</a>
-            </div>
-        </div>
-        <!-- Customer Summary Section -->
-        <div class="panel-card-body mb-6">
-            <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-5">
-                <!-- Total Customers -->
-                <div class="bg-white p-5 rounded-lg shadow-md flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-medium">Total Customers</h3>
-                        <p class="text-2xl font-semibold">{{ $totalCustomers }}</p>
+ <!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body default-height">
+			<div class="container-fluid">
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="javascript:void(0)">Customers</a></li>
+						<li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Customers</a></li>
+					</ol>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-xxl-4 col-lg-4 col-sm-4">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="me-3 bgl-primary text-primary">
+										<!-- <i class="ti-user"></i> -->
+										<svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+											<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+											<circle cx="12" cy="7" r="4"></circle>
+										</svg>
+									</span>
+									<div class="media-body">
+										<p class="mb-1">Total Customers</p>
+										<h4 class="mb-0">{{ $totalCustomers }}</h4>
+										{{-- <span class="badge badge-primary">+3.5%</span> --}}
+									</div>
+								</div>
+							</div>
+						</div>
                     </div>
-                    <div class="text-blue-600">
-                        <i data-feather="users" class="w-12 h-12"></i>
+                    <div class="col-xl-3 col-xxl-4 col-lg-4 col-sm-4">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="me-3 bgl-primary text-primary">
+										<!-- <i class="ti-user"></i> -->
+										<svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+											<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+											<circle cx="12" cy="7" r="4"></circle>
+										</svg>
+									</span>
+									<div class="media-body">
+										<p class="mb-1">Active Customers</p>
+										<h4 class="mb-0">{{ $activeCustomers }}</h4>
+										{{-- <span class="badge badge-primary">+3.5%</span> --}}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-4 col-lg-4 col-sm-4">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="me-3 bgl-primary text-primary">
+										<!-- <i class="ti-user"></i> -->
+										<svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+											<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+											<circle cx="12" cy="7" r="4"></circle>
+										</svg>
+									</span>
+									<div class="media-body">
+										<p class="mb-1">Inactive Customers</p>
+										<h4 class="mb-0">{{ $inactiveCustomers }}</h4>
+										{{-- <span class="badge badge-primary">+3.5%</span> --}}
+									</div>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
+				<!-- Row -->
+				<div class="row">
+					<div class="col-xl-12">
+						<div>
+							<a href="{{ route('admin.view.customer.create') }}" type="button" class="btn btn-sm btn-primary mb-4 open">Create New Customer</a>
+						</div>
+						<div class="filter cm-content-box box-primary">
+							<div class="content-title SlideToolHeader">
+								<div class="cpa">
+									<i class="fa-solid fa-file-lines me-1"></i>Customer List
+								</div>
+								<div class="tools">
+									<a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+								</div>
+							</div>
+							<div class="cm-content-body form excerpt">
+								<div class="card-body pb-4">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Phone</th>
+                                                    <th>Company</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                @foreach ($customers as $customer)
+                                                    <tr>
+                                                        <td>{{ $customer->id }}</td>
+                                                        <td><a
+                                                            href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}">{{ $customer->name }}</a></td>
+                                                        <td>{{ $customer->email }}</td>
+                                                        <td>{{ $customer->phone }}</td>
+                                                        <td>{{ $customer->company_name }}</td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                @if ($customer->status == 1)
+                                                                    <i class="fa fa-circle text-success me-1"></i> Enabled
+                                                                @else
+                                                                    <i class="fa fa-circle text-danger me-1"></i> Disabled
+                                                                @endif
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-nowrap">
 
-                <!-- Active Customers -->
-                <div class="bg-white p-5 rounded-lg shadow-md flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-medium">Active Customers</h3>
-                        <p class="text-2xl font-semibold">{{ $activeCustomers }}</p>
-                    </div>
-                    <div class="text-green-600">
-                        <i data-feather="check-circle" class="w-12 h-12"></i>
-                    </div>
-                </div>
+                                                            <a href="{{ route('admin.view.customer.update', ['id' => $customer->id]) }}" class="btn btn-warning btn-sm content-icon">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}" class="btn btn-success btn-sm content-icon">
+                                                                <i class="fa fa-eye"></i>
+                                                            </a>
+                                                            <a href="javascript:handleDelete({{ $customer->id }});" class="btn btn-danger btn-sm content-icon">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+											</tbody>
+										</table>
+										<div class="d-flex align-items-center justify-content-between flex-wrap">
+											<p class="mb-2 me-3">Page 1 of 5, showing 2 records out of 8 total, starting on record 1, ending on 2</p>
+											<nav aria-label="Page navigation example mb-2">
+											  <ul class="pagination mb-2 mb-sm-0">
+												<li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="fa-solid fa-angle-left"></i></a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+												<li class="page-item"><a class="page-link " href="javascript:void(0);"><i class="fa-solid fa-angle-right"></i></a></li>
+											  </ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
 
-                <!-- Inactive Customers -->
-                <div class="bg-white p-5 rounded-lg shadow-md flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-medium">Inactive Customers</h3>
-                        <p class="text-2xl font-semibold">{{ $inactiveCustomers }}</p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="panel-card-body">
-            <div class="panel-card-table">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Company</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($customers as $customer)
-                            <tr>
-                                <td>{{ $customer->id }}</td>
-                                <td><a
-                                        href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}">{{ $customer->name }}</a>
-                                </td>
-                                <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->phone }}</td>
-                                <td>{{ $customer->company_name }}</td>
-                                <td>
-                                    <label class="relative cursor-pointer">
-                                        <input onchange="handleUpdateStatus({{ $customer->id }})"
-                                            @checked($customer->status) type="checkbox" class="sr-only peer">
-                                        <div
-                                            class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2.5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-admin-ascent">
-                                        </div>
-                                    </label>
-                                </td>
-                                <td>
-
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="external-link"
-                                                            class="mr-1"></i> Preview Customer</a></li>
-                                                <li><a href="{{ route('admin.view.customer.update', ['id' => $customer->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="edit"
-                                                            class="mr-1"></i> Edit Customer</a></li>
-                                                <li><a href="javascript:handleDelete({{ $customer->id }});"
-                                                        class="dropdown-link-danger"><i data-feather="trash-2"
-                                                            class="mr-1"></i> Delete Customer</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </figure>
-@endsection
-
-@section('panel-script')
-    <script>
-        document.getElementById('customer-tab').classList.add('active');
-    </script>
-
-    <script>
-        const handleDelete = (id) => {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this customer!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location =
-                            `{{ url('admin/customer/delete') }}/${id}`;
-                    }
-                });
-        }
-    </script>
-    <script>
-        const handleUpdateStatus = (id) => {
-            fetch("{{ route('admin.api.customer.status') }}", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    _token: "{{ csrf_token() }}"
-                })
-            }).then((response) => {
-                return response.json();
-            }).then((result) => {
-                console.log(result);
-                location.reload();
-
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    </script>
 @endsection
