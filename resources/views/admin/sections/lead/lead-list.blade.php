@@ -4,9 +4,9 @@
     <div>
         <h1 class="panel-title">Leads</h1>
         <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
+            <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
             <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.lead.list') }}">Leads</a></li>
+            <li><a href="{{ route('admin.view.lead.list') }}">Data</a></li>
         </ul>
     </div>
 @endsection
@@ -17,8 +17,8 @@
     <figure class="panel-card">
         <div class="panel-card-header">
             <div>
-                <h1 class="panel-card-title">All Leads</h1>
-                <p class="panel-card-description">All leads in the website </p>
+                <h1 class="panel-card-title">All Data</h1>
+                <p class="panel-card-description">All Data in the website </p>
             </div>
             <div>
                 <a href="{{ route('admin.view.lead.create') }}" class="btn-primary-md">Create Lead</a>
@@ -96,7 +96,7 @@
     <script>
         document.getElementById('lead-tab').classList.add('active');
         document.getElementById('lead-management-tab').classList.add('active');
-        
+
         const handleUpdateStatus = (id) => {
             fetch("{{ route('admin.api.lead.status') }}", {
                 method: 'PUT',

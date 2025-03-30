@@ -20,48 +20,41 @@
                                         alt=""></a>
                             </div>
                             <h4 class="text-center mb-4">Sign in your account</h4>
-                            <form action="{{ route('admin.handle.login') }}" method="POST">
-                                @csrf
-                                <div class="form-group mb-4">
-                                    <label class="form-label" for="username">Email address</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control"
-                                        placeholder="Enter email" id="username">
-                                    @error('email')
-                                        <span class="input-error">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-sm-4 mb-3 position-relative">
-                                    <label class="form-label" for="dlab-password">Password</label>
-                                    <input type="password" name="password" id="dlab-password"
-                                        class="form-control @error('password') input-invalid @enderror" minlength="6"
-                                        maxlength="20">
+                            <div class="basic-form">
+                                <form action="{{ route('admin.handle.login') }}" method="POST" class="form-valide-with-icon needs-validation" novalidate>
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label class="text-label form-label required" for="validationCustomUsername">Email address</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="validationCustomUsername" placeholder="Enter email.." required>
+                                            <div class="invalid-feedback">
+                                                @error('email')
+                                                 <span class="input-error">{{ $message }}</span>
+                                                @enderror
+                                            </div>
 
-                                    <span class="show-pass eye">
-                                        <i class="fa fa-eye-slash"></i>
-                                        <i class="fa fa-eye"></i>
-                                    </span>
-                                    @error('password')
-                                        <span class="input-error">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-row d-flex flex-wrap justify-content-between mb-2">
-                                    <div class="form-group mb-sm-4 mb-1">
-                                        <div class="form-check custom-checkbox ms-1">
-                                            <input type="checkbox" @checked(old('remember')) name="remember"
-                                                class="form-check-input" id="basic_checkbox_1">
-                                            <label class="form-check-label" for="basic_checkbox_1">Remember my
-                                                preference</label>
                                         </div>
                                     </div>
-                                    <div class="form-group ms-2">
-                                        <a href="#">Forgot Password?</a>
+                                    <div class="mb-3">
+                                        <label class="text-label form-label required" for="dlab-password">Password</label>
+                                        <div class="input-group transparent-append">
+                                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                            <input type="password" name="password" class="form-control @error('password') input-invalid @enderror" id="dlab-password" placeholder="Enter password..." required>
+                                            <span class="input-group-text show-pass">
+                                                <i class="fa fa-eye-slash"></i>
+                                                <i class="fa fa-eye"></i>
+                                            </span>
+                                            <div class="invalid-feedback">
+                                                @error('password')
+                                                    <span class="input-error">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                                </div>
-                            </form>
-
+                                    <button type="submit" class="btn me-2 btn-primary">Sign In</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

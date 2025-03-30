@@ -38,7 +38,7 @@
                 <ul aria-expanded="false">
                     <li><a href="chart-flot.html">Cashflow</a></li>
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
-                    <li><a href="chart-chartjs.html">Settings</a></li>
+                    {{-- <li><a href="chart-chartjs.html">Settings</a></li> --}}
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -62,20 +62,10 @@
                     <li><a href="uc-nestable.html">Task Manager</a></li>
                 </ul>
             </li>
-            <li><a href="widget-basic.html" aria-expanded="false">
+            <li><a href="{{route('admin.view.setting')}}" aria-expanded="false">
                     <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
                 </a>
-            </li>
-
-            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-clone"></i>
-                    <span class="nav-text">Pages</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="page-login.html">Login</a></li>
-                    <li><a href="page-register.html">Register</a></li>
-                </ul>
             </li>
         </ul>
 
