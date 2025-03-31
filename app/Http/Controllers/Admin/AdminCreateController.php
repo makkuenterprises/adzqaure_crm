@@ -545,6 +545,7 @@ class AdminCreateController extends Controller implements AdminCreate
     */
     public function handleAdminCreate(Request $request)
     {
+        // dd("test");
         $validation = Validator::make($request->all(), [
             'name' => ['required', 'string', 'min:1', 'max:250'],
             'email' => ['required', 'string', 'min:1', 'max:250', 'unique:admins'],
