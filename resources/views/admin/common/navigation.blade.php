@@ -19,7 +19,6 @@
                     <li><a href="{{ route('admin.view.lead.create') }}">Create Data</a></li>
                     <li><a href="{{ route('admin.view.lead.import') }}">Import Data</a></li>
                     <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
-                    <li><a href="email-template.html">Campaigns</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -27,8 +26,8 @@
                     <span class="nav-text">Work</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="app-profile.html">Plan</a></li>
-                    <li><a href="edit-profile.html">Package</a></li>
+                    <li><a href="{{ route('admin.view.plan.list') }}">Plan</a></li>
+                    <li><a href="{{ route('admin.view.package.list') }}">Package</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -36,7 +35,7 @@
                     <span class="nav-text">Management</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="chart-flot.html">Cashflow</a></li>
+                    <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li>
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     {{-- <li><a href="chart-chartjs.html">Settings</a></li> --}}
                 </ul>
@@ -47,10 +46,10 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{route('admin.view.customer.list')}}">Manage Customers</a></li>
-                    <li><a href="ui-alert.html">Customer Projects</a></li>
-                    <li><a href="ui-badge.html">Domain & Hosting</a></li>
-                    <li><a href="ui-button.html">Payment & Bills</a></li>
-                    <li><a href="ui-modal.html">Paassword Manager</a></li>
+                    <li><a href="{{ route('admin.view.project.list') }}">Customer Projects</a></li>
+                    <li><a href="{{ route('admin.view.domain.hosting.list') }}">Domain & Hosting</a></li>
+                    <li><a href="{{ route('admin.view.bill.list') }}">Payment & Bills</a></li>
+                    <li><a href="{{ route('admin.view.password.list') }}">Paassword Manager</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -58,7 +57,7 @@
                     <span class="nav-text">Employees</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="uc-select2.html">Manage Employees</a></li>
+                    <li><a href="{{ route('admin.view.employee.list') }}">Manage Employees</a></li>
                     <li><a href="uc-nestable.html">Task Manager</a></li>
                 </ul>
             </li>
