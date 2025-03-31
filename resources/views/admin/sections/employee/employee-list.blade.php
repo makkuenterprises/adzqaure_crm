@@ -1,92 +1,110 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Team Members</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.employee.list') }}">Team Members</a></li>
-        </ul>
-    </div>
-@endsection
+@section('main-content')
 
+ <!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body default-height">
+			<div class="container-fluid">
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
+						<li class="breadcrumb-item active"><a href="{{ route('admin.view.employee.list') }}">Team Members</a></li>
+					</ol>
+                </div>
+				<!-- Row -->
+				<div class="row">
+					<div class="col-xl-12">
+						<div>
+							<a href="{{ route('admin.view.employee.create') }}" type="button" class="btn btn-sm btn-primary mb-4 open">Create New Employees</a>
+						</div>
+						<div class="filter cm-content-box box-primary">
+							<div class="content-title SlideToolHeader">
+								<div class="cpa">
+									<i class="fa-solid fa-file-lines me-1"></i>Employees List
+								</div>
+								<div class="tools">
+									<a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+								</div>
+							</div>
+							<div class="cm-content-body form excerpt">
+								<div class="card-body pb-4">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Name</th>
+													<th>Email</th>
+                                                    <th>Phone</th>
+                                                    <th>Role</th>
+                                                    <th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                @foreach ($employees as $employee)
+                                                    <tr>
+                                                        <td>{{ $employee->id }}</td>
+                                                        <td>{{ $employee->name }}</td>
+                                                        <td>{{ $employee->email }}</td>
+                                                        <td>{{ $employee->phone }}</td>
+                                                        <td>{{ $employee->role }}</td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                @if ($employee->status == 1)
+                                                                    <i class="fa fa-circle text-success me-1"></i> Enabled
+                                                                @else
+                                                                    <i class="fa fa-circle text-danger me-1"></i> Disabled
+                                                                @endif
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-nowrap">
 
-@section('panel-body')
-    {{-- @dd($employee); --}}
-    <figure class="panel-card">
-        <div class="panel-card-header">
-            <div>
-                <h1 class="panel-card-title">All Team Members</h1>
-                <p class="panel-card-description">All team members in the website </p>
-            </div>
-            <div>
-                <a href="{{ route('admin.view.employee.create') }}" class="btn-primary-md">Add Team Member</a>
-            </div>
-        </div>
-        <div class="panel-card-body">
-            <div class="panel-card-table">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($employees as $employee)
-                            <tr>
-                                <td>{{ $employee->id }}</td>
-                                <td>{{ $employee->name }}</td>
-                                <td>{{ $employee->email }}</td>
-                                <td>{{ $employee->phone }}</td>
-                                <td>{{ $employee->role }}</td>
-                                <td>
-                                    <label class="relative cursor-pointer">
-                                        <input onchange="handleUpdateStatus({{ $employee->id }})"
-                                            @checked($employee->status) type="checkbox" class="sr-only peer">
-                                        <div
-                                            class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2.5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-admin-ascent">
-                                        </div>
-                                    </label>
-                                </td>
-                                <td>
+                                                            <a href="{{ route('admin.view.employee.update', ['id' => $employee->id]) }}" class="btn btn-warning btn-sm content-icon">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
 
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="{{ route('admin.view.employee.update', ['id' => $employee->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="edit"
-                                                            class="mr-1"></i> Edit Team Member</a></li>
-                                                <li><a href="javascript:handleDelete({{ $employee->id }});"
-                                                        class="dropdown-link-danger"><i data-feather="trash-2"
-                                                            class="mr-1"></i> Delete Team Member</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </figure>
+                                                            <a href="javascript:handleDelete({{ $employee->id }});" class="btn btn-danger btn-sm content-icon">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+											</tbody>
+										</table>
+										<div class="d-flex align-items-center justify-content-between flex-wrap">
+											<p class="mb-2 me-3">Page 1 of 5, showing 2 records out of 8 total, starting on record 1, ending on 2</p>
+											<nav aria-label="Page navigation example mb-2">
+											  <ul class="pagination mb-2 mb-sm-0">
+												<li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="fa-solid fa-angle-left"></i></a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+												<li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+												<li class="page-item"><a class="page-link " href="javascript:void(0);"><i class="fa-solid fa-angle-right"></i></a></li>
+											  </ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
 @endsection
 
 @section('panel-script')
     <script>
-        document.getElementById('employee-tab').classList.add('active');
-
+        document.getElementById('admin-tab').classList.add('active');
         const handleUpdateStatus = (id) => {
-            fetch("{{ route('admin.api.employee.status') }}", {
+            fetch("{{ route('admin.handle.admin.status') }}", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,19 +123,19 @@
         }
     </script>
 
-
     <script>
         const handleDelete = (id) => {
             swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this employee!",
+                    text: "Once deleted, you will not be able to recover this admin!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "{{ route('admin.handle.employee.delete', ':id') }}".replace(':id', id);
+                        window.location =
+                            `{{ url('admin/admin-access/delete') }}/${id}`;
                     }
                 });
         }

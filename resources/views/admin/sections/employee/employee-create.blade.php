@@ -1,244 +1,137 @@
 @extends('admin.layouts.app')
-@section('css')
-    <style>
-        /* Style for the required field marker */
-        .input-label span.text-red-500 {
-            color: red;
-            font-weight: bold;
-        }
 
-        .input-invalid {
-            border-color: red;
-        }
 
-        /* Style for error messages */
-        .input-error {
-            color: red;
-            font-size: 0.875rem;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Add Team Member</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.employee.list') }}">Team Members</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.employee.create') }}">Add Team Member</a></li>
-        </ul>
-    </div>
-@endsection
-
-@section('panel-body')
-    <form action="{{ route('admin.handle.employee.create') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <figure class="panel-card">
-            <div class="panel-card-header">
-                <div>
-                    <h1 class="panel-card-title">Add Information</h1>
-                    <p class="panel-card-description">Please fill the required fields</p>
+@section('main-content')
+      <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body default-height">
+            <div class="container-fluid">
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{{ route('admin.view.employee.list') }}">Employees</a></li>
+						<li class="breadcrumb-item active"><a href="{{ route('admin.view.employee.create') }}">Create Team Member</a></li>
+					</ol>
                 </div>
-            </div>
-            <div class="panel-card-body">
-                <div class="grid md:grid-cols-4 sm:grid-cols-1 md:gap-7 sm:gap-5">
+                <!-- row -->
+                <div class="row">
+					<div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Add Team Members</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form action="{{ route('admin.handle.employee.create') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
 
-                    <div class="md:col-span-4 sm:col-span-1">
-                        <h1 class="font-semibold ">General Information</h1>
-                    </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">First Name<span class="text-danger">*</span></label>
+                                                <input type="text" name="firstname" value="{{ old('firstname') }}" class="form-control @error('firstname') input-invalid @enderror" placeholder="Enter First Name" minlength="1" maxlength="250">
+                                                @error('firstname')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Last Name<span class="text-danger">*</span></label>
+                                                <input type="text" name="lastname" value="{{ old('lastname') }}" class="form-control @error('lastname') input-invalid @enderror" placeholder="Enter Last Name" minlength="1" maxlength="250">
+                                                @error('lastname')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Email<span class="text-danger">*</span></label>
+                                                <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') input-invalid @enderror" placeholder="Enter Email" minlength="1" maxlength="250">
+                                                @error('email')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Email (Business Email)</label>
+                                                <input type="email" name="email_official" value="{{ old('email_official') }}" class="form-control @error('email_official') input-invalid @enderror" placeholder="Enter Business Email @Business.com" minlength="1" maxlength="250">
+                                                @error('email_official')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Phone<span class="text-danger">*</span></label>
+                                                <input type="tel" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') input-invalid @enderror" placeholder="Enter Phone" minlength="10" maxlength="12"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                @error('phone')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Alternate Phone</label>
+                                                <input type="tel" name="phone_alternate" value="{{ old('phone_alternate') }}" class="form-control @error('phone_alternate') input-invalid @enderror" placeholder="Enter Alternate Phone" minlength="10" maxlength="12"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                @error('phone_alternate')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Role<span class="text-danger">*</span></label>
+                                                <input type="text" name="role" value="{{ old('role') }}" class="form-control @error('role') input-invalid @enderror" placeholder="Enter Role" minlength="1" maxlength="25">
+                                                @error('role')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Home / Flat/ Building</label>
+                                                <input type="text" name="home" value="{{ old('home') }}" class="form-control @error('home') input-invalid @enderror" placeholder="Enter home / flat / building" minlength="1" maxlength="250">
+                                                @error('home')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Street</label>
+                                                <input type="text" name="street" value="{{ old('street') }}" class="form-control @error('street') input-invalid @enderror" placeholder="Enter street address" minlength="1" maxlength="250">
+                                                @error('street')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">City</label>
+                                                <input type="text" name="city" value="{{ old('city') }}" class="form-control @error('city') input-invalid @enderror" placeholder="Enter city" minlength="1" maxlength="250">
+                                                @error('city')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Pincode</label>
+                                                <input type="text" name="pincode" value="{{ old('pincode') }}" class="form-control @error('pincode') input-invalid @enderror" placeholder="Enter pincode" minlength="1" maxlength="6"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                @error('pincode')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">State</label>
+                                                <input type="text" name="state" value="{{ old('state') }}" class="form-control @error('state') input-invalid @enderror" placeholder="Enter state" minlength="1" maxlength="250">
+                                                @error('state')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Country</label>
+                                                <input type="text" name="country" value="{{ old('country') }}" class="form-control @error('country') input-invalid @enderror" placeholder="Enter country" minlength="1" maxlength="250">
+                                                @error('country')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6 position-relative">
+                                                <label class="form-label" for="dlab-password">Password </label>
+                                                <input type="password" name="password" id="dlab-password"
+                                                    class="form-control @error('password') input-invalid @enderror" placeholder="Enter password" required minlength="6"
+                                                    maxlength="20">
 
-                    {{-- First Name --}}
-                    <div class="flex flex-col">
-                        <label for="firstname" class="input-label">First name <span class="text-red-500">*</span></label>
-                        <input type="text" name="firstname" value="{{ old('firstname') }}"
-                            class="input-box-md @error('firstname') input-invalid @enderror" placeholder="Enter first name"
-                            required minlength="1" maxlength="250">
-                        @error('firstname')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
+                                                <span class="show-pass eye">
+                                                    <i class="fa fa-eye-slash"></i>
+                                                    <i class="fa fa-eye"></i>
+                                                </span>
+                                                @error('password')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                            <div class="mb-3 col-md-6 position-relative">
+                                                <label class="form-label" for="password_confirmation">Confirm Password</label>
+                                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                                    class="form-control @error('password_confirmation') input-invalid @enderror" placeholder="Enter confirm password" required minlength="6"
+                                                    maxlength="20">
 
-                    {{-- Last Name --}}
-                    <div class="flex flex-col">
-                        <label for="lastname" class="input-label">Last name <span class="text-red-500">*</span></label>
-                        <input type="text" name="lastname" value="{{ old('lastname') }}"
-                            class="input-box-md @error('lastname') input-invalid @enderror" placeholder="Enter last name"
-                            required minlength="1" maxlength="250">
-                        @error('lastname')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Email  --}}
-                    <div class="flex flex-col">
-                        <label for="email" class="input-label">Email address <span class="text-red-500">*</span></label>
-                        <input type="email" name="email" value="{{ old('email') }}"
-                            class="input-box-md @error('email') input-invalid @enderror" placeholder="Enter email" required
-                            minlength="1" maxlength="250">
-                        @error('email')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Email Official --}}
-                    <div class="flex flex-col">
-                        <label for="email_official" class="input-label">Email address (Official)<span
-                                class="text-red-500">*</span></label>
-                        <input type="email" name="email_official" value="{{ old('email_official') }}"
-                            class="input-box-md @error('email_official') input-invalid @enderror"
-                            placeholder="Enter official email" minlength="1" maxlength="250">
-                        @error('email_official')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Phone  --}}
-                    <div class="flex flex-col">
-                        <label for="phone" class="input-label">Phone <span class="text-red-500">*</span></label>
-                        <input type="tel" name="phone" value="{{ old('phone') }}"
-                            class="input-box-md @error('phone') input-invalid @enderror" placeholder="Enter phone" required
-                            minlength="10" maxlength="12">
-                        @error('phone')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Phone Alternate  --}}
-                    <div class="flex flex-col">
-                        <label for="phone_alternate" class="input-label">Phone (Alternate) <span
-                                class="text-red-500">*</span></label>
-                        <input type="tel" name="phone_alternate" value="{{ old('phone_alternate') }}"
-                            class="input-box-md @error('phone_alternate') input-invalid @enderror"
-                            placeholder="Enter phone alternate" minlength="10" maxlength="12">
-                        @error('phone_alternate')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Role  --}}
-                    <div class="flex flex-col">
-                        <label for="role" class="input-label">Role <span class="text-red-500">*</span></label>
-                        <input type="text" name="role" value="{{ old('role') }}"
-                            class="input-box-md @error('role') input-invalid @enderror" placeholder="Enter role"
-                            minlength="1" maxlength="20" required>
-                        @error('role')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="md:col-span-4 sm:col-span-1">
-                        <br>
-                        <h1 class="font-semibold ">Address Information</h1>
-                    </div>
-
-                    {{-- Address Home --}}
-                    <div class="flex flex-col">
-                        <label for="home" class="input-label">Home / Flat/ Building <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="home" value="{{ old('home') }}"
-                            class="input-box-md @error('home') input-invalid @enderror"
-                            placeholder="Enter home / flat / building" minlength="1" maxlength="250" required>
-                        @error('home')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Address Street --}}
-                    <div class="flex flex-col">
-                        <label for="street" class="input-label">Street <span class="text-red-500">*</span></label>
-                        <input type="text" name="street" value="{{ old('street') }}"
-                            class="input-box-md @error('street') input-invalid @enderror" placeholder="Enter street"
-                            required minlength="1" maxlength="250">
-                        @error('street')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Address City --}}
-                    <div class="flex flex-col">
-                        <label for="city" class="input-label">City <span class="text-red-500">*</span></label>
-                        <input type="text" name="city" value="{{ old('city') }}"
-                            class="input-box-md @error('city') input-invalid @enderror" placeholder="Enter city" required
-                            minlength="1" maxlength="250">
-                        @error('city')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Address Pincode --}}
-                    <div class="flex flex-col">
-                        <label for="pincode" class="input-label">Pincode <span class="text-red-500">*</span></label>
-                        <input type="text" name="pincode" value="{{ old('pincode') }}"
-                            class="input-box-md @error('pincode') input-invalid @enderror" placeholder="Enter pincode"
-                            required minlength="1" maxlength="250">
-                        @error('pincode')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Address State --}}
-                    <div class="flex flex-col">
-                        <label for="state" class="input-label">State <span class="text-red-500">*</span></label>
-                        <input type="text" name="state" value="{{ old('state') }}"
-                            class="input-box-md @error('state') input-invalid @enderror" placeholder="Enter state"
-                            required minlength="1" maxlength="250">
-                        @error('state')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Address State --}}
-                    <div class="flex flex-col">
-                        <label for="country" class="input-label">Country <span class="text-red-500">*</span></label>
-                        <input type="text" name="country" value="{{ old('country') }}"
-                            class="input-box-md @error('country') input-invalid @enderror" placeholder="Enter country"
-                            required minlength="1" maxlength="250">
-                        @error('country')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="md:col-span-4 sm:col-span-1">
-                        <br>
-                        <h1 class="font-semibold ">Password Information</h1>
-                    </div>
-
-                    {{-- Password --}}
-                    <div class="input-group">
-                        <label for="password" class="input-label">Password <span class="text-red-500">*</span></label>
-                        <input type="password" name="password"
-                            class="input-box-md @error('password') input-invalid @enderror" placeholder="Enter password"
-                            required>
-                        @error('password')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Confirm password --}}
-                    <div class="input-group">
-                        <label for="password_confirmation" class="input-label">Confirm password <span
-                                class="text-red-500">*</span></label>
-                        <input type="password" name="password_confirmation"
-                            class="input-box-md @error('password_confirmation') input-invalid @enderror"
-                            placeholder="Repeat password" required>
-                        @error('password_confirmation')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
+                                                <span class="show-pass eye">
+                                                    <i class="fa fa-eye-slash"></i>
+                                                    <i class="fa fa-eye"></i>
+                                                </span>
+                                                @error('password_confirmation')<span class="input-error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Team Members</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
                 </div>
+
             </div>
-            <div class="panel-card-footer">
-                <button type="submit" class="btn-primary-md md:w-fit sm:w-full">Add Team Member</button>
-            </div>
-        </figure>
-    </form>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
 @endsection
 
-@section('panel-script')
-    <script>
-        document.getElementById('employee-tab').classList.add('active');
-    </script>
-@endsection
+
