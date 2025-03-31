@@ -15,6 +15,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Group;
+use App\Models\ServiceCategory;
 use App\Models\Lead;
 use App\Models\Campaign;
 use Storage;
@@ -41,6 +42,7 @@ interface AdminDelete
     public function handlePasswordDelete($id);
     public function handlePlanDelete($id);
     public function handlePackageDelete($id);
+    public function handleScDelete($id);
 }
 
 class AdminDeleteController extends Controller implements AdminDelete
@@ -302,6 +304,17 @@ class AdminDeleteController extends Controller implements AdminDelete
             'status' => 'success',
             'title' => 'Package Deleted',
             'description' => 'The package is successfully deleted'
+        ]);
+    }
+
+    public function handleScDelete($id)
+    {
+        $serviceCategory = ServiceCategory::find($id);
+        $serviceCategory->delete();
+        return redirect()->route('admin.view.service-category.list')->with('message', [
+            'status' => 'success',
+            'title' => 'Service Category Deleted',
+            'description' => 'The Service Category is successfully deleted'
         ]);
     }
 }

@@ -21,6 +21,7 @@ use App\Models\Employee;
 use App\Models\Group;
 use App\Models\Campaign;
 use App\Models\Lead;
+use App\Models\ServiceCategory;
 use Carbon\Carbon;
 use Storage;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +54,7 @@ interface AdminCreate
     public function handlePasswordCreate(Request $request);
     public function handlePlanCreate(Request $request);
     public function handlePackageCreate(Request $request);
+    public function  handleScCreate(Request $request);
 }
 
 class AdminCreateController extends Controller implements AdminCreate
@@ -899,6 +901,39 @@ class AdminCreateController extends Controller implements AdminCreate
                 'title' => 'An error occurred',
                 'description' => 'There is an internal server issue please try again.'
             ]);
+        }
+    }
+
+
+
+    public function handleScCreate(Request $request)
+    {
+        // dd($request->all());
+        $validation = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'min:1', 'max:250'],
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        } else {
+
+            $service_cat = new ServiceCategory();
+            $service_cat->name = $request->input('name');
+            $result = $service_cat->save();
+
+            if ($result) {
+                return redirect()->route('admin.view.service-category.list')->with('message', [
+                    'status' => 'success',
+                    'title' => 'Service Category created',
+                    'description' => 'service category is successfully created.'
+                ]);
+            } else {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'An error occcured',
+                    'description' => 'There is an internal server issue please try again.'
+                ]);
+            }
         }
     }
 }

@@ -1,15 +1,15 @@
 @extends('admin.layouts.app')
 
-
 @section('main-content')
     <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
+                                                 Content body start
+                                                 ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.view.service-category.list') }}">Service Category</a>
+                    </li>
                 </ol>
             </div>
             <!-- Row -->
@@ -40,50 +40,48 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
-                                            @foreach ($groups as $index => $group)
+                                        <tbody>
+                                            @foreach ($service_cat as $index => $category)
                                                 <tr>
-                                                    <td>{{ $groups->firstItem() + $index }}</td>
-                                                    <td><a
-                                                            href="{{ route('admin.view.group.preview', ['id' => $group->id]) }}">{{ $group->name }}</a>
+                                                    <td>{{ $service_cat->firstItem() + $index }}</td>
+                                                    <td>{{ $category->name }}</td>
+                                                    <td>
+                                                        {{-- Check the status and display the appropriate badge --}}
+                                                        @if ($category->status)
+                                                            <span class="badge bg-success">Active</span>
+                                                        @else
+                                                            <span class="badge bg-danger">Inactive</span>
+                                                        @endif
                                                     </td>
-                                                    <td>{{ DB::table('leads')->where('group_id', $group->id)->count() }}
-                                                    </td>
-                                                    <td class="text-nowrap">
 
-                                                        <a href="{{ route('admin.view.group.update', ['id' => $group->id]) }}"
+
+                                                    <td class="text-nowrap">
+                                                        <a href="{{ route('admin.view.service-category.update', ['id' => $category->id]) }}"
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
-                                                        <a href="{{ route('admin.view.group.preview', ['id' => $group->id]) }}"
-                                                            class="btn btn-success btn-sm content-icon">
-                                                            <i class="fa fa-eye"></i>
-                                                        </a>
-                                                        <a href="{{ route('admin.view.group.export', ['id' => $group->id]) }}"
-                                                            class="btn btn-success btn-sm content-icon">
-                                                            <i class="fa fa-download"></i>
-                                                        </a>
-                                                        <a href="javascript:handleDelete({{ $group->id }});"
+
+
+                                                        <a href="javascript:handleDelete({{ $category->id }});"
                                                             class="btn btn-danger btn-sm content-icon">
                                                             <i class="fa fa-times"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
 
-
                                     <!-- Pagination Information -->
-                                    {{-- <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
                                         <p class="mb-2 me-3">
-                                            Showing {{ $groups->firstItem() }} to {{ $groups->lastItem() }} of
-                                            {{ $groups->total() }} records
+                                            Showing {{ $service_cat->firstItem() }} to {{ $service_cat->lastItem() }} of
+                                            {{ $service_cat->total() }} records
                                         </p>
                                         <nav aria-label="Page navigation example mb-2">
-                                            {{ $groups->links('pagination::bootstrap-4') }}
+                                            {{ $service_cat->links('pagination::bootstrap-4') }}
                                         </nav>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,12 +91,12 @@
         </div>
     </div>
     <!--**********************************
-                                 Content body end
-         ***********************************-->
+                                                 Content body end
+                                             ***********************************-->
 @endsection
 
 @section('js')
-    {{-- <script>
+    <script>
         function handleDelete(id) {
             swal({
                     title: "Are you sure?",
@@ -109,9 +107,9 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = `{{ url('admin/group/delete') }}/${id}`;
+                        window.location = `{{ url('admin/service-category/delete') }}/${id}`;
                     }
                 });
         }
-    </script> --}}
+    </script>
 @endsection

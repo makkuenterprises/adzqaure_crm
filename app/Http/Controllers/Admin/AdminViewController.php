@@ -19,6 +19,7 @@ use App\Exports\ExportGroup;
 use App\Models\Employee;
 use App\Models\Lead;
 use App\Models\Group;
+use App\Models\ServiceCategory;
 use App\Models\Campaign;
 use App\Models\Admin;
 use PDF;
@@ -99,6 +100,7 @@ interface AdminView
     public function viewPackageCreate();
     public function viewPackageUpdate($id);
     public function viewPackageRenew($id);
+    public function viewScUpdate($id);
 }
 
 class AdminViewController extends Controller implements AdminView
@@ -217,7 +219,7 @@ class AdminViewController extends Controller implements AdminView
     public function viewGroupUpdate($id)
     {
         $group = Group::where('id', $id)->first();
-        $leads = Lead::where('group_id', $id)->get();
+        $leads = Lead::where('group_id', $id)->paginate(20);
         return view('admin.sections.group.group-update', ['group' => $group, 'leads' => $leads]);
     }
 
@@ -226,32 +228,32 @@ class AdminViewController extends Controller implements AdminView
     {
 
         $group = Group::where('id', $id)->first();
-        $leads = Lead::where('group_id', $id)->get();
+        $leads = Lead::where('group_id', $id)->paginate(20);
         return view('admin.sections.group.group-preview', ['group' => $group, 'leads' => $leads]);
     }
 
-      /** View Service Category List **/
-      public function viewScList()
-      {
-          // $groups = Group::all();
-        //   $groups = Group::paginate(10);
+    /** View Service Category List **/
+    public function viewScList()
+    {
+        $service_cat = ServiceCategory::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.sections.service-category.service-category-list', ['service_cat' => $service_cat]);
+    }
 
-          return view('admin.sections.service-category.service-category-list');
-      }
+    /** View Service Category Create **/
+    public function viewScCreate()
+    {
+        return view('admin.sections.service-category.service-category-create');
+    }
 
-      /** View Service Category Create **/
-      public function viewScCreate()
-      {
-          return view('admin.sections.service-category.service-category-create');
-      }
-
-      /** View Service Category Update **/
-      public function viewScUpdate($id)
-      {
-          $group = Group::where('id', $id)->first();
-          $leads = Lead::where('group_id', $id)->get();
-          return view('admin.sections.service-category.service-category-update', ['group' => $group, 'leads' => $leads]);
-      }
+    /** View Service Category Update **/
+    public function viewScUpdate($id)
+    {
+        $serviceCategory = ServiceCategory::where('id', $id)->first();
+        // dd($serviceCategory);
+        return view('admin.sections.service-category.service-category-update', [
+            'serviceCategory' => $serviceCategory,
+        ]);
+    }
 
 
     /** View Campaign List **/

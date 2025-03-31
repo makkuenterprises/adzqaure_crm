@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Admin;
 use App\Models\Employee;
 use App\Models\Group;
+use App\Models\ServiceCategory;
 use App\Models\Campaign;
 use App\Models\Lead;
 use Carbon\Carbon;
@@ -54,6 +55,7 @@ interface AdminUpdate
     public function handleDomainHostingUpdate(Request $request, $id);
     public function handlePlanUpdate(Request $request, $id);
     public function handlePackageUpdate(Request $request, $id);
+    public function handleScUpdate(Request $request, $id);
 }
 
 class AdminUpdateController extends Controller implements AdminUpdate
@@ -1045,6 +1047,37 @@ class AdminUpdateController extends Controller implements AdminUpdate
                     'status' => 'success',
                     'title' => 'Package Renewed',
                     'description' => 'The package is successfully renewed'
+                ]);
+            } else {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'An error occcured',
+                    'description' => 'There is an internal server issue please try again.'
+                ]);
+            }
+        }
+    }
+
+
+
+    public function handleScUpdate(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => ['required'],
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        } else {
+            $service_cat = ServiceCategory::where('id', $id)->first();
+            $service_cat->name = $request->input('name');
+            $result = $service_cat->save();
+
+            if ($result) {
+                return redirect()->back()->with('message', [
+                    'status' => 'success',
+                    'title' => 'Changes Saved',
+                    'description' => 'The changes are successfully saved'
                 ]);
             } else {
                 return redirect()->back()->with('message', [
