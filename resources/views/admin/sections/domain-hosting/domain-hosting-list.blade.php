@@ -2,14 +2,15 @@
 
 @section('main-content')
     <!--**********************************
-                                                                                                                                                Content body start
-                                                                                                                                            ***********************************-->
+                                                                                                                                                                                            Content body start
+                                                                                                                                                                                        ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.domain.hosting.list') }}">Domain & Hosting</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.domain.hosting.list') }}">Domain &
+                            Hosting</a></li>
                 </ol>
             </div>
             <!-- Row -->
@@ -34,7 +35,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>S.No</th>
                                                 <th>Customer Name</th>
                                                 <th>Domain</th>
                                                 <th>Domain Expiry</th>
@@ -45,19 +46,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($domain_hostings as $domain_hosting)
+                                            @foreach ($domain_hostings as $index => $domain_hosting)
                                                 <tr>
-                                                    <td>{{ $domain_hosting->id }}</td>
-                                                    <td>{{ DB::table('customers')->find($domain_hosting->customer_id)?->name }}</td>
+                                                    <td>{{ $domain_hostings->firstItem() + $index }}</td>
+                                                    <td>{{ DB::table('customers')->find($domain_hosting->customer_id)?->name }}
+                                                    </td>
                                                     <td>{{ $domain_hosting->domain_name }}</td>
                                                     <td>
                                                         @if (!is_null($domain_hosting->domain_expiry))
                                                             @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->domain_expiry, false) <= 10)
                                                                 <span class="badge badge-rounded badge-danger">
-                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </span>
+                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }}
+                                                                </span>
                                                             @else
                                                                 <span class="badge badge-rounded badge-success">
-                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </span>
+                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }}
+                                                                </span>
                                                             @endif
                                                         @endif
                                                     </td>
@@ -70,9 +74,13 @@
                                                         <div class="d-flex align-items-center">
                                                             @if (!is_null($domain_hosting->hosting_expiry))
                                                                 @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->hosting_expiry, false) <= 10)
-                                                                <span class="badge badge-rounded badge-success">  {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </span>
+                                                                    <span class="badge badge-rounded badge-success">
+                                                                        {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }}
+                                                                    </span>
                                                                 @else
-                                                                    <span class="badge badge-rounded badge-danger"> {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </span>
+                                                                    <span class="badge badge-rounded badge-danger">
+                                                                        {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }}
+                                                                    </span>
                                                                 @endif
                                                             @endif
                                                         </div>
@@ -104,15 +112,16 @@
                                         </tbody>
                                     </table>
 
-                                    {{-- <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
                                         <p class="mb-2 me-3">
-                                            Showing {{ $domain_hosting->firstItem() }} to {{ $domain_hosting->lastItem() }} of
-                                            {{ $domain_hosting->total() }} records
+                                            Showing {{ $domain_hostings->firstItem() }} to
+                                            {{ $domain_hostings->lastItem() }} of
+                                            {{ $domain_hostings->total() }} records
                                         </p>
                                         <nav aria-label="Page navigation example mb-2">
-                                            {{ $domain_hosting->links('pagination::bootstrap-4') }}
+                                            {{ $domain_hostings->links('pagination::bootstrap-4') }}
                                         </nav>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -122,8 +131,8 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                Content body end
-                                                                                                                                            ***********************************-->
+                                                                                                                                                                                            Content body end
+                                                                                                                                                                                        ***********************************-->
 @endsection
 
 @section('js')

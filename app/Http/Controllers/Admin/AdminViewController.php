@@ -224,7 +224,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Group Preview **/
     public function viewGroupPreview($id)
     {
-        
+
         $group = Group::where('id', $id)->first();
         $leads = Lead::where('group_id', $id)->get();
         return view('admin.sections.group.group-preview', ['group' => $group, 'leads' => $leads]);
@@ -427,6 +427,8 @@ class AdminViewController extends Controller implements AdminView
     public function viewAdminUpdate($id)
     {
         $admin = Admin::find($id);
+
+        // dd($admin);
         return view('admin.sections.admin.admin-update', [
             'admin' => $admin
         ]);
@@ -435,31 +437,38 @@ class AdminViewController extends Controller implements AdminView
     /** View Domain Hosting List **/
     // public function viewDomainHostingList()
     // {
+
     //     $domain_hostings = DomainHosting::all();
 
-    //     dd($domain_hostings);
+    //     $domain_hostings = $domain_hostings->map(function ($domain_hosting) {
+    //         $domain_hosting->domain_expiry = Carbon::parse($domain_hosting->domain_purchase)->addYear();
+    //         $domain_hosting->hosting_expiry = Carbon::parse($domain_hosting->hosting_purchase)->addYear();
 
-    //     // dd($domain_hostings);
+    //         return $domain_hosting;
+    //     });
+
     //     return view('admin.sections.domain-hosting.domain-hosting-list', [
     //         'domain_hostings' => $domain_hostings
     //     ]);
     // }
 
-
     public function viewDomainHostingList()
     {
-        $domain_hostings = DomainHosting::all();
-        $domain_hostings = $domain_hostings->map(function ($domain_hosting) {
+        $domain_hostings = DomainHosting::orderBy('created_at', 'desc')->paginate(10);
+        $domain_hostings->getCollection()->transform(function ($domain_hosting) {
             $domain_hosting->domain_expiry = Carbon::parse($domain_hosting->domain_purchase)->addYear();
             $domain_hosting->hosting_expiry = Carbon::parse($domain_hosting->hosting_purchase)->addYear();
 
             return $domain_hosting;
         });
 
+        // Return the view with the paginated domain hostings
         return view('admin.sections.domain-hosting.domain-hosting-list', [
             'domain_hostings' => $domain_hostings
         ]);
     }
+
+
 
 
     /** View Domain Hosting Create **/

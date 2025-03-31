@@ -22,7 +22,8 @@ use App\Models\Group;
 use App\Models\Campaign;
 use App\Models\Lead;
 use Carbon\Carbon;
-use Storage, Hash;
+use Storage;
+use Illuminate\Support\Facades\Hash;
 use DB;
 
 
@@ -563,7 +564,14 @@ class AdminCreateController extends Controller implements AdminCreate
             $admin->role = $request->input('role');
             $admin->password = Hash::make($request->input('password'));
             if ($request->hasFile('profile')) {
-                $admin->profile = $request->file('profile')->store('admins');
+                $profileFileName = $request->file('profile')->getClientOriginalName();
+                $destinationPath = public_path('admin/profile');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $request->file('profile')->move($destinationPath, $profileFileName);
+
+                $admin->profile = $profileFileName;
             }
             $result = $admin->save();
 

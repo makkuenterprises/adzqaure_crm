@@ -23,8 +23,10 @@ use App\Models\Campaign;
 use App\Models\Lead;
 use Carbon\Carbon;
 use Storage;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use DB;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -771,6 +773,7 @@ class AdminUpdateController extends Controller implements AdminUpdate
     */
     public function handleAdminUpdate(Request $request, $id)
     {
+
         $validation = Validator::make($request->all(), [
             'name' => ['required', 'string', 'min:1', 'max:250'],
             'email' => ['required', 'string', 'min:1', 'max:250', Rule::unique('admins')->ignore($id, 'id')],
@@ -797,10 +800,18 @@ class AdminUpdateController extends Controller implements AdminUpdate
             if ($request->input('password')) {
                 $admin->password = Hash::make($request->input('password'));
             }
+
             if ($request->hasFile('profile')) {
-                if (!is_null($admin->profile)) Storage::delete($admin->profile);
-                $admin->profile = $request->file('profile')->store('admins');
+                $profileFileName = $request->file('profile')->getClientOriginalName();
+                $destinationPath = public_path('admin/profile');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $request->file('profile')->move($destinationPath, $profileFileName);
+
+                $admin->profile = $profileFileName;
             }
+
             $result = $admin->update();
 
             if ($result) {
