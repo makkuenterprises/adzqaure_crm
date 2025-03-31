@@ -23,17 +23,17 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('phone_alternate')->nullable();
             $table->string('role');
-            
-            $table->string('home');
-            $table->string('street');
-            $table->string('city');
-            $table->string('pincode');
-            $table->string('state');
-            $table->string('country');
+
+            $table->string('home')->nullable();
+            $table->string('street')->nullable();
+            $table->string('city')->nullable();
+            $table->string('pincode')->nullable();
+            $table->string('state')->nullable();;
+            $table->string('country')->nullable();;
 
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->boolean('status')->default(true);
             $table->string('profile')->nullable();
             $table->rememberToken();

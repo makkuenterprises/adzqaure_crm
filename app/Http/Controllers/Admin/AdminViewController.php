@@ -123,6 +123,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Setting **/
     public function viewSetting()
     {
+
         return view('admin.sections.setting.setting');
     }
 
@@ -153,7 +154,9 @@ class AdminViewController extends Controller implements AdminView
     /** View Employee List **/
     public function viewEmployeeList()
     {
-        $employees = Employee::all();
+
+        $employees = Employee::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.sections.employee.employee-list', ['employees' => $employees]);
     }
 
@@ -198,7 +201,8 @@ class AdminViewController extends Controller implements AdminView
     /** View Group List **/
     public function viewGroupList()
     {
-        $groups = Group::all();
+        // $groups = Group::all();
+        $groups = Group::paginate(10);
 
         return view('admin.sections.group.group-list', ['groups' => $groups]);
     }
@@ -278,7 +282,7 @@ class AdminViewController extends Controller implements AdminView
     public function viewCustomerList()
     {
 
-        $customers = Customer::all();
+        $customers = Customer::orderBy('created_at', 'desc')->paginate(10);
         $totalCustomers = Customer::count();
         $activeCustomers = Customer::where('status', 1)->count();
         $inactiveCustomers = Customer::where('status', 0)->count();
@@ -371,7 +375,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Bill List **/
     public function viewBillList()
     {
-        $bills = Bill::all();
+        $bills = Bill::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.sections.bill.bill-list', ['bills' => $bills]);
     }
 
@@ -406,7 +410,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Admin List **/
     public function viewAdminList()
     {
-        $admins = Admin::where('id', '!=', auth()->user()->id)->get();
+        $admins = Admin::where('id', '!=', auth()->user()->id)->paginate(2);
         return view('admin.sections.admin.admin-list', [
             'admins' => $admins
         ]);

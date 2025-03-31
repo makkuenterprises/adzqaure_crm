@@ -42,6 +42,7 @@
 
     <!-- Style css -->
     <link href="{{ asset('admin_new/css/style.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="{{ asset('admin/css/app.css?v=4') }}"> --}}
 
     @yield('css')
 
@@ -125,6 +126,7 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('admin_new/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('admin_new/vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
 
@@ -134,13 +136,14 @@
     <script src="{{ asset('admin_new/vendor/counter/waypoint.min.js') }}"></script>
 
     <!-- Popup -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
 
     <!-- Apex Chart -->
     <script src="{{ asset('admin_new/vendor/apexchart/apexchart.js') }}"></script>
-    <script src="{{ asset('admin_new/vendor/chart-js/chart.bundle.min.js') }}"></>
+    <script src="{{ asset('admin_new/vendor/chart-js/chart.bundle.min.js') }}"></script>
     <!-- Chart piety plugin files -->
     <script src="{{ asset('admin_new/vendor/peity/jquery.peity.min.js') }}"></script>
+
     <!-- Dashboard 1 -->
     <script src="{{ asset('admin_new/js/dashboard/dashboard-1.js') }}"></script>
 
@@ -148,6 +151,7 @@
 
     <script src="{{ asset('admin_new/js/custom.min.js') }}"></script>
     <script src="{{ asset('admin_new/js/dlabnav-init.js') }}"></script>
+
     <script>
         function cardsCenter() {
             /*  testimonial one function by = owl.carousel.js */
@@ -189,9 +193,18 @@
             }, 1000);
         });
     </script>
+    {{-- <script src="{{ asset('admin/js/app.js') }}"></script> --}}
 
     @yield('js')
-
+    @if (session('message'))
+        <script defer>
+            swal({
+                icon: "{{ session('message')['status'] }}",
+                title: "{{ session('message')['title'] }}",
+                text: "{{ session('message')['description'] }}",
+            });
+        </script>
+    @endif
 </body>
 
 </html>

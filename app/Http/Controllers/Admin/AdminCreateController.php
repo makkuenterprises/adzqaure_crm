@@ -81,12 +81,12 @@ class AdminCreateController extends Controller implements AdminCreate
             'phone' => ['required', 'numeric', 'digits_between:10,20', 'unique:employees'],
             'phone_alternate' => ['nullable', 'numeric', 'digits_between:10,20'],
             'role' => ['required', 'string'],
-            'home' => ['required', 'string'],
-            'street' => ['required', 'string'],
-            'city' => ['required', 'string'],
-            'pincode' => ['required', 'string'],
-            'state' => ['required', 'string'],
-            'country' => ['required', 'string'],
+            'home' => ['nullable', 'string'],
+            'street' => ['nullable', 'string'],
+            'city' => ['nullable', 'string'],
+            'pincode' => ['nullable', 'string'],
+            'state' => ['nullable', 'string'],
+            'country' => ['nullable', 'string'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
