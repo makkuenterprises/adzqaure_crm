@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row"> <!-- Added row wrapper -->
-                        <div class="col-xl-3 col-lg-12 col-sm-12">
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
                             <div class="card overflow-hidden">
                                 <div class="text-center p-5 overlay-box"
                                     style="background-image: url(images/big/img5.jpg);">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-12 col-sm-12">
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
                             <div class="card overflow-hidden">
                                 <div class="text-center p-5 overlay-box"
                                     style="background-image: url(images/big/img5.jpg);">
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-12 col-sm-12">
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
                             <div class="card overflow-hidden">
                                 <div class="text-center p-5 overlay-box"
                                     style="background-image: url(images/big/img5.jpg);">
@@ -94,11 +94,11 @@
                         </div>
 
                         {{-- crm settings --}}
-                        <div class="col-xl-3 col-lg-12 col-sm-12">
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
                             <div class="card overflow-hidden">
                                 <div class="text-center p-5 overlay-box"
                                     style="background-image: url(images/big/img5.jpg);">
-                                    <img src="{{ asset('admin/images/setting-mail-credentials.png') }}" width="100"
+                                    <img src="{{ asset('admin/images/setting-crm.png') }}" width="100"
                                         class="img-fluid rounded-circle" alt="">
                                     <h3 class="mt-3 mb-0 text-white">CRM Settings</h3>
                                 </div>

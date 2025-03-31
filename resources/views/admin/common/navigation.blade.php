@@ -12,7 +12,7 @@
             </li>
             <li>
                 <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fa-solid fa-database"></i>
                     <span class="nav-text">Data Records <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
                 <ul aria-expanded="false">
@@ -22,7 +22,7 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-info-circle"></i>
+                    <i class="fa-solid fa-briefcase"></i>
                     <span class="nav-text">Work</span>
                 </a>
                 <ul aria-expanded="false">
@@ -31,7 +31,7 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fa-solid fa-users-gear"></i>
                     <span class="nav-text">Management</span>
                 </a>
                 <ul aria-expanded="false">
@@ -41,7 +41,7 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fab fa-bootstrap"></i>
+                    <i class="fas fa-heart"></i>
                     <span class="nav-text">Customers</span>
                 </a>
                 <ul aria-expanded="false">
@@ -53,7 +53,7 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-heart"></i>
+                    <i class="fa-solid fa-user-tie"></i>
                     <span class="nav-text">Employees</span>
                 </a>
                 <ul aria-expanded="false">
