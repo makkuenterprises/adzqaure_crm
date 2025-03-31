@@ -224,6 +224,7 @@ class AdminViewController extends Controller implements AdminView
     /** View Group Preview **/
     public function viewGroupPreview($id)
     {
+        
         $group = Group::where('id', $id)->first();
         $leads = Lead::where('group_id', $id)->get();
         return view('admin.sections.group.group-preview', ['group' => $group, 'leads' => $leads]);
