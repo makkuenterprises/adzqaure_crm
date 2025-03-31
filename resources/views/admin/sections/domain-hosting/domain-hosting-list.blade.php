@@ -1,126 +1,144 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Domain Hosting</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.domain.hosting.list') }}">Domain Hosting</a></li>
-        </ul>
+@section('main-content')
+    <!--**********************************
+                                                                                                                                                Content body start
+                                                                                                                                            ***********************************-->
+    <div class="content-body default-height">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.domain.hosting.list') }}">Domain & Hosting</a></li>
+                </ol>
+            </div>
+            <!-- Row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div>
+                        <a href="{{ route('admin.view.domain.hosting.create') }}" type="button"
+                            class="btn btn-sm btn-primary mb-4 open">Add Domain & Hosting</a>
+                    </div>
+                    <div class="filter cm-content-box box-primary">
+                        <div class="content-title SlideToolHeader">
+                            <div class="cpa">
+                                <i class="fa-solid fa-file-lines me-1"></i>All Domain Hostings
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+                            </div>
+                        </div>
+                        <div class="cm-content-body form excerpt">
+                            <div class="card-body pb-4">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Domain</th>
+                                                <th>Domain Expiry</th>
+                                                <th>Domain Renewal</th>
+                                                <th>Hosting Expiry</th>
+                                                <th>Hosting Renewal</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($domain_hostings as $domain_hosting)
+                                                <tr>
+                                                    <td>{{ $domain_hosting->id }}</td>
+                                                    <td>{{ DB::table('customers')->find($domain_hosting->customer_id)?->name }}</td>
+                                                    <td>{{ $domain_hosting->domain_name }}</td>
+                                                    <td>
+                                                        @if (!is_null($domain_hosting->domain_expiry))
+                                                            @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->domain_expiry, false) <= 10)
+                                                                <span class="badge badge-rounded badge-danger">
+                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </span>
+                                                            @else
+                                                                <span class="badge badge-rounded badge-success">
+                                                                    {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </span>
+                                                            @endif
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (!is_null($domain_hosting->hosting_expiry))
+                                                            {{ env('APP_CURRENCY') }}{{ number_format($domain_hosting->domain_renewal_price, 2) }}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            @if (!is_null($domain_hosting->hosting_expiry))
+                                                                @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->hosting_expiry, false) <= 10)
+                                                                <span class="badge badge-rounded badge-success">  {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </span>
+                                                                @else
+                                                                    <span class="badge badge-rounded badge-danger"> {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </span>
+                                                                @endif
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @if (!is_null($domain_hosting->hosting_expiry))
+                                                            {{ env('APP_CURRENCY') }}{{ number_format($domain_hosting->hosting_renewal_price, 2) }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-nowrap">
+
+                                                        <a href="{{ route('admin.view.domain.hosting.update', ['id' => $domain_hosting->id]) }}"
+                                                            class="btn btn-warning btn-sm content-icon">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+
+                                                        <a href="{{ route('admin.handle.domain.hosting.bill.create', ['id' => $domain_hosting->id]) }}"
+                                                            class="btn btn-success btn-sm content-icon">
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
+
+                                                        <a href="javascript:handleDelete({{ $domain_hosting->id }});"
+                                                            class="btn btn-danger btn-sm content-icon">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                    {{-- <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                        <p class="mb-2 me-3">
+                                            Showing {{ $domain_hosting->firstItem() }} to {{ $domain_hosting->lastItem() }} of
+                                            {{ $domain_hosting->total() }} records
+                                        </p>
+                                        <nav aria-label="Page navigation example mb-2">
+                                            {{ $domain_hosting->links('pagination::bootstrap-4') }}
+                                        </nav>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!--**********************************
+                                                                                                                                                Content body end
+                                                                                                                                            ***********************************-->
 @endsection
 
-@section('panel-body')
-    <figure class="panel-card">
-        <div class="panel-card-header">
-            <div>
-                <h1 class="panel-card-title">All Domain Hostings</h1>
-                <p class="panel-card-description">All domain hostings in the website </p>
-            </div>
-            <div>
-                <a href="{{ route('admin.view.domain.hosting.create') }}" class="btn-primary-md">Add Domain Hosting</a>
-            </div>
-        </div>
-        <div class="panel-card-body">
-            <div class="panel-card-table">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Domain</th>
-                            <th>Domain Expiry</th>
-                            <th>Domain Renewal</th>
-                            <th>Hosting Expiry</th>
-                            <th>Hosting Renewal</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($domain_hostings as $domain_hosting)
-                            <tr>
-                                <td>{{ $domain_hosting->id }}</td>
-                                <td>{{ DB::table('customers')->find($domain_hosting->customer_id)?->name }}</td>
-                                <td>{{ $domain_hosting->domain_name }}</td>
-                                <td>
-                                    @if (!is_null($domain_hosting->domain_expiry))
-                                        @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->domain_expiry, false) <= 10)
-                                            <p class="alert-danger-sm">
-                                                {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </p>
-                                        @else
-                                            <p class="alert-success-sm">
-                                                {{ date('d-m-Y', strtotime($domain_hosting->domain_expiry)) }} </p>
-                                        @endif
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (!is_null($domain_hosting->hosting_expiry))
-                                        {{ env('APP_CURRENCY') }}{{ number_format($domain_hosting->domain_renewal_price, 2) }}
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (!is_null($domain_hosting->hosting_expiry))
-                                        @if (\Carbon\Carbon::now()->diffInDays($domain_hosting->hosting_expiry, false) <= 10)
-                                            <p class="alert-danger-sm">
-                                                {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </p>
-                                        @else
-                                            <p class="alert-success-sm">
-                                                {{ date('d-m-Y', strtotime($domain_hosting->hosting_expiry)) }} </p>
-                                        @endif
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (!is_null($domain_hosting->hosting_expiry))
-                                        {{ env('APP_CURRENCY') }}{{ number_format($domain_hosting->hosting_renewal_price, 2) }}
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="{{ route('admin.view.domain.hosting.update', ['id' => $domain_hosting->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="edit"
-                                                            class="mr-1"></i> Edit Domain Hosting</a></li>
-                                                <li><a href="{{ route('admin.handle.domain.hosting.bill.create', ['id' => $domain_hosting->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="clipboard"
-                                                            class="mr-1"></i> Generate Bill</a></li>
-                                                <li><a href="javascript:handleDelete({{ $domain_hosting->id }});"
-                                                        class="dropdown-link-danger"><i data-feather="trash-2"
-                                                            class="mr-1"></i> Delete Domain Hosting</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </figure>
-@endsection
-
-@section('panel-script')
+@section('js')
     <script>
-        document.getElementById('domain-hosting-tab').classList.add('active');
-    </script>
-
-    <script>
-        const handleDelete = (id) => {
+        function handleDelete(id) {
             swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this domain hosting!",
+                    text: "Once deleted, you will not be able to recover this admin!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location =
-                            `{{ url('admin/domain-hosting/delete') }}/${id}`;
+                        window.location = `{{ url('admin/admin-access/delete') }}/${id}`;
                     }
                 });
         }
