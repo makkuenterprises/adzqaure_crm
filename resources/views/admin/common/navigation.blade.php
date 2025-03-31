@@ -50,7 +50,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="#">Services</a></li>
-                    <li><a href="#">Service Category</a></li>
+                    <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
                     <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li>
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     <li><a href="#">Manage Trusted Partners</a></li>

@@ -100,7 +100,7 @@
         function handleDelete(id) {
             swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this group!",
+                    text: "Once deleted, you will not be able to recover this service category!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
