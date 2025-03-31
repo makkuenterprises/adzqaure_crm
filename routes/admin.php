@@ -120,6 +120,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/export/{id}', [AdminViewController::class, 'viewGroupExport'])->name('admin.view.group.export');
     });
 
+    Route::prefix('service-category')->group(function () {
+        Route::get('/list', [AdminViewController::class, 'viewScList'])->name('admin.view.service-category.list');
+        Route::get('/create', [AdminViewController::class, 'viewScCreate'])->name('admin.view.service-category.create');
+        Route::get('/update/{id}', [AdminViewController::class, 'viewScUpdate'])->name('admin.view.service-category.update');
+        Route::post('/create', [AdminCreateController::class, 'handleScCreate'])->name('admin.handle.service-category.create');
+        Route::post('/update/{id}', [AdminUpdateController::class, 'handleScUpdate'])->name('admin.handle.service-category.update');
+        Route::get('/delete/{id}', [AdminDeleteController::class, 'handleScDelete'])->name('admin.handle.service-category.delete');
+    });
+
     Route::prefix('lead')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewLeadList'])->name('admin.view.lead.list');
         Route::get('/create', [AdminViewController::class, 'viewLeadCreate'])->name('admin.view.lead.create');

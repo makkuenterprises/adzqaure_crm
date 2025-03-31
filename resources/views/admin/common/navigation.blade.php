@@ -50,10 +50,11 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="#">Services</a></li>
+                    <li><a href="#">Service Category</a></li>
                     <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li>
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     <li><a href="#">Manage Trusted Partners</a></li>
-                <li><a href="#">Manage Service Providers</a></li>
+                    <li><a href="#">Manage Service Providers</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
