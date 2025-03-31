@@ -114,6 +114,32 @@
                                     </div>
                                 </div>
                                 <div class="card-footer mt-0">
+                                    <a href="{{ route('admin.view.crm.setting') }}"
+                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                </div>
+                            </div>
+                        </div>
+                         {{-- Payment Method settings --}}
+                         <div class="col-xl-4 col-lg-12 col-sm-12">
+                            <div class="card overflow-hidden">
+                                <div class="text-center p-5 overlay-box"
+                                    style="background-image: url(images/big/img5.jpg);">
+                                    <img src="{{ asset('admin/images/payment-method.png') }}" width="100"
+                                        class="img-fluid rounded-circle" alt="">
+                                    <h3 class="mt-3 mb-0 text-white">Payment Settings</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-12">
+                                            <div class="bgl-primary rounded p-3">
+                                                <h4 class="mb-0">Payment Method</h4>
+                                                <small>Manage & Setup your Payments</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-footer mt-0">
                                     <a href="{{ route('admin.view.mail.credentials.setting') }}"
                                         class="btn btn-primary btn-block">Edit Infomation</a>
                                 </div>

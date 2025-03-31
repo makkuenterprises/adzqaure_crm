@@ -20,6 +20,7 @@ use App\Models\Admin;
 use App\Models\Employee;
 use App\Models\Group;
 use App\Models\ServiceCategory;
+use App\Models\CrmSetting;
 use App\Models\Campaign;
 use App\Models\Lead;
 use Carbon\Carbon;
@@ -56,6 +57,7 @@ interface AdminUpdate
     public function handlePlanUpdate(Request $request, $id);
     public function handlePackageUpdate(Request $request, $id);
     public function handleScUpdate(Request $request, $id);
+    public function handleCrmUpdate(Request $request);
 }
 
 class AdminUpdateController extends Controller implements AdminUpdate
@@ -125,6 +127,92 @@ class AdminUpdateController extends Controller implements AdminUpdate
         }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Handle CRM Settings Update
+    |--------------------------------------------------------------------------
+    */
+    public function handleCrmUpdate(Request $request)
+    {
+
+       // Validate the request
+        $validation = Validator::make($request->all(), [
+            'crm_name' => ['required', 'string', 'min:1', 'max:250'],
+            'round_logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'text_logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:512'],
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        $destinationPath = 'admin/crm_logo';
+        // Fetch the only available CRM settings row
+        $crmSettings = CrmSetting::first(); // Since there's no `admin_id`, we fetch the first row
+
+        if (!$crmSettings) {
+            return redirect()->back()->withErrors(['crm_settings' => 'CRM settings not found.']);
+        }
+
+        // Manually assign values
+        $crmSettings->crm_name = $request->crm_name;
+
+        // Handle file uploads (keeping the same storage path)
+        if ($request->hasFile('round_logo')) {
+            $roundLogoFile = $request->file('round_logo');
+            $roundLogoName = time() . '_round_' . uniqid() . '.' . $roundLogoFile->getClientOriginalExtension();
+
+            if ($crmSettings->round_logo && file_exists(public_path($destinationPath . '/' . $crmSettings->round_logo))) {
+                unlink(public_path($destinationPath . '/' . $crmSettings->round_logo));
+            }
+
+            $roundLogoFile->move(public_path($destinationPath), $roundLogoName);
+            $crmSettings->round_logo = $roundLogoName;
+        }
+
+        if ($request->hasFile('text_logo')) {
+            $textLogoFile = $request->file('text_logo');
+            $textLogoName = time() . '_text_' . uniqid() . '.' . $textLogoFile->getClientOriginalExtension();
+
+            if ($crmSettings->text_logo && file_exists(public_path($destinationPath . '/' . $crmSettings->text_logo))) {
+                unlink(public_path($destinationPath . '/' . $crmSettings->text_logo));
+            }
+
+            $textLogoFile->move(public_path($destinationPath), $textLogoName);
+            $crmSettings->text_logo = $textLogoName;
+        }
+
+        if ($request->hasFile('favicon')) {
+            $faviconFile = $request->file('favicon');
+            $faviconName = time() . '_favicon_' . uniqid() . '.' . $faviconFile->getClientOriginalExtension();
+
+            if ($crmSettings->favicon && file_exists(public_path($destinationPath . '/' . $crmSettings->favicon))) {
+                unlink(public_path($destinationPath . '/' . $crmSettings->favicon));
+            }
+
+            $faviconFile->move(public_path($destinationPath), $faviconName);
+            $crmSettings->favicon = $faviconName;
+        }
+
+        // Save updates manually
+        $result = $crmSettings->save();
+
+        if ($result) {
+            return redirect()->back()->with('message', [
+                'status' => 'success',
+                'title' => 'Changes Saved',
+                'description' => 'The changes have been successfully saved.',
+            ]);
+        } else {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'Error Occurred',
+                'description' => 'An internal server issue occurred. Please try again.',
+            ]);
+        }
+
+    }
     /*
     |--------------------------------------------------------------------------
     | Handle Account Password Update

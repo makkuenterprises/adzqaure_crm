@@ -21,6 +21,12 @@
                         <div class="card-header">
                             <h4 class="card-title">Update Information</h4>
                         </div>
+                        <div class="text-center p-5 overlay-box"
+                                    style="background-image: url(images/big/img5.jpg);">
+                                    <img src="{{ is_null(auth()->user()->profile) || auth()->user()->profile == '' ? asset('admin/profile/default-profile.png') : asset('admin/profile/' . auth()->user()->profile) }}" width="100"
+                                        class="img-fluid rounded-circle" alt="">
+                                    <h3 class="mt-3 mb-0 text-white">{{ auth()->user()->name }}</h3>
+                                </div>
                         <div class="card-body">
                             <div class="basic-form">
                                 <form action="{{ route('admin.handle.account.information.update') }}" method="POST"

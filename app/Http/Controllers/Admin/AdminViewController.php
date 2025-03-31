@@ -136,6 +136,13 @@ class AdminViewController extends Controller implements AdminView
         return view('admin.sections.setting.account');
     }
 
+      /** View CRM Settings **/
+      public function viewCrmSetting()
+      {
+
+          return view('admin.sections.setting.crm-settings');
+      }
+
     /** View Company Details Setting **/
     public function viewCompanyDetailsSetting()
     {
