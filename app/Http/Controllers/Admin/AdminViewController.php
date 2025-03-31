@@ -224,11 +224,35 @@ class AdminViewController extends Controller implements AdminView
     /** View Group Preview **/
     public function viewGroupPreview($id)
     {
-        
+
         $group = Group::where('id', $id)->first();
         $leads = Lead::where('group_id', $id)->get();
         return view('admin.sections.group.group-preview', ['group' => $group, 'leads' => $leads]);
     }
+
+      /** View Service Category List **/
+      public function viewScList()
+      {
+          // $groups = Group::all();
+        //   $groups = Group::paginate(10);
+
+          return view('admin.sections.service-category.service-category-list');
+      }
+
+      /** View Service Category Create **/
+      public function viewScCreate()
+      {
+          return view('admin.sections.service-category.service-category-create');
+      }
+
+      /** View Service Category Update **/
+      public function viewScUpdate($id)
+      {
+          $group = Group::where('id', $id)->first();
+          $leads = Lead::where('group_id', $id)->get();
+          return view('admin.sections.service-category.service-category-update', ['group' => $group, 'leads' => $leads]);
+      }
+
 
     /** View Campaign List **/
     public function viewCampaignList()
