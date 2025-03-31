@@ -43,7 +43,7 @@
                     <div class="col-xl-4 col-lg-12 col-sm-12">
 						<div class="card overflow-hidden">
 							<div class="text-center p-5 overlay-box" style="background-image: url(images/big/img5.jpg);">
-								<img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="100" class="img-fluid rounded-circle" alt="">
+								<img src="{{ asset('admin/images/setting-company-details.png') }}" width="100" class="img-fluid rounded-circle" alt="">
 								<h3 class="mt-3 mb-0 text-white">Company</h3>
 							</div>
                             <div class="card-body">
@@ -65,7 +65,7 @@
                     <div class="col-xl-4 col-lg-12 col-sm-12">
 						<div class="card overflow-hidden">
 							<div class="text-center p-5 overlay-box" style="background-image: url(images/big/img5.jpg);">
-								<img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="100" class="img-fluid rounded-circle" alt="">
+								<img src="{{ asset('admin/images/setting-mail-credentials.png') }}" width="100" class="img-fluid rounded-circle" alt="">
 								<h3 class="mt-3 mb-0 text-white">Mail Settings</h3>
 							</div>
                             <div class="card-body">

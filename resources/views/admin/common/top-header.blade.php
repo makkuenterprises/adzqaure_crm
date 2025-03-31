@@ -120,7 +120,7 @@
 
                     <li class="nav-item dropdown  header-profile">
                         <a class="nav-link" href="{{route('admin.view.account.setting')}}" role="button" data-bs-toggle="dropdown">
-                            <img src="{{ is_null(auth()->user('admin')->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.auth()->user('admin')->profile) }}" width="56" alt="profile">
+                            <img src="{{ is_null(auth()->user()->profile) || auth()->user()->profile == '' ? asset('admin/profile/default-profile.png') : asset('admin/profile/' . auth()->user()->profile) }}" width="56" alt="profile">
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a href="{{route('admin.view.account.setting')}}" class="dropdown-item ai-icon">
