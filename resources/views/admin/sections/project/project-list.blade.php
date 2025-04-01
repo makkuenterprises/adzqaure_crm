@@ -1,133 +1,390 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Projects</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.project.list') }}">Projects</a></li>
-        </ul>
-    </div>
-@endsection
+@section('main-content')
 
-@section('panel-body')
-    <figure class="panel-card">
-        <div class="panel-card-header">
-            <div>
-                <h1 class="panel-card-title">All Projects</h1>
-                <p class="panel-card-description">List of all projects in webiste</p>
-            </div>
-            <div>
-                <a href="{{ route('admin.view.project.create') }}" class="btn-primary-md">Add Project</a>
+    <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body default-height">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="project-page d-flex justify-content-between align-items-center flex-wrap">
+					<div class="card-tabs mb-4">
+						<ul class="nav nav-tabs style-1" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-bs-toggle="tab" href="#AllStatus" role="tab">All Status</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="tab" href="#OnProgress" role="tab">On Progress</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="tab" href="#Pending" role="tab">Pending</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="tab" href="#Closed" role="tab">Closed</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mb-4">
+						<a href="{{ route('admin.view.project.create') }}" class="btn btn-primary btn-rounded">+ New Project</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="tab-content">
+							<div class="tab-pane fade active show" id="AllStatus">
+								<div class="card project-card">
+									<div class="card-body py-3 px-4">
+										<div class="row align-items-center">
+                                            @foreach ($projects as $project)
+                                                @if(request('status') == null || request('status') == $project->status)
+                                                    <div class="col-xl-3  col-md-4 col-sm-12 align-items-center customers">
+                                                        <div class="media-body">
+                                                            <p class="text-primary mb-0">#P-{{ str_pad($project->id, 6, '0', STR_PAD_LEFT) }}</p>
+                                                            <h6 class="text-black"><a class="text-black"
+                                                                href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}">{{ $project->name }}</a></h6>
+                                                            <p class="mb-0"><i class="fas fa-calendar me-3"></i>Created on {{ $project->created_at->format('D, d M Y') }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
+                                                        <div class="d-flex project-image">
+                                                            <img src="images/customers/11.jpg" alt="">
+                                                            <div>
+                                                                <p class="mb-0">Client</p>
+                                                                <h6 class="mb-0">{{ $project->id }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-4 col-sm-6 text-lg-center mt-md-0 mt-3">
+                                                        <div class="d-flex project-image">
+                                                            <div>
+                                                                <p class="mb-0">Amount</p>
+                                                                <h6 class="mb-0">₹{{ number_format($project->amount, 0) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3  col-md-6 col-sm-6 mt-3 mt-xl-0">
+                                                        <div class="d-flex project-image">
+                                                            <svg class="me-3" width="45" height="45" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="27.5" cy="27.5" r="27.5" fill="#886CC0"></circle>
+                                                                <g clip-path="url(#clip0)">
+                                                                <path d="M37.2961 23.6858C37.1797 23.4406 36.9325 23.2843 36.661 23.2843H29.6088L33.8773 16.0608C34.0057 15.8435 34.0077 15.5738 33.8826 15.3546C33.7574 15.1354 33.5244 14.9999 33.2719 15L27.2468 15.0007C26.9968 15.0008 26.7656 15.1335 26.6396 15.3495L18.7318 28.905C18.6049 29.1224 18.604 29.3911 18.7294 29.6094C18.8548 29.8277 19.0873 29.9624 19.3391 29.9624H26.3464L24.3054 38.1263C24.2255 38.4457 24.3781 38.7779 24.6725 38.9255C24.7729 38.9757 24.8806 39 24.9872 39C25.1933 39 25.3952 38.9094 25.5324 38.7413L37.2058 24.4319C37.3774 24.2215 37.4126 23.931 37.2961 23.6858Z" fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                <clipPath>
+                                                                <rect width="24" height="24" fill="white" transform="translate(16 15)"></rect>
+                                                                </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="mb-0">Deadline</p>
+                                                                <h6 class="mb-0">{{ date('D, d M Y', strtotime($project->end_date)) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-sm-6 col-sm-4 mt-xl-0  mt-3">
+                                                        <div class="d-flex justify-content-sm-end project-btn">
+                                                            <a href="javascript:void(0);" class="badge badge-warning light badge-md">{{ $project->status }}</a>
+                                                            <div class="dropdown ms-4  mt-auto mb-auto">
+                                                                <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Edit</a>
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- On Progress Tab -->
+                            <div class="tab-pane fade active show" id="OnProgress">
+                                <!-- Similar structure for On Progress projects -->
+                                <div class="card project-card">
+									<div class="card-body py-3 px-4">
+										<div class="row align-items-center">
+                                            @foreach ($projects as $project)
+                                                @if($project->status == 'Ongoing')
+                                                    <div class="col-xl-3  col-md-4 col-sm-12 align-items-center customers">
+                                                        <div class="media-body">
+                                                            <p class="text-primary mb-0">#P-{{ str_pad($project->id, 6, '0', STR_PAD_LEFT) }}</p>
+                                                            <h6 class="text-black"><a class="text-black"
+                                                                href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}">{{ $project->name }}</a></h6>
+                                                            <p class="mb-0"><i class="fas fa-calendar me-3"></i>Created on {{ $project->created_at->format('D, d M Y') }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
+                                                        <div class="d-flex project-image">
+                                                            <img src="images/customers/11.jpg" alt="">
+                                                            <div>
+                                                                <p class="mb-0">Client</p>
+                                                                <h6 class="mb-0">{{ $project->id }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-4 col-sm-6 text-lg-center mt-md-0 mt-3">
+                                                        <div class="d-flex project-image">
+                                                            <div>
+                                                                <p class="mb-0">Amount</p>
+                                                                <h6 class="mb-0">₹{{ number_format($project->amount, 0) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3  col-md-6 col-sm-6 mt-3 mt-xl-0">
+                                                        <div class="d-flex project-image">
+                                                            <svg class="me-3" width="45" height="45" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="27.5" cy="27.5" r="27.5" fill="#886CC0"></circle>
+                                                                <g clip-path="url(#clip0)">
+                                                                <path d="M37.2961 23.6858C37.1797 23.4406 36.9325 23.2843 36.661 23.2843H29.6088L33.8773 16.0608C34.0057 15.8435 34.0077 15.5738 33.8826 15.3546C33.7574 15.1354 33.5244 14.9999 33.2719 15L27.2468 15.0007C26.9968 15.0008 26.7656 15.1335 26.6396 15.3495L18.7318 28.905C18.6049 29.1224 18.604 29.3911 18.7294 29.6094C18.8548 29.8277 19.0873 29.9624 19.3391 29.9624H26.3464L24.3054 38.1263C24.2255 38.4457 24.3781 38.7779 24.6725 38.9255C24.7729 38.9757 24.8806 39 24.9872 39C25.1933 39 25.3952 38.9094 25.5324 38.7413L37.2058 24.4319C37.3774 24.2215 37.4126 23.931 37.2961 23.6858Z" fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                <clipPath>
+                                                                <rect width="24" height="24" fill="white" transform="translate(16 15)"></rect>
+                                                                </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="mb-0">Deadline</p>
+                                                                <h6 class="mb-0">{{ date('D, d M Y', strtotime($project->end_date)) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-sm-6 col-sm-4 mt-xl-0  mt-3">
+                                                        <div class="d-flex justify-content-sm-end project-btn">
+                                                            <a href="javascript:void(0);" class="badge badge-success light badge-md">{{ $project->status }}</a>
+                                                            <div class="dropdown ms-4  mt-auto mb-auto">
+                                                                <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Edit</a>
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+										</div>
+									</div>
+								</div>
+                            </div>
+
+                            <!-- Pending Tab -->
+                            <div class="tab-pane fade active show" id="Pending">
+                                <!-- Similar structure for Pending projects -->
+                                <div class="card project-card">
+									<div class="card-body py-3 px-4">
+										<div class="row align-items-center">
+                                            @foreach ($projects as $project)
+                                                @if($project->status == 'Pending')
+                                                    <div class="col-xl-3  col-md-4 col-sm-12 align-items-center customers">
+                                                        <div class="media-body">
+                                                            <p class="text-primary mb-0">#P-{{ str_pad($project->id, 6, '0', STR_PAD_LEFT) }}</p>
+                                                            <h6 class="text-black"><a class="text-black"
+                                                                href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}">{{ $project->name }}</a></h6>
+                                                            <p class="mb-0"><i class="fas fa-calendar me-3"></i>Created on {{ $project->created_at->format('D, d M Y') }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
+                                                        <div class="d-flex project-image">
+                                                            <img src="images/customers/11.jpg" alt="">
+                                                            <div>
+                                                                <p class="mb-0">Client</p>
+                                                                <h6 class="mb-0">{{ $project->id }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-4 col-sm-6 text-lg-center mt-md-0 mt-3">
+                                                        <div class="d-flex project-image">
+                                                            <div>
+                                                                <p class="mb-0">Amount</p>
+                                                                <h6 class="mb-0">₹{{ number_format($project->amount, 0) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3  col-md-6 col-sm-6 mt-3 mt-xl-0">
+                                                        <div class="d-flex project-image">
+                                                            <svg class="me-3" width="45" height="45" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="27.5" cy="27.5" r="27.5" fill="#886CC0"></circle>
+                                                                <g clip-path="url(#clip0)">
+                                                                <path d="M37.2961 23.6858C37.1797 23.4406 36.9325 23.2843 36.661 23.2843H29.6088L33.8773 16.0608C34.0057 15.8435 34.0077 15.5738 33.8826 15.3546C33.7574 15.1354 33.5244 14.9999 33.2719 15L27.2468 15.0007C26.9968 15.0008 26.7656 15.1335 26.6396 15.3495L18.7318 28.905C18.6049 29.1224 18.604 29.3911 18.7294 29.6094C18.8548 29.8277 19.0873 29.9624 19.3391 29.9624H26.3464L24.3054 38.1263C24.2255 38.4457 24.3781 38.7779 24.6725 38.9255C24.7729 38.9757 24.8806 39 24.9872 39C25.1933 39 25.3952 38.9094 25.5324 38.7413L37.2058 24.4319C37.3774 24.2215 37.4126 23.931 37.2961 23.6858Z" fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                <clipPath>
+                                                                <rect width="24" height="24" fill="white" transform="translate(16 15)"></rect>
+                                                                </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="mb-0">Deadline</p>
+                                                                <h6 class="mb-0">{{ date('D, d M Y', strtotime($project->end_date)) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-sm-6 col-sm-4 mt-xl-0  mt-3">
+                                                        <div class="d-flex justify-content-sm-end project-btn">
+                                                            <a href="javascript:void(0);" class="badge badge-warning light badge-md">{{ $project->status }}</a>
+                                                            <div class="dropdown ms-4  mt-auto mb-auto">
+                                                                <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Edit</a>
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+										</div>
+									</div>
+								</div>
+                            </div>
+
+                            <!-- Closed Tab -->
+                            <div class="tab-pane fade active show" id="Closed">
+                                <!-- Similar structure for Closed projects -->
+                                <div class="card project-card">
+									<div class="card-body py-3 px-4">
+										<div class="row align-items-center">
+                                            @foreach ($projects as $project)
+                                                @if($project->status == 'Completed')
+                                                    <div class="col-xl-3  col-md-4 col-sm-12 align-items-center customers">
+                                                        <div class="media-body">
+                                                            <p class="text-primary mb-0">#P-{{ str_pad($project->id, 6, '0', STR_PAD_LEFT) }}</p>
+                                                            <h6 class="text-black"><a class="text-black"
+                                                                href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}">{{ $project->name }}</a></h6>
+                                                            <p class="mb-0"><i class="fas fa-calendar me-3"></i>Created on {{ $project->created_at->format('D, d M Y') }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
+                                                        <div class="d-flex project-image">
+                                                            <img src="images/customers/11.jpg" alt="">
+                                                            <div>
+                                                                <p class="mb-0">Client</p>
+                                                                <h6 class="mb-0">{{ $project->id }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-4 col-sm-6 text-lg-center mt-md-0 mt-3">
+                                                        <div class="d-flex project-image">
+                                                            <div>
+                                                                <p class="mb-0">Amount</p>
+                                                                <h6 class="mb-0">₹{{ number_format($project->amount, 0) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3  col-md-6 col-sm-6 mt-3 mt-xl-0">
+                                                        <div class="d-flex project-image">
+                                                            <svg class="me-3" width="45" height="45" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="27.5" cy="27.5" r="27.5" fill="#886CC0"></circle>
+                                                                <g clip-path="url(#clip0)">
+                                                                <path d="M37.2961 23.6858C37.1797 23.4406 36.9325 23.2843 36.661 23.2843H29.6088L33.8773 16.0608C34.0057 15.8435 34.0077 15.5738 33.8826 15.3546C33.7574 15.1354 33.5244 14.9999 33.2719 15L27.2468 15.0007C26.9968 15.0008 26.7656 15.1335 26.6396 15.3495L18.7318 28.905C18.6049 29.1224 18.604 29.3911 18.7294 29.6094C18.8548 29.8277 19.0873 29.9624 19.3391 29.9624H26.3464L24.3054 38.1263C24.2255 38.4457 24.3781 38.7779 24.6725 38.9255C24.7729 38.9757 24.8806 39 24.9872 39C25.1933 39 25.3952 38.9094 25.5324 38.7413L37.2058 24.4319C37.3774 24.2215 37.4126 23.931 37.2961 23.6858Z" fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                <clipPath>
+                                                                <rect width="24" height="24" fill="white" transform="translate(16 15)"></rect>
+                                                                </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="mb-0">Deadline</p>
+                                                                <h6 class="mb-0">{{ date('D, d M Y', strtotime($project->end_date)) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2  col-sm-6 col-sm-4 mt-xl-0  mt-3">
+                                                        <div class="d-flex justify-content-sm-end project-btn">
+                                                            <a href="javascript:void(0);" class="badge badge-danger light badge-md">{{ $project->status }}</a>
+                                                            <div class="dropdown ms-4  mt-auto mb-auto">
+                                                                <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Edit</a>
+                                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+										</div>
+									</div>
+								</div>
+                            </div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center justify-content-between flex-wrap">
+						<div class="mb-sm-0 mb-3">
+							<p class="mb-0 text-black">Showing 5 of 102 Data</p>
+						</div>
+						 <nav>
+							<ul class="pagination pagination-circle">
+								<li class="page-item page-indicator">
+									<a class="page-link" href="javascript:void(0)">
+										<i class="la la-angle-left"></i></a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a>
+								</li>
+								<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+								<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+								<li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+								<li class="page-item page-indicator">
+									<a class="page-link" href="javascript:void(0)">
+										<i class="la la-angle-right"></i></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
             </div>
         </div>
-        <div class="panel-card-body">
-            <div class="panel-card-table">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            {{-- <th>Customer Name</th> --}}
-                            <th>Amount</th>
-                            <th>Start Date</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($projects as $project)
-                            <tr>
-                                <td>{{ $project->id }}</td>
-                                <td><a
-                                        href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}">{{ $project->name }}</a>
-                                </td>
-                                {{-- <td>{{ DB::table('customers')->find($project->customer_id)?->name }}</td> --}}
-                                <td>{{ env('APP_CURRENCY') }}{{ number_format($project->amount, 0) }}</td>
-                                <td>{{ date('d-m-Y', strtotime($project->start_date)) }}</td>
-                                <td>{{ date('d-m-Y', strtotime($project->end_date)) }}</td>
-                                <td>
-                                    <select name="status" onchange="handleUpdateStatus({{ $project->id }},event)"
-                                        class="input-box-sm cursor-pointer" required>
-                                        <option @selected($project->status == 'Pending') value="Pending">Pending</option>
-                                        <option @selected($project->status == 'Completed') value="Completed">Completed</option>
-                                        <option @selected($project->status == 'Ongoing') value="Ongoing">Ongoing</option>
-                                    </select>
-                                </td>
-                                <td>
+        <!--**********************************
+            Content body end
+        ***********************************-->
 
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="external-link"
-                                                            class="mr-1"></i> Manage Payments</a></li>
-                                                <li><a href="{{ route('admin.view.project.update', ['id' => $project->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="edit"
-                                                            class="mr-1"></i> Edit Projects</a></li>
-                                                <li><a href="javascript:handleDelete({{ $project->id }});"
-                                                        class="dropdown-link-danger"><i data-feather="trash-2"
-                                                            class="mr-1"></i> Delete Projects</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </figure>
 @endsection
 
-@section('panel-script')
-    <script>
-        document.getElementById('project-tab').classList.add('active');
-        const handleUpdateStatus = (id, event) => {
-            fetch("{{ route('admin.api.project.status') }}", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    status: event.target.value,
-                    _token: "{{ csrf_token() }}"
-                })
-            }).then((response) => {
-                return response.json();
-            }).then((result) => {
-                swal({
-                    title: "Status Updated",
-                    text: "The status for this project is updated",
-                    icon: "success",
-                })
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    </script>
 
-    <script>
-        const handleDelete = (id) => {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this project!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location =
-                            `{{ url('admin/customer/project/delete') }}/${id}`;
-                    }
-                });
-        }
-    </script>
+
+@section('js')
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="vendor/global/global.min.js"></script>
+	<script src="vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+	<!-- Apex Chart -->
+	<!-- Chart piety plugin files -->
+
+	<!-- Dashboard 1 -->
+    <script src="js/custom.min.js"></script>
+	<script src="js/dlabnav-init.js"></script>
+
 @endsection
