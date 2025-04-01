@@ -16,7 +16,7 @@
                     <div class="card mb-0 h-auto">
                         <div class="card-body">
                             <div class="text-center mb-3">
-                                <a href="index.html"><img class="logo-auth" src="{{ asset('admin_new/images/logo-full.png') }}"
+                                <a href="{{ route('admin.view.login') }}"><img class="logo-auth" src="{{ asset('admin_new/images/logo-full.png') }}"
                                         alt=""></a>
                             </div>
                             <h4 class="text-center mb-4">Sign in your account</h4>
