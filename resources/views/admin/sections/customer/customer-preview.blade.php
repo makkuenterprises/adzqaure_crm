@@ -1,159 +1,103 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Preview Customer</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.dashboard') }}">Admin</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.customer.list') }}">Customers</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}">Preview Customer</a></li>
-        </ul>
-    </div>
-@endsection
 
-@section('panel-body')
-        <figure class="panel-card">
-            <div class="panel-card-header">
-                <div>
-                    <h1 class="panel-card-title">Preview Information</h1>
-                    <p class="panel-card-description">View imformation</p>
-                </div>
+@section('main-content')
+    <!--**********************************
+                                                                                                        Content body start
+                                                                                                    ***********************************-->
+    <div class="content-body default-height">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.view.customer.list') }}">Customers</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}">Preview Customer</a></li>
+                </ol>
             </div>
-            <div class="panel-card-body border-b">
-                <div class="grid md:grid-cols-4 sm:grid-cols-1 md:gap-7 sm:gap-5">
-
-                    <div class="md:col-span-4 sm:col-span-1">
-                        <div class="flex md:flex-row sm:flex-col md:space-y-0 md:space-x-3 sm:space-x-0 sm:space-y-3">
-                            <div>
-                                <img src="{{ is_null($customer->profile) ? asset('admin/images/default-profile.png') : asset('storage/'.$customer->profile) }}" id="profile" alt="profile" class="h-[165px] w-[165px] rounded-md border bg-white" />
+            <!-- Row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card contact-bx item-content">
+                                <div class="card-header border-0">
+                                    <div class="action-dropdown">
+                                        <div class="dropdown ">
+                                            <div class="btn-link" data-bs-toggle="dropdown">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5"/>
+                                                    <circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5"/>
+                                                    <circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5"/>
+                                                </svg>
+                                            </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="javascript:handleDelete({{ $customer->id }});">Delete</a>
+                                                <a class="dropdown-item" href="{{ route('admin.view.customer.update', ['id' => $customer->id]) }}">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body user-profile">
+                                    <div class="image-bx">
+                                        <img src="{{ is_null($customer->profile) ? asset('admin/profile/default-profile.png') : asset('admin/profile/'.$customer->profile) }}" data-src="images/contacts/Untitled-3.jpg" alt="" class="rounded-circle">
+                                        <span class="active"></span>
+                                    </div>
+                                    <div class="media-body user-meta-info">
+                                        <h5 class="mb-0"><a class="text-black user-name" data-name="Alan Green">{{$customer->name}}</a></h5>
+                                        <p class=" mb-3" data-occupation="UI Designer">{{$customer->company_name}}</p>
+                                        <ul>
+                                            <li><a href="tel: {{$customer->phone}}"><i class="fas fa-phone-alt"></i></a></li>
+                                            <li><a href="mailto: {{$customer->email}}"><i class="fa-regular fa-envelope"></i></a></li>
+                                            @if (!is_null($customer->whatsapp))
+                                                <li><a target="_blank" href="https://wa.me/{{$customer->whatsapp}}"><i class="fa-brands fa-whatsapp"></i></a></li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="space-y-2">
-                                <h1 class="font-semibold text-xl">{{$customer->name}}</h1>
-                                <h1 class="text-xs font-medium text-slate-800">{{$customer->company_name}}</h1>
-                                <h1 class="text-slate-700 text-sm flex items-center">
-                                    <div>
-                                        <i data-feather="mail" class="h-4 w-4 mr-2"></i> 
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="row"> <!-- Add this row to align items in a row -->
+                                <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                                    <div class="card text-white bg-primary">
+                                        <a class="m-3 text-white">Additional Info</a>
+                                        <ul class="list-group list-group-flush">
+                                            @if (!is_null($customer->phone_alternate))
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">Alt Phone</span><strong class="text-white"><a class="text-white" href="tel: {{$customer->phone_alternate}}">{{$customer->phone_alternate}}</a></strong></li>
+                                            @endif
+                                            @if (!is_null($customer->whatsapp))
+                                            <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">WhatsApp Phone</span><strong class="text-white"><a class="text-white" target="_blank" href="https://wa.me/{{$customer->whatsapp}}">{{$customer->whatsapp}}</a></strong></li>
+                                            @endif
+                                            @if (!is_null($customer->street) || !is_null($customer->city) || !is_null($customer->state) || !is_null($customer->country))
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">Street</span><strong class="text-white">{{$customer->street}}</strong></li>
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">City</span><strong class="text-white">{{$customer->city}}</strong></li>
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">Pincode</span><strong class="text-white">{{$customer->pincode}}</strong></li>
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">State</span><strong class="text-white">{{$customer->state}}</strong></li>
+                                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0 text-white">Country</span><strong class="text-white">{{$customer->country}}</strong></li>
+                                            @endif
+                                            @if ( is_null($customer->phone_alternate) && is_null($customer->whatsapp) && is_null($customer->street) && is_null($customer->city) && is_null($customer->state) && is_null($customer->country))
+                                              <li class="list-group-item d-flex justify-content-between text-white">No Additional Data Available</li>
+                                            @endif
+                                        </ul>
                                     </div>
-                                    <a href="mailto: {{$customer->email}}">{{$customer->email}}</a>
-                                </h1>
-                                <h1 class="text-slate-700 text-sm flex items-center">
-                                    <div>
-                                        <i data-feather="phone" class="h-4 w-4 mr-2"></i> 
-                                    </div>
-                                    <a href="tel: {{$customer->phone}} ">{{$customer->phone}} </a>
-                                    <a href="tel:  {{is_null($customer->phone_alternate) ? null : ', ' . $customer->phone_alternate}}"> {{is_null($customer->phone_alternate) ? null : ', ' . $customer->phone_alternate}}</a>
-                                </h1>
-                                @if (!is_null($customer->phone_alternate))
-                                <h1 class="text-slate-700 text-sm flex items-center">
-                                    <div>
-                                        <i data-feather="phone" class="h-4 w-4 mr-2"></i> 
-                                    </div>
-                                    <a href="tel: {{$customer->phone_alternate}} ">{{$customer->phone_alternate}} </a>
-                                </h1>
-                                @endif
-                                @if (!is_null($customer->whatsapp))
-                                <h1 class="text-slate-700 text-sm flex items-center">
-                                    <div>
-                                        <i data-feather="message-circle" class="h-4 w-4 mr-2"></i>
-                                    </div>
-                                    <a target="_blank" href="https://wa.me/{{$customer->whatsapp}} ">{{$customer->whatsapp}} </a>
-                                </h1>
-                                @endif
-                                @if (!is_null($customer->street) || !is_null($customer->city) || !is_null($customer->state) || !is_null($customer->country))
-                                <h1 class="text-slate-700 text-sm flex items-center">
-                                    <div>
-                                        <i data-feather="map-pin" class="h-4 w-4 mr-2"></i>
-                                    </div>
-                                    {{is_null($customer->street) ? null : $customer->street}}
-                                    {{is_null($customer->city) ? null : ', ' . $customer->city}}
-                                    {{is_null($customer->pincode) ? null : ', ' . $customer->pincode}}
-                                    {{is_null($customer->state) ? null : ', ' . $customer->state}}
-                                    {{is_null($customer->country) ? null : ', ' . $customer->country}}
-                                </h1>
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="panel-card-header">
-                <div>
-                    <h1 class="panel-card-title">Projects</h1>
-                    <p class="panel-card-description">Manage projects from {{$customer->name}}</p>
-                </div>
-                <div>
-                    <a href="{{ route('admin.view.project.create') }}?customer_id={{$customer->id}}" class="btn-primary-md">Add Project</a>
-                </div>
-            </div>
-            <div class="panel-card-body">
-                <div class="panel-card-table">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Amount</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($projects as $project)
-                                <tr>
-                                    <td>{{ $project->id }}</td>
-                                    <td>{{ $project->name }}</td>
-                                    <td>{{env('APP_CURRENCY')}}{{ number_format($project->amount,0) }}</td>
-                                    <td>{{ date('d-m-Y',strtotime($project->start_date)) }}</td>
-                                    <td>{{ date('d-m-Y',strtotime($project->end_date)) }}</td>
-                                    <td>
-                                        <select name="status" onchange="handleUpdateStatus({{$project->id}},event)" class="input-box-sm cursor-pointer" required>
-                                            <option @selected($project->status == "Pending") value="Pending">Pending</option>
-                                            <option @selected($project->status == "Completed") value="Completed">Completed</option>
-                                            <option @selected($project->status == "Ongoing") value="Ongoing">Ongoing</option>
-                                        </select>
-                                    </td>
-                                    <td>
-    
-                                        <div class="table-dropdown">
-                                            <button>Options<i data-feather="chevron-down"
-                                                    class="ml-1 toggler-icon"></i></button>
-                                            <div class="dropdown-menu">
-                                                <ul>
-                                                    <li><a href="{{ route('admin.view.project.preview', ['id' => $project->id]) }}"
-                                                            class="dropdown-link-primary"><i data-feather="external-link"
-                                                                class="mr-1"></i> Manage Payments</a></li>
-                                                    <li><a href="{{ route('admin.view.project.update', ['id' => $project->id]) }}"
-                                                            class="dropdown-link-primary"><i data-feather="edit"
-                                                                class="mr-1"></i> Edit Projects</a></li>
-                                                    <li><a href="javascript:handleDelete({{ $project->id }});"
-                                                            class="dropdown-link-danger"><i data-feather="trash-2"
-                                                                class="mr-1"></i> Delete Projects</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </figure>
+        </div>
+    </div>
+    <!--**********************************
+    Content body end
+    ***********************************-->
 @endsection
 
-@section('panel-script')
+@section('js')
     <script>
-        document.getElementById('customer-tab').classList.add('active');
-
-        const handleDelete = (id) => {
+        function handleDelete(id) {
             swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this project!",
+                    text: "Once deleted, you will not be able to recover this customer!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -161,33 +105,10 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         window.location =
-                            `{{ url('admin/customer/project/delete') }}/${id}`;
+                            `{{ url('admin/customer/delete') }}/${id}`;
                     }
                 });
         }
-
-        const handleUpdateStatus = (id,event) => {
-            fetch("{{ route('admin.api.project.status') }}", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    status: event.target.value,
-                    _token: "{{ csrf_token() }}"
-                })
-            }).then((response) => {
-                return response.json();
-            }).then((result) => {
-                swal({
-                    title: "Status Updated",
-                    text: "The status for this project is updated",
-                    icon: "success",
-                })
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
     </script>
 @endsection
+
