@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Phone<span class="text-danger">*</span></label>
-                                                <input type="tel" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') input-invalid @enderror" placeholder="Enter Password" minlength="10" maxlength="12"
+                                                <input type="tel" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') input-invalid @enderror" placeholder="Enter Phone" minlength="10" maxlength="12"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                                 @error('phone')
                                                     <span class="input-error">{{ $message }}</span>

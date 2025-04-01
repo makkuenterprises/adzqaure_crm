@@ -103,9 +103,3 @@
         ***********************************-->
 @endsection
 
-@section('panel-script')
-    <script>
-        document.getElementById('create-lead-tab').classList.add('active');
-        document.getElementById('lead-management-tab').classList.add('active');
-    </script>
-@endsection
