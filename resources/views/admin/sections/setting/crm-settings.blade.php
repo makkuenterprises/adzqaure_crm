@@ -45,7 +45,7 @@
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
 
-                                            <small class="text-muted d-block mt-1">Recommended size: 150x150 px</small>
+                                            <small class="text-muted d-block mt-1">Recommended size: 55x55 px</small>
                                         </div>
 
                                         <!-- CRM Text Logo -->
@@ -64,7 +64,7 @@
                                             @error('text_logo')
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
-                                            <small class="text-muted d-block mt-1">Recommended size: 300x100 px</small>
+                                            <small class="text-muted d-block mt-1">Recommended size: 171x55 px</small>
                                         </div>
 
                                         <!-- Favicon -->
@@ -84,7 +84,7 @@
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
                                             <!-- Logo Size Description -->
-                                            <small class="text-muted d-block mt-1">Recommended size: 64x64 px</small>
+                                            <small class="text-muted d-block mt-1">Recommended size: 16x16 px</small>
                                         </div>
 
                                         <!-- CRM Name Field -->
