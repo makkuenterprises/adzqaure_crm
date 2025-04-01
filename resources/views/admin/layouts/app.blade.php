@@ -59,7 +59,7 @@
 
         @include('admin.common.header')
 
-        @include('admin.common.chatbox')
+        {{-- @include('admin.common.chatbox') --}}
 
         @include('admin.common.top-header')
 

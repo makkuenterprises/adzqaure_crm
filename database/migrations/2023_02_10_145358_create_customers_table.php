@@ -33,11 +33,13 @@ return new class extends Migration
             $table->string('pincode')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
+            $table->string('google_chat_space_url')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
 
             $table->boolean('status')->default(true);
+
             $table->rememberToken();
             $table->timestamps();
         });

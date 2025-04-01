@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\Customer;
@@ -325,6 +326,19 @@ class AdminCreateController extends Controller implements AdminCreate
                 $customer->other = null;
             }
 
+            // Call Google Apps Script API to create space
+            // $scriptUrl = "https://script.google.com/macros/s/AKfycbzUBCEw9xXe60L1EHV-pwLPJyr6wfQFmQ9YEOiUIQyZOIY00PsYrb3ZmRgDsAcwg75AeA/exec";
+            // $response = Http::post($scriptUrl, ['customerName' => $customer->name]);
+
+            // if ($response->successful()) {
+            //     $spaceId = $response->json(); // Get space ID
+            //     $chatUrl = "https://mail.google.com/chat/#chat/space/" . $spaceId;
+
+            //     // Save the space URL in the database
+            //     $customer->google_chat_space_url = $chatUrl;
+            //     $customer->save();
+            // }
+
             if ($request->hasFile('profile')) {
                 $customer->profile = $request->file('profile')->store('customers');
             }
@@ -334,6 +348,7 @@ class AdminCreateController extends Controller implements AdminCreate
                 return redirect()->route('admin.view.customer.list')->with('message', [
                     'status' => 'success',
                     'title' => 'Customer created',
+                    // 'chat_url' => $chatUrl,
                     'description' => 'Customer is successfully created.'
                 ]);
             } else {
