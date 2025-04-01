@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use PDF;
 use App\Models\Bill;
-use App\Models\CompanyDetail;
+use App\Models\Lead;
+use App\Models\Plan;
+use App\Models\Admin;
+use App\Models\Group;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Campaign;
 use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Password;
+use App\Models\CrmSetting;
+use App\Exports\ExportGroup;
+use Illuminate\Http\Request;
+use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
-use App\Models\Package;
-use App\Models\Password;
-use App\Models\Payment;
-use App\Models\Plan;
-use App\Models\Project;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ExportGroup;
-use App\Models\Employee;
-use App\Models\Lead;
-use App\Models\Group;
 use App\Models\ServiceCategory;
-use App\Models\Campaign;
-use App\Models\Admin;
-use PDF;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon; // Make sure to import Carbon
 
 
@@ -136,12 +137,13 @@ class AdminViewController extends Controller implements AdminView
         return view('admin.sections.setting.account');
     }
 
-      /** View CRM Settings **/
-      public function viewCrmSetting()
-      {
+    /** View CRM Settings **/
+    public function viewCrmSetting()
+    {
+        $crmSettings = CrmSetting::first();
 
-          return view('admin.sections.setting.crm-settings');
-      }
+        return view('admin.sections.setting.crm-settings', compact('crmSettings'));
+    }
 
     /** View Company Details Setting **/
     public function viewCompanyDetailsSetting()
@@ -350,12 +352,25 @@ class AdminViewController extends Controller implements AdminView
         return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects]);
     }
 
-    /** View Project List **/
+
+
     public function viewProjectList()
     {
-        $projects = Project::all();
-        return view('admin.sections.project.project-list', ['projects' => $projects]);
+        $status = request('status');
+        if ($status) {
+            $projects = Project::where('status', $status)->get();
+        } else {
+            $projects = Project::all();
+        }
+        return view('admin.sections.project.project-list', [
+            'projects' => $projects,
+            'status' => $status,
+        ]);
     }
+
+
+
+
 
     /** View Project Create **/
     public function viewProjectCreate()

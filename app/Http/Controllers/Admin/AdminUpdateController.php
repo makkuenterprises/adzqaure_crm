@@ -135,7 +135,6 @@ class AdminUpdateController extends Controller implements AdminUpdate
     public function handleCrmUpdate(Request $request)
     {
 
-       // Validate the request
         $validation = Validator::make($request->all(), [
             'crm_name' => ['required', 'string', 'min:1', 'max:250'],
             'round_logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -148,17 +147,20 @@ class AdminUpdateController extends Controller implements AdminUpdate
         }
 
         $destinationPath = 'admin/crm_logo';
-        // Fetch the only available CRM settings row
-        $crmSettings = CrmSetting::first(); // Since there's no `admin_id`, we fetch the first row
+
+        $crmSettings = CrmSetting::first();
+
+        if (!$crmSettings) {
+            $crmSettings = new CrmSetting();
+        }
 
         if (!$crmSettings) {
             return redirect()->back()->withErrors(['crm_settings' => 'CRM settings not found.']);
         }
 
-        // Manually assign values
+
         $crmSettings->crm_name = $request->crm_name;
 
-        // Handle file uploads (keeping the same storage path)
         if ($request->hasFile('round_logo')) {
             $roundLogoFile = $request->file('round_logo');
             $roundLogoName = time() . '_round_' . uniqid() . '.' . $roundLogoFile->getClientOriginalExtension();
@@ -211,7 +213,6 @@ class AdminUpdateController extends Controller implements AdminUpdate
                 'description' => 'An internal server issue occurred. Please try again.',
             ]);
         }
-
     }
     /*
     |--------------------------------------------------------------------------

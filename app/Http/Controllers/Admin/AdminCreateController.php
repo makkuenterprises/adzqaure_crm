@@ -353,14 +353,13 @@ class AdminCreateController extends Controller implements AdminCreate
     */
     public function handleProjectCreate(Request $request)
     {
+        // dd($request->all());
         $validation = Validator::make($request->all(), [
             'name' => ['required', 'string', 'min:1', 'max:250'],
             'project_link' => ['nullable', 'string'],
             'resource_link' => ['nullable', 'string'],
-            'start_date' => ['nullable', 'string'],
             'end_date' => ['required', 'string'],
             'amount' => ['required', 'numeric'],
-            'pending_amount' => ['required', 'numeric'],
             'status' => ['required', 'string'],
         ]);
 
@@ -373,10 +372,8 @@ class AdminCreateController extends Controller implements AdminCreate
             $project->name = $request->input('name');
             $project->project_link = $request->input('project_link');
             $project->resource_link = $request->input('resource_link');
-            $project->start_date = $request->input('start_date');
             $project->end_date = $request->input('end_date');
             $project->amount = $request->input('amount');
-            $project->pending_amount = $request->input('pending_amount');
             $project->status = $request->input('status');
             $result  = $project->save();
 

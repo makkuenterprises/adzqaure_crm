@@ -9,13 +9,13 @@ class CrmSetting extends Model
 {
     use HasFactory;
 
-    protected $table = 'crm_settings';  // Ensure this matches your table name
+    protected $table = 'crm_settings';
 
-    // If you're not using `$fillable`, you can use `$guarded`
-    protected $guarded = [];  // Allow all fields to be updated
+    // protected $guarded = [];
 
-    // OR you can specify specific columns that should not be mass-assignable
-    // protected $guarded = ['id'];  // Example: protect the ID field from mass-assignment
+    protected $fillable = ['crm_name', 'round_logo', 'text_logo', 'favicon'];
+
+
 
     // Relationships (if any)
     public function admin()
@@ -25,5 +25,3 @@ class CrmSetting extends Model
 
     // Additional Methods or Scopes can go here
 }
-
-

@@ -19,11 +19,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('project_link')->nullable();
             $table->string('resource_link')->nullable();
-            $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->double('amount',16,2)->nullable();
-            $table->double('pending_amount',16,2)->nullable();
-            $table->enum('status',['Pending','Completed','Ongoing'])->nullable();
+            $table->double('amount', 16, 2)->nullable();
+            //$table->double('pending_amount', 16, 2)->nullable();
+            $table->enum('status', ['OnProgess', 'Pending', 'Closed'])->nullable();
             $table->timestamps();
         });
     }
