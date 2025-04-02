@@ -635,6 +635,6 @@ class AdminViewController extends Controller implements AdminView
 
     public function viewPaymentSetting()
     {
-        return view('admin.sections.company-payment.payment-create');
+        return view('admin.sections.setting.payment-create');
     }
 }

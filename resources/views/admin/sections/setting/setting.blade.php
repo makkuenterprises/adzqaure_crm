@@ -2,8 +2,8 @@
 
 @section('main-content')
     <!--**********************************
-                                        Content body start
-                                ***********************************-->
+                                            Content body start
+                                    ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
             <div class="row page-titles">
@@ -114,13 +114,13 @@
                                     </div>
                                 </div>
                                 <div class="card-footer mt-0">
-                                    <a href="{{ route('admin.view.crm.setting') }}"
-                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                    <a href="{{ route('admin.view.crm.setting') }}" class="btn btn-primary btn-block">Edit
+                                        Infomation</a>
                                 </div>
                             </div>
                         </div>
-                         {{-- Payment Method settings --}}
-                         <div class="col-xl-4 col-lg-12 col-sm-12">
+                        {{-- Payment Method settings --}}
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
                             <div class="card overflow-hidden">
                                 <div class="text-center p-5 overlay-box"
                                     style="background-image: url(images/big/img5.jpg);">
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer mt-0">
-                                    <a href="{{ route('admin.view.mail.credentials.setting') }}"
+                                    <a href="{{ route('admin.view.payment-setting') }}"
                                         class="btn btn-primary btn-block">Edit Infomation</a>
                                 </div>
                             </div>
@@ -152,6 +152,6 @@
         </div>
     </div>
     <!--**********************************
-                                        Content body end
-                                ***********************************-->
+                                            Content body end
+                                    ***********************************-->
 @endsection
