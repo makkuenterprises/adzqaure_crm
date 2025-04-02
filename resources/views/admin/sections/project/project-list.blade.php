@@ -2,51 +2,14 @@
 
 @section('main-content')
     <!--**********************************
-                                                                                                                                                                                                                                                                Content body start
-                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                                                                                ***********************************-->
     <div class="content-body default-height">
         <!-- row -->
         <div class="container-fluid">
             <div class="project-page d-flex justify-content-between align-items-center flex-wrap">
                 <div class="card-tabs mb-4">
-                    {{-- <ul class="nav nav-tabs style-1" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#AllStatus" role="tab">All Status</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#OnProgress" role="tab">On Progress</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#Pending" role="tab">Pending</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#Closed" role="tab">Closed</a>
-                        </li>
-                    </ul> --}}
-                    {{-- <ul class="nav nav-tabs style-1" role="tablist">
-                        <!-- Pass the status to the URL for each tab -->
-                        <li class="nav-item">
-                            <a class="nav-link {{ $status == null ? 'active' : '' }}" data-bs-toggle="tab" href="#AllStatus"
-                                role="tab" onclick="window.location.href='{{ route('admin.view.project.list') }}'">All
-                                Status</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ $status == 'OnProgess' ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#OnProgress" role="tab"
-                                onclick="window.location.href='{{ route('admin.view.project.list') }}?status=OnProgess'">On
-                                Progress</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ $status == 'Pending' ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#Pending" role="tab"
-                                onclick="window.location.href='{{ route('admin.view.project.list') }}?status=Pending'">Pending</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ $status == 'Closed' ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#Closed" role="tab"
-                                onclick="window.location.href='{{ route('admin.view.project.list') }}?status=Closed'">Closed</a>
-                        </li>
-                    </ul> --}}
+
                     <ul class="nav nav-tabs style-1" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link {{ request('status') == null ? 'active' : '' }}" data-bs-toggle="tab"
@@ -558,16 +521,16 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                                                                                                                                Content body end
-                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                    Content body end
+                                                                                                                                                                                                                                                                ***********************************-->
 @endsection
 
 
 
 @section('js')
     <!--**********************************
-                                                                                                                                                                                                                                                            Scripts
-                                                                                                                                                                                                                                                        ***********************************-->
+                                                                                                                                                                                                                                                                Scripts
+                                                                                                                                                                                                                                                            ***********************************-->
     <!-- Required vendors -->
     <script src="vendor/global/global.min.js"></script>
     <script src="vendor/bootstrap-select/js/bootstrap-select.min.js"></script>

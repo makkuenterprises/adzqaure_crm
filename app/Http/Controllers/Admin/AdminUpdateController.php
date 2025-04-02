@@ -1188,6 +1188,7 @@ class AdminUpdateController extends Controller implements AdminUpdate
 
     public function changeStatus($id, $status)
     {
+        // dd("test");
         $validStatuses = ['OnProgress', 'Pending', 'Closed'];
         if (!in_array($status, $validStatuses)) {
             return redirect()->back()->with('error', 'Invalid status');
