@@ -358,18 +358,15 @@ class AdminViewController extends Controller implements AdminView
     {
         $status = request('status');
         if ($status) {
-            $projects = Project::where('status', $status)->get();
+            $projects = Project::where('status', $status)->paginate(5);
         } else {
-            $projects = Project::all();
+            $projects = Project::paginate(5);
         }
         return view('admin.sections.project.project-list', [
             'projects' => $projects,
             'status' => $status,
         ]);
     }
-
-
-
 
 
     /** View Project Create **/

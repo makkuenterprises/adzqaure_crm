@@ -3,8 +3,8 @@
 
 @section('main-content')
     <!--**********************************
-                    Content body start
-                ***********************************-->
+                                    Content body start
+                                ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
             <div class="row page-titles">
@@ -91,21 +91,29 @@
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
                                         </div>
+
                                         <div class="mb-3 col-md-6">
                                             <label for="basic-form" class="form-label">Select Status <span
                                                     class="text-danger">*</span></label>
                                             <div class="basic-form @error('status') input-invalid @enderror">
                                                 <select class="default-select form-control wide mb-3" name="status">
                                                     <option value="">Select Status</option>
-                                                    <option value="OnProgess">On Progress</option>
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Closed">Closed</option>
+                                                    <option value="OnProgess"
+                                                        {{ old('status', 'Pending') == 'OnProgess' ? 'selected' : '' }}>On
+                                                        Progress</option>
+                                                    <option value="Pending"
+                                                        {{ old('status', 'Pending') == 'Pending' ? 'selected' : '' }}>
+                                                        Pending</option>
+                                                    <option value="Closed"
+                                                        {{ old('status', 'Pending') == 'Closed' ? 'selected' : '' }}>Closed
+                                                    </option>
                                                 </select>
                                                 @error('status')
                                                     <span class="input-error">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
+
 
                                     </div>
                                     <button type="submit" class="btn btn-primary">Create Project</button>
@@ -118,6 +126,6 @@
         </div>
     </div>
     <!--**********************************
-                    Content body end
-                ***********************************-->
+                                    Content body end
+                                ***********************************-->
 @endsection

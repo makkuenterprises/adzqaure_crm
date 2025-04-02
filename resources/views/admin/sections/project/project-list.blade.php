@@ -2,8 +2,8 @@
 
 @section('main-content')
     <!--**********************************
-                                                                                                                Content body start
-                                                                                                            ***********************************-->
+                                                                                                                                                                        Content body start
+                                                                                                                                                                    ***********************************-->
     <div class="content-body default-height">
         <!-- row -->
         <div class="container-fluid">
@@ -95,6 +95,13 @@
                                                 <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
                                                     <div class="d-flex project-image">
                                                         {{-- <img src="images/customers/11.jpg" alt=""> --}}
+                                                        <div>
+                                                            <p class="mb-0">Profile</p>
+
+                                                            <img src="{{ $project->customer->profile && file_exists(public_path('admin/customers/' . $project->customer->profile)) ? asset('admin/customers/' . $project->customer->profile) : asset('admin/customers/default-profile.png') }}"
+                                                                alt="Customer Image" class="img-thumbnail">
+                                                        </div>
+
                                                         <div>
                                                             <p class="mb-0">Client</p>
                                                             <h6 class="mb-0">{{ $project->customer->name }}</h6>
@@ -209,7 +216,12 @@
                                                 </div>
                                                 <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
                                                     <div class="d-flex project-image">
-                                                        {{-- <img src="images/customers/11.jpg" alt=""> --}}
+                                                        <div>
+                                                            <p class="mb-0">Profile</p>
+
+                                                            <img src="{{ $project->customer->profile && file_exists(public_path('admin/customers/' . $project->customer->profile)) ? asset('admin/customers/' . $project->customer->profile) : asset('admin/customers/default-profile.png') }}"
+                                                                alt="Customer Image" class="img-thumbnail">
+                                                        </div>
                                                         <div>
                                                             <p class="mb-0">Client</p>
                                                             <h6 class="mb-0">{{ $project->customer->name }}</h6>
@@ -315,7 +327,12 @@
                                                 </div>
                                                 <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
                                                     <div class="d-flex project-image">
-                                                        {{-- <img src="images/customers/11.jpg" alt=""> --}}
+                                                        <div>
+                                                            <p class="mb-0">Profile</p>
+
+                                                            <img src="{{ $project->customer->profile && file_exists(public_path('admin/customers/' . $project->customer->profile)) ? asset('admin/customers/' . $project->customer->profile) : asset('admin/customers/default-profile.png') }}"
+                                                                alt="Customer Image" class="img-thumbnail">
+                                                        </div>
                                                         <div>
                                                             <p class="mb-0">Client</p>
                                                             <h6 class="mb-0">{{ $project->customer->name }}</h6>
@@ -421,7 +438,12 @@
                                                 </div>
                                                 <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
                                                     <div class="d-flex project-image">
-                                                        {{-- <img src="images/customers/11.jpg" alt=""> --}}
+                                                        <div>
+                                                            <p class="mb-0">Profile</p>
+
+                                                            <img src="{{ $project->customer->profile && file_exists(public_path('admin/customers/' . $project->customer->profile)) ? asset('admin/customers/' . $project->customer->profile) : asset('admin/customers/default-profile.png') }}"
+                                                                alt="Customer Image" class="img-thumbnail">
+                                                        </div>
                                                         <div>
                                                             <p class="mb-0">Client</p>
                                                             <h6 class="mb-0">{{ $project->customer->name }}</h6>
@@ -506,7 +528,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                {{-- <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="mb-sm-0 mb-3">
                         <p class="mb-0 text-black">Showing 5 of 102 Data</p>
                     </div>
@@ -527,21 +549,31 @@
                             </li>
                         </ul>
                     </nav>
+                </div> --}}
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <p class="mb-0 text-black">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of
+                        {{ $projects->total() }} projects</p>
+                    <nav>
+                        <ul class="pagination pagination-circle">
+                            {{ $projects->links('pagination::bootstrap-4') }}
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
     <!--**********************************
-                                                                                                                Content body end
-                                                                                                            ***********************************-->
+                                                                                                                                                                        Content body end
+                                                                                                                                                                    ***********************************-->
 @endsection
 
 
 
 @section('js')
     <!--**********************************
-                                                                                                            Scripts
-                                                                                                        ***********************************-->
+                                                                                                                                                                    Scripts
+                                                                                                                                                                ***********************************-->
     <!-- Required vendors -->
     <script src="vendor/global/global.min.js"></script>
     <script src="vendor/bootstrap-select/js/bootstrap-select.min.js"></script>

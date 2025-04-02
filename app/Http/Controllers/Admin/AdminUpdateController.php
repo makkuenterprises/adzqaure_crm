@@ -453,10 +453,17 @@ class AdminUpdateController extends Controller implements AdminUpdate
             }
 
             if ($request->hasFile('profile')) {
-                if (!is_null($customer->profile)) Storage::delete($customer->profile);
-                $customer->profile = $request->file('profile')->store('customers');
+                if ($customer->profile && file_exists(public_path('admin/customers/' . $customer->profile))) {
+                    unlink(public_path('admin/customers/' . $customer->profile));
+                }
+                $file = $request->file('profile');
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $file->move(public_path('admin/customers'), $filename);
+                $customer->profile = $filename;
             }
-            $result  = $customer->update();
+
+            $result = $customer->update();
+
 
             if ($result) {
                 return redirect()->back()->with('message', [

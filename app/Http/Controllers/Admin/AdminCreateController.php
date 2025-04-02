@@ -340,9 +340,14 @@ class AdminCreateController extends Controller implements AdminCreate
             // }
 
             if ($request->hasFile('profile')) {
-                $customer->profile = $request->file('profile')->store('customers');
+                $file = $request->file('profile');
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $file->move(public_path('admin/customers'), $filename);
+                $customer->profile =  $filename;
             }
-            $result  = $customer->save();
+
+            $result = $customer->save();
+
 
             if ($result) {
                 return redirect()->route('admin.view.customer.list')->with('message', [
