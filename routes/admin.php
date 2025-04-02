@@ -69,6 +69,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/create', [AdminCreateController::class, 'handleProjectCreate'])->name('admin.handle.project.create');
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleProjectUpdate'])->name('admin.handle.project.update');
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleProjectDelete'])->name('admin.handle.project.delete');
+        Route::get('admin/project/{id}/change-status/{status}', [AdminUpdateController::class, 'changeStatus'])->name('admin.project.change-status');
     });
 
     Route::prefix('payment')->group(function () {

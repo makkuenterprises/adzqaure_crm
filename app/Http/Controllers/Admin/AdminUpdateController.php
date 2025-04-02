@@ -58,6 +58,7 @@ interface AdminUpdate
     public function handlePackageUpdate(Request $request, $id);
     public function handleScUpdate(Request $request, $id);
     public function handleCrmUpdate(Request $request);
+    public function changeStatus($id, $status);
 }
 
 class AdminUpdateController extends Controller implements AdminUpdate
@@ -1182,6 +1183,37 @@ class AdminUpdateController extends Controller implements AdminUpdate
                     'description' => 'There is an internal server issue please try again.'
                 ]);
             }
+        }
+    }
+
+    public function changeStatus($id, $status)
+    {
+        $validStatuses = ['OnProgress', 'Pending', 'Closed'];
+        if (!in_array($status, $validStatuses)) {
+            return redirect()->back()->with('error', 'Invalid status');
+        }
+        $project = Project::findOrFail($id);
+        if ($project->status === 'Pending' && $status === 'OnProgress') {
+            $project->status = 'OnProgress';
+        } elseif ($project->status === 'OnProgress' && $status === 'Closed') {
+            $project->status = 'Closed';
+        }
+
+        $result = $project->save();
+
+
+        if ($result) {
+            return redirect()->back()->with('message', [
+                'status' => 'success',
+                'title' => 'Changes Saved',
+                'description' => 'The status are successfully saved'
+            ]);
+        } else {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'An error occcured',
+                'description' => 'There is an internal server issue please try again.'
+            ]);
         }
     }
 }

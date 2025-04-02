@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->double('amount', 16, 2)->nullable();
             //$table->double('pending_amount', 16, 2)->nullable();
-            $table->enum('status', ['OnProgess', 'Pending', 'Closed'])->nullable();
+            $table->enum('status', ['OnProgress', 'Pending', 'Closed'])->nullable();
             $table->timestamps();
         });
     }
