@@ -102,6 +102,7 @@ interface AdminView
     public function viewPackageUpdate($id);
     public function viewPackageRenew($id);
     public function viewScUpdate($id);
+    public function viewPaymentSetting();
 }
 
 class AdminViewController extends Controller implements AdminView
@@ -632,7 +633,7 @@ class AdminViewController extends Controller implements AdminView
         ]);
     }
 
-    public function viewCompanyPaymentCreate()
+    public function viewPaymentSetting()
     {
         return view('admin.sections.company-payment.payment-create');
     }
