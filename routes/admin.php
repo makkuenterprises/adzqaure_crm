@@ -27,6 +27,8 @@ Route::middleware(['auth:admin'])->group(function () {
 
         Route::get('/payment-setting', [AdminViewController::class, 'viewPaymentSetting'])->name('admin.view.payment-setting');
 
+        Route::post('/payment-setting', [AdminUpdateController::class, 'handlePaymentSettingUpdate'])->name('admin.handle.payment.setting.update');
+
         Route::post('/mail-credentials', [AdminUpdateController::class, 'handleMailCredentialsUpdate'])->name('admin.handle.mail.credentials.update');
         Route::get('/crm-settings', [AdminViewController::class, 'viewCrmSetting'])->name('admin.view.crm.setting');
         Route::post('/crm-settings', [AdminUpdateController::class, 'handleCrmUpdate'])->name('admin.handle.crm.settings.update');

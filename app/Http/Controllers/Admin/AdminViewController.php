@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
+use App\Models\PaymentSetting;
 use App\Models\ServiceCategory;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
@@ -635,6 +636,10 @@ class AdminViewController extends Controller implements AdminView
 
     public function viewPaymentSetting()
     {
-        return view('admin.sections.setting.payment-create');
+        // $payment_settings = PaymentSetting::first();
+        $payment_settings = PaymentSetting::first();
+
+
+        return view('admin.sections.setting.payment-create', compact('payment_settings'));
     }
 }

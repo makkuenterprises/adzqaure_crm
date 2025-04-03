@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use DB;
+use Storage;
+use Carbon\Carbon;
 use App\Models\Bill;
-use App\Models\CompanyDetail;
+use App\Models\Lead;
+use App\Models\Plan;
+use App\Models\Admin;
+use App\Models\Group;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Campaign;
 use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Password;
+use App\Models\CrmSetting;
+use Illuminate\Http\Request;
+use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
-use App\Models\Package;
-use App\Models\Password;
-use App\Models\Payment;
-use App\Models\Plan;
-use App\Models\Project;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Admin;
-use App\Models\Employee;
-use App\Models\Group;
+use App\Models\PaymentSetting;
 use App\Models\ServiceCategory;
-use App\Models\CrmSetting;
-use App\Models\Campaign;
-use App\Models\Lead;
-use Carbon\Carbon;
-use Storage;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use DB;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -50,6 +51,7 @@ interface AdminUpdate
     public function handleProjectUpdate(Request $request, $id);
     public function handlePaymentUpdate(Request $request, $id);
     public function handleCompanyDetailsUpdate(Request $request);
+    public function handlePaymentSettingUpdate(Request $request);
     public function handleMailCredentialsUpdate(Request $request);
     public function handleBillUpdate(Request $request, $id);
     public function handleAdminUpdate(Request $request, $id);
@@ -579,79 +581,6 @@ class AdminUpdateController extends Controller implements AdminUpdate
     | Handle Company Details Update
     |--------------------------------------------------------------------------
     */
-    // public function handleCompanyDetailsUpdate(Request $request)
-    // {
-    //     // dd($request->all());
-    //     $validation = Validator::make($request->all(), [
-    //         'company_logo' => ['nullable', 'file', 'mimes:jpg,jpeg,webp,png'],
-    //         'company_name' => ['nullable', 'string'],
-    //         'company_email' => ['nullable', 'string'],
-    //         'company_phone' => ['nullable', 'numeric'],
-    //         'company_phone_alternate' => ['nullable', 'numeric'],
-    //         'company_website' => ['nullable', 'string'],
-    //         'company_account_type' => ['nullable', 'string'],
-    //         'company_account_no' => ['nullable', 'string'],
-    //         'company_account_holder' => ['nullable', 'string'],
-    //         'company_account_ifsc' => ['nullable', 'string'],
-    //         'company_account_branch' => ['nullable', 'string'],
-    //         'company_account_vpa' => ['nullable', 'string'],
-    //         'billing_tax_percentage' => ['nullable', 'string'],
-    //         'company_address_street' => ['nullable', 'string'],
-    //         'company_address_city' => ['nullable', 'string'],
-    //         'company_address_pincode' => ['nullable', 'string'],
-    //         'company_address_state' => ['nullable', 'string'],
-    //         'company_address_country' => ['nullable', 'string'],
-    //         'company_social_media_facebook' => ['nullable', 'string'],
-    //         'company_social_media_twitter' => ['nullable', 'string'],
-    //         'company_social_media_instagram' => ['nullable', 'string'],
-    //         'company_social_media_linkedin' => ['nullable', 'string'],
-    //         'company_social_media_youtube' => ['nullable', 'string'],
-    //         'company_gst_number' => ['nullable', 'string'],
-
-    //     ]);
-
-    //     if ($validation->fails()) {
-    //         return redirect()->back()->withErrors($validation)->withInput();
-    //     } else {
-
-    //         if ($request->hasFile('company_logo')) {
-    //             CompanyDetail::where('name', 'company_logo')->update(['value' => $request->file('company_logo')->store('company')]);
-    //         }
-    //         CompanyDetail::where('name', 'company_name')->update(['value' => $request->input('company_name')]);
-    //         CompanyDetail::where('name', 'company_email')->update(['value' => $request->input('company_email')]);
-    //         CompanyDetail::where('name', 'company_phone')->update(['value' => $request->input('company_phone')]);
-    //         CompanyDetail::where('name', 'company_phone_alternate')->update(['value' => $request->input('company_phone_alternate')]);
-    //         CompanyDetail::where('name', 'company_website')->update(['value' => $request->input('company_website')]);
-    //         CompanyDetail::where('name', 'company_account_type')->update(['value' => $request->input('company_account_type')]);
-    //         CompanyDetail::where('name', 'company_account_no')->update(['value' => $request->input('company_account_no')]);
-    //         CompanyDetail::where('name', 'company_account_holder')->update(['value' => $request->input('company_account_holder')]);
-    //         CompanyDetail::where('name', 'company_account_ifsc')->update(['value' => $request->input('company_account_ifsc')]);
-    //         CompanyDetail::where('name', 'company_account_branch')->update(['value' => $request->input('company_account_branch')]);
-    //         CompanyDetail::where('name', 'company_account_vpa')->update(['value' => $request->input('company_account_vpa')]);
-    //         CompanyDetail::where('name', 'billing_tax_percentage')->update(['value' => $request->input('billing_tax_percentage')]);
-    //         CompanyDetail::where('name', 'company_address_street')->update(['value' => $request->input('company_address_street')]);
-    //         CompanyDetail::where('name', 'company_address_city')->update(['value' => $request->input('company_address_city')]);
-    //         CompanyDetail::where('name', 'company_address_pincode')->update(['value' => $request->input('company_address_pincode')]);
-    //         CompanyDetail::where('name', 'company_address_state')->update(['value' => $request->input('company_address_state')]);
-    //         CompanyDetail::where('name', 'company_address_country')->update(['value' => $request->input('company_address_country')]);
-    //         CompanyDetail::where('name', 'company_social_media_facebook')->update(['value' => $request->input('company_social_media_facebook')]);
-    //         CompanyDetail::where('name', 'company_social_media_twitter')->update(['value' => $request->input('company_social_media_twitter')]);
-    //         CompanyDetail::where('name', 'company_social_media_instagram')->update(['value' => $request->input('company_social_media_instagram')]);
-    //         CompanyDetail::where('name', 'company_social_media_linkedin')->update(['value' => $request->input('company_social_media_linkedin')]);
-    //         CompanyDetail::where('name', 'company_social_media_youtube')->update(['value' => $request->input('company_social_media_youtube')]);
-
-    //         CompanyDetail::where('name', 'company_gst_number')->update(['value' => $request->input('company_gst_number')]);
-
-
-    //         return redirect()->back()->with('message', [
-    //             'status' => 'success',
-    //             'title' => 'Changes Saved',
-    //             'description' => 'The changes are successfully saved'
-    //         ]);
-    //     }
-    // }
-
-
 
     public function handleCompanyDetailsUpdate(Request $request)
     {
@@ -753,6 +682,118 @@ class AdminUpdateController extends Controller implements AdminUpdate
             'description' => 'The changes are successfully saved'
         ]);
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Handle payment setting Update
+    |--------------------------------------------------------------------------
+    */
+    public function handlePaymentSettingUpdate(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            // INR payment fields
+            'account_type_inr' => 'nullable|string',
+            'company_account_number_inr' => 'nullable|string|min:10|max:18',
+            'company_account_holder_inr' => 'nullable|string|max:255',
+            'company_account_ifsc_inr' => 'nullable|string|regex:/^[A-Za-z]{4}[0][A-Za-z0-9]{6}$/',
+            'company_account_branch_inr' => 'nullable|string|max:255',
+            'upi_payment_inr' => 'nullable|string|regex:/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$/',
+            'payment_link_inr' => 'nullable|url',
+
+            // USD payment fields
+            'company_account_holder_usd' => 'nullable|string|max:255',
+            'payment_method_usd' => 'nullable|string|max:255',
+            'ach_routing_number_usd' => 'nullable|string|regex:/^\d{9}$/',
+            'company_account_number_usd' => 'nullable|string|min:10|max:18',
+            'bank_name_usd' => 'nullable|string|max:255',
+            'beneficiary_address_usd' => 'nullable|string|max:255',
+
+            // AUD payment fields
+            'account_holder_aud' => 'nullable|string|max:255',
+            'payment_method_aud' => 'nullable|string|max:255',
+            'company_account_number_aud' => 'nullable|string|min:10|max:18',
+            'bsb_number_aud' => 'nullable|string|regex:/^\d{6}$/',
+            'bank_name_aud' => 'nullable|string|max:255',
+            'beneficiary_address_aud' => 'nullable|string|max:255',
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        // Process INR Payment Settings
+        if ($request->has('company_account_number_inr') || $request->has('upi_payment_inr') || $request->has('payment_link_inr')) {
+            // Check if INR payment setting already exists, otherwise create new record
+            $paymentSettingINR = PaymentSetting::first();
+
+            if (!$paymentSettingINR) {
+                $paymentSettingINR = new PaymentSetting();
+                // $paymentSettingINR->currency = 'INR';
+            }
+
+            // Update INR payment details
+            $paymentSettingINR->account_type_inr = $request->input('account_type_inr');
+            $paymentSettingINR->company_account_number_inr = $request->input('company_account_number_inr');
+            $paymentSettingINR->company_account_holder_inr = $request->input('company_account_holder_inr');
+            $paymentSettingINR->company_account_ifsc_inr = $request->input('company_account_ifsc_inr');
+            $paymentSettingINR->company_account_branch_inr = $request->input('company_account_branch_inr');
+            $paymentSettingINR->upi_payment_inr = $request->input('upi_payment_inr');
+            $paymentSettingINR->payment_link_inr = $request->input('payment_link_inr');
+
+            // Save the INR payment settings
+            $paymentSettingINR->save();
+        }
+
+        // Process USD Payment Settings
+        if ($request->has('company_account_number_usd') || $request->has('ach_routing_number_usd') || $request->has('payment_method_usd')) {
+            // Check if USD payment setting already exists, otherwise create new record
+            $paymentSettingUSD = PaymentSetting::first();
+
+            if (!$paymentSettingUSD) {
+                $paymentSettingUSD = new PaymentSetting();
+            }
+
+            // Update USD payment details
+            $paymentSettingUSD->company_account_holder_usd = $request->input('company_account_holder_usd');
+            $paymentSettingUSD->payment_method_usd = $request->input('payment_method_usd');
+            $paymentSettingUSD->ach_routing_number_usd = $request->input('ach_routing_number_usd');
+            $paymentSettingUSD->company_account_number_usd = $request->input('company_account_number_usd');
+            $paymentSettingUSD->bank_name_usd = $request->input('bank_name_usd');
+            $paymentSettingUSD->beneficiary_address_usd = $request->input('beneficiary_address_usd');
+
+            // Save the USD payment settings
+            $paymentSettingUSD->save();
+        }
+
+        // Process AUD Payment Settings
+        if ($request->has('company_account_number_aud') || $request->has('bsb_number_aud') || $request->has('payment_method_aud')) {
+            $paymentSettingAUD = PaymentSetting::first();
+
+            if (!$paymentSettingAUD) {
+                $paymentSettingAUD = new PaymentSetting();
+            }
+
+            // Update AUD payment details
+            $paymentSettingAUD->account_holder_aud = $request->input('account_holder_aud');
+            $paymentSettingAUD->payment_method_aud = $request->input('payment_method_aud');
+            $paymentSettingAUD->company_account_number_aud = $request->input('company_account_number_aud');
+            $paymentSettingAUD->bsb_number_aud = $request->input('bsb_number_aud');
+            $paymentSettingAUD->bank_name_aud = $request->input('bank_name_aud');
+            $paymentSettingAUD->beneficiary_address_aud = $request->input('beneficiary_address_aud');
+
+            // Save the AUD payment settings
+            $paymentSettingAUD->save();
+        }
+
+        return redirect()->back()->with('message', [
+            'status' => 'success',
+            'title' => 'Payment Settings Updated',
+            'description' => 'The payment settings have been successfully updated.'
+        ]);
+    }
+
+
 
 
 
