@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.view.password.list') }}">Passwords</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.view.password.list') }}">Password Manager</a></li>
                     <li class="breadcrumb-item active"><a href="{{ route('admin.view.password.create') }}">Create Password</a>
                     </li>
                 </ol>
@@ -35,18 +35,24 @@
                                         {{-- Customer --}}
                                         <div class="col-xl-6 mb-3">
                                             <label for="customer_id" class="form-label">Customer</label>
+                                            @php
+                                                $selectedCustomerId = request('customer_id');
+                                            @endphp
                                             <select class="form-select @error('customer_id') input-invalid @enderror"
-                                                name="customer_id">
-                                                <option value="">Select Customer</option>
+                                                name="customer_id" {{ $selectedCustomerId ? 'disabled' : '' }}>
                                                 @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->name }}
-                                                        ({{ $customer->company_name }})
+                                                    <option value="{{ $customer->id }}"
+                                                        {{ (string) $selectedCustomerId === (string) $customer->id ? 'selected' : '' }}>
+                                                        {{ $customer->name }} ({{ $customer->company_name }})
                                                     </option>
                                                 @endforeach
                                             </select>
                                             @error('customer_id')
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
+                                            @if ($selectedCustomerId)
+                                                <input type="hidden" name="customer_id" value="{{ $selectedCustomerId }}">
+                                            @endif
                                         </div>
 
                                         {{-- Type --}}

@@ -30,6 +30,13 @@
         .btn-add {
             margin-left: auto;
         }
+        .not-found{
+            font-size: medium;
+            color: red;
+            margin-top: 10px;
+            padding: 5px;
+
+        }
     </style>
 @endsection
 
@@ -38,17 +45,13 @@
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Password</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Password</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.password.list') }}">Password Manager</a></li>
                 </ol>
             </div>
 
             <!-- Row -->
             <div class="row">
-                <div class="col-lg-3 mt-4">
-                    <a href="{{ route('admin.view.password.create') }}" class="btn btn-sm btn-primary">Add
-                        Password</a>
-                </div>
                 <div class="col-lg-6">
                     <form method="GET" action="{{ route('admin.view.password.list') }}"
                         class="d-flex align-items-center justify-content-between">
@@ -67,11 +70,18 @@
                         </div>
                     </form>
                 </div>
-
+            </div>
+            <div class="row">
+                @if (request()->has('customer_id') && request('customer_id') != '')
+                    <div class="col-lg-3 mt-4">
+                        <a href="{{ url('/admin/password/create') . '?customer_id=' . request('customer_id') }}" class="btn btn-sm btn-primary">Add
+                            Password</a>
+                    </div>
+                @endif
             </div>
 
 
-
+            @if (request()->has('customer_id') && request('customer_id') != '')
             <div class="filter cm-content-box box-primary mt-3">
                 <div class="content-title SlideToolHeader">
                     <div class="cpa">
@@ -82,6 +92,7 @@
                     </div>
                 </div>
                 <div class="cm-content-body form excerpt">
+
                     <div class="card-body pb-4">
                         <div class="table-responsive">
                             <table class="table">
@@ -156,6 +167,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
+
                                 </tbody>
                             </table>
 
@@ -170,8 +182,12 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+            @else
+                <strong><h3 class="not-found">Customer not Selected!!</h3></strong>
+            @endif
         </div>
     </div>
     </div>

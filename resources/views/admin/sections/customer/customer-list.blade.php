@@ -139,6 +139,10 @@
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        <a href="{{ route('admin.view.password.list', ['customer_id' => $customer->id]) }}"
+                                                            class="btn btn-success btn-sm content-icon">
+                                                            <i class="fa fa-lock"></i>
+                                                        </a>
                                                         <a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-eye"></i>
