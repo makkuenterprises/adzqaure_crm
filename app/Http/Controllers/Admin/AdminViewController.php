@@ -23,6 +23,7 @@ use App\Models\DomainHosting;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
 use App\Models\ServiceCategory;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon; // Make sure to import Carbon
@@ -90,7 +91,7 @@ interface AdminView
     public function viewDomainHostingCreate();
     public function viewDomainHostingUpdate($id);
 
-    public function viewPasswordList();
+    public function viewPasswordList(Request $request);
     public function viewPasswordCreate();
     public function viewPasswordUpdate($id);
 
@@ -539,13 +540,32 @@ class AdminViewController extends Controller implements AdminView
     }
 
     /** View Password List **/
-    public function viewPasswordList()
+    // public function viewPasswordList()
+    // {
+    //     $passwords = Password::paginate(10);
+    //     return view('admin.sections.password.password-list', [
+    //         'passwords' => $passwords
+    //     ]);
+    // }
+
+
+    public function viewPasswordList(Request $request)
     {
-        $passwords = Password::all();
+
+        $customerId = $request->input('customer_id');
+        if ($customerId) {
+            $passwords = Password::where('customer_id', $customerId)->paginate(10);
+        } else {
+            $passwords = Password::paginate(10);
+        }
+        $customers = DB::table('customers')->get();
+
         return view('admin.sections.password.password-list', [
-            'passwords' => $passwords
+            'passwords' => $passwords,
+            'customers' => $customers
         ]);
     }
+
 
     /** View Password Create **/
     public function viewPasswordCreate()
