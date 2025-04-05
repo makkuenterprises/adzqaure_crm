@@ -57,23 +57,21 @@
                                                             {{ $project->created_at->format('D, d M Y') }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-2  col-md-4 col-sm-6 mt-md-0 mt-sm-3">
+                                                <div class="col-xl-3  col-md-6 col-sm-6 mt-md-0 mt-sm-3">
                                                     <div class="d-flex project-image">
                                                         {{-- <img src="images/customers/11.jpg" alt=""> --}}
                                                         <div>
-                                                            <p class="mb-0">Profile</p>
-
                                                             <img src="{{ $project->customer->profile && file_exists(public_path('admin/customers/' . $project->customer->profile)) ? asset('admin/customers/' . $project->customer->profile) : asset('admin/customers/default-profile.png') }}"
                                                                 alt="Customer Image" class="img-thumbnail">
                                                         </div>
 
                                                         <div>
                                                             <p class="mb-0">Client</p>
-                                                            <h6 class="mb-0">{{ $project->customer->name }}</h6>
+                                                            <h6 class="mb-0 ml-1">{{ $project->customer->name }}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-2 col-md-4 col-sm-6 text-lg-center mt-md-0 mt-3">
+                                                <div class="col-xl-1 col-md-1 col-sm-3 text-lg-center mt-md-0 mt-3">
                                                     <div class="d-flex project-image">
                                                         <div>
                                                             <p class="mb-0">Amount</p>
