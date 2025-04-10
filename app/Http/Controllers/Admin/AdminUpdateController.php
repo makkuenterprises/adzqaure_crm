@@ -13,6 +13,7 @@ use App\Models\Group;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -61,6 +62,7 @@ interface AdminUpdate
     public function handleScUpdate(Request $request, $id);
     public function handleCrmUpdate(Request $request);
     public function changeStatus($id, $status);
+    public function handleSUpdate(Request $request, $id);
 }
 
 class AdminUpdateController extends Controller implements AdminUpdate
@@ -1255,6 +1257,113 @@ class AdminUpdateController extends Controller implements AdminUpdate
                 'status' => 'error',
                 'title' => 'An error occcured',
                 'description' => 'There is an internal server issue please try again.'
+            ]);
+        }
+    }
+
+
+    public function handleSUpdate(Request $request, $id)
+    {
+        // Validate the request
+        $validated = $request->validate([
+            'service_name' => 'required|string|max:255',
+            'service_category_id' => 'required|exists:service_categories,id',
+            'service_price_in_inr' => 'required|numeric',
+            'service_price_in_usd' => 'nullable|numeric',
+            'service_price_in_aud' => 'nullable|numeric',
+            'discounted_price' => 'nullable|numeric',
+            'govt_fee' => 'nullable|numeric',
+            'subscription_duration' => 'nullable|in:0,30,90,180,365',
+            'partner_margin_percentage' => 'nullable|numeric',
+            'service_details' => 'nullable|string',
+
+            // Service documents
+            'documents' => 'nullable|array',
+            'documents.*.name' => 'nullable|string',
+            'documents.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'documents.*.is_required' => 'nullable',
+        ]);
+
+        // Retrieve the service by ID
+        $service = Service::find($id);
+
+        // Update the service data
+        $service->service_name = $request->input('service_name');
+        $service->service_category_id = $request->input('service_category_id');
+        $service->service_price_in_inr = $request->input('service_price_in_inr');
+        $service->service_price_in_usd = $request->input('service_price_in_usd');
+        $service->service_price_in_aud = $request->input('service_price_in_aud');
+        $service->discounted_price = $request->input('discounted_price');
+        $service->govt_fee = $request->input('govt_fee');
+        $service->subscription_duration = $request->input('subscription_duration');
+        $service->partner_margin_percentage = $request->input('partner_margin_percentage');
+        $service->service_details = $request->input('service_details');
+
+        // Save related documents (if any)
+        if ($request->has('documents')) {
+            foreach ($request->documents as $doc) {
+                // Only proceed if the file is uploaded OR the name is provided
+                if ((empty($doc['name']) && !isset($doc['file'])) || (empty($doc['file']) && empty($doc['name']))) {
+                    continue; // Skip processing if no file and no name is provided
+                }
+
+                $path = null;
+
+                // If the file is uploaded, process it
+                if (isset($doc['file']) && $doc['file'] instanceof \Illuminate\Http\UploadedFile) {
+                    // Create the destination path
+                    $destinationPath = public_path('admin_new/service_document');
+
+                    // Ensure the folder exists
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    // Generate unique file name
+                    $fileName = time() . '_' . uniqid() . '.' . $doc['file']->getClientOriginalExtension();
+
+                    // Move the file to the public folder
+                    $doc['file']->move($destinationPath, $fileName);
+
+                    // Save the relative path to DB
+                    $path = $fileName;
+                }
+
+                // Check if the document already exists for the given service by name
+                $existingDocument = $service->documents()->where('document_name', $doc['name'])->first();
+
+                if ($existingDocument) {
+                    // If the document exists, update the existing one
+                    $existingDocument->document_file = $path ?: $existingDocument->document_file; // Update file only if there's a new file
+                    $existingDocument->is_required = isset($doc['is_required']) ? true : false;
+                    $existingDocument->save();
+                } else {
+                    // If the document doesn't exist, create a new one
+                    if (!empty($doc['name']) || $path) {
+                        $service->documents()->create([
+                            'document_name' => $doc['name'],
+                            'document_file' => $path,
+                            'is_required' => isset($doc['is_required']) ? true : false,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Save the service
+        $result = $service->save();
+
+        if ($result) {
+            return redirect()->route('admin.view.service.list')->with('message', [
+                'status' => 'success',
+                'title' => 'Service Updated',
+                'description' => 'The service has been successfully updated.'
+            ]);
+        } else {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'An error occurred',
+                'description' => 'There was an internal server issue. Please try again.'
             ]);
         }
     }

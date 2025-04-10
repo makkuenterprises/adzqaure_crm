@@ -3,8 +3,8 @@
 
 @section('main-content')
     <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
+          Content body start
+        ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
             <div class="row page-titles">
@@ -94,8 +94,8 @@
         </div>
     </div>
     <!--**********************************
-                                 Content body end
-         ***********************************-->
+                                     Content body end
+             ***********************************-->
 @endsection
 
 @section('js')

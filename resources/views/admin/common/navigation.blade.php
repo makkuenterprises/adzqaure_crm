@@ -36,7 +36,7 @@
                     <span class="nav-text">Customers</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{route('admin.view.customer.list')}}">Manage Customers</a></li>
+                    <li><a href="{{ route('admin.view.customer.list') }}">Manage Customers</a></li>
                     <li><a href="{{ route('admin.view.project.list') }}">Customer Projects</a></li>
                     <li><a href="{{ route('admin.view.domain.hosting.list') }}">Domain & Hosting</a></li>
                     <li><a href="{{ route('admin.view.bill.list') }}">Payment & Bills</a></li>
@@ -49,7 +49,7 @@
                     <span class="nav-text">Master</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="#">Services</a></li>
+                    <li><a href="{{ route('admin.view.service.list') }}">Services</a></li>
                     <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
                     <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li>
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
@@ -66,7 +66,7 @@
                     <li><a href="uc-nestable.html">Task Manager</a></li>
                 </ul>
             </li>
-            <li><a href="{{route('admin.view.setting')}}" aria-expanded="false">
+            <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">
                     <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
                 </a>

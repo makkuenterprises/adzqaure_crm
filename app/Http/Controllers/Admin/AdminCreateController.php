@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\Controller;
-use App\Models\Bill;
-use App\Models\Customer;
-use App\Models\DomainHosting;
-use App\Models\Package;
-use App\Models\Password;
-use App\Models\Plan;
-use App\Models\Project;
-use App\Models\Payment;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\LeadsImport;
-use App\Models\Admin;
-use App\Models\Employee;
-use App\Models\Group;
-use App\Models\Campaign;
-use App\Models\Lead;
-use App\Models\ServiceCategory;
-use Carbon\Carbon;
-use Storage;
-use Illuminate\Support\Facades\Hash;
 use DB;
+use Storage;
+use Carbon\Carbon;
+use App\Models\Bill;
+use App\Models\Lead;
+use App\Models\Plan;
+use App\Models\Admin;
+use App\Models\Group;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Service;
+use App\Models\Campaign;
+use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Password;
+use App\Imports\LeadsImport;
+use Illuminate\Http\Request;
+use App\Models\DomainHosting;
+use App\Models\ServiceCategory;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 
 /*
@@ -56,6 +57,7 @@ interface AdminCreate
     public function handlePlanCreate(Request $request);
     public function handlePackageCreate(Request $request);
     public function  handleScCreate(Request $request);
+    public function handleSCreate(Request $request);
 }
 
 class AdminCreateController extends Controller implements AdminCreate
@@ -951,6 +953,78 @@ class AdminCreateController extends Controller implements AdminCreate
                     'description' => 'There is an internal server issue please try again.'
                 ]);
             }
+        }
+    }
+
+
+
+
+    public function handleSCreate(Request $request)
+    {
+        // dd($request->all());
+        $validated = $request->validate([
+            'service_name' => 'required|string|max:255',
+            'service_category_id' => 'required|exists:service_categories,id',
+            'service_price_in_inr' => 'required|numeric',
+            'service_price_in_usd' => 'nullable|numeric',
+            'service_price_in_aud' => 'nullable|numeric',
+            'discounted_price' => 'nullable|numeric',
+            'govt_fee' => 'nullable|numeric',
+            'subscription_duration' => 'nullable|in:0,30,90,180,365',
+            'partner_margin_percentage' => 'nullable|numeric',
+            'service_details' => 'nullable|string',
+
+            // Document Validation
+            'documents' => 'nullable|array',
+            'documents.*.name' => 'nullable|string',
+            'documents.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'documents.*.is_required' => 'nullable',
+        ]);
+
+        try {
+            $serviceData = collect($validated)->except('documents')->toArray();
+            $service = Service::create($serviceData);
+
+            if ($request->has('documents')) {
+                foreach ($request->documents as $doc) {
+
+                    if (empty($doc['name'])) {
+                        continue;
+                    }
+
+                    $path = null;
+
+                    if (isset($doc['file']) && $doc['file'] instanceof \Illuminate\Http\UploadedFile) {
+                        $destinationPath = public_path('admin_new/service_document');
+
+                        if (!file_exists($destinationPath)) {
+                            mkdir($destinationPath, 0755, true);
+                        }
+                        $fileName = time() . '_' . uniqid() . '.' . $doc['file']->getClientOriginalExtension();
+                        $doc['file']->move($destinationPath, $fileName);
+
+                        $path = $fileName;
+                    }
+
+                    $service->documents()->create([
+                        'document_name' => $doc['name'],
+                        'document_file' => $path,
+                        'is_required' => isset($doc['is_required']) ? true : false,
+                    ]);
+                }
+            }
+
+            return redirect()->route('admin.view.service.list')->with('message', [
+                'status' => 'success',
+                'title' => 'Service created',
+                'description' => 'Service has been successfully created.',
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('message', [
+                'status' => 'error',
+                'title' => 'Something went wrong',
+                'description' => 'There was an internal error: ' . $e->getMessage(),
+            ]);
         }
     }
 }

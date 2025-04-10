@@ -11,6 +11,7 @@ use App\Models\Group;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -105,6 +106,10 @@ interface AdminView
     public function viewPackageRenew($id);
     public function viewScUpdate($id);
     public function viewPaymentSetting();
+
+    public function viewSList();
+    public function viewSCreate();
+    public function viewSUpdate($id);
 }
 
 class AdminViewController extends Controller implements AdminView
@@ -661,5 +666,29 @@ class AdminViewController extends Controller implements AdminView
 
 
         return view('admin.sections.setting.payment-create', compact('payment_settings'));
+    }
+
+    public function viewSList()
+    {
+
+        $services = Service::with('category')->latest()->get();
+
+        return view('admin.sections.service.service-list', compact('services'));
+    }
+
+    public function viewSCreate()
+    {
+        $categories = ServiceCategory::all();
+        return view('admin.sections.service.service-create', compact('categories'));
+    }
+
+    /** View Customer Update **/
+    public function viewSUpdate($id)
+    {
+        $service = Service::find($id);
+        $categories = ServiceCategory::all();
+
+        //dd($service);
+        return view('admin.sections.service.service-update', compact('service', 'categories'));
     }
 }
