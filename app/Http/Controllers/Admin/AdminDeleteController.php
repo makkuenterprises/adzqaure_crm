@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin;
-use App\Models\Bill;
-use App\Models\Customer;
-use App\Models\DomainHosting;
-use App\Models\Package;
-use App\Models\Password;
-use App\Models\Payment;
-use App\Models\Plan;
-use App\Models\Project;
-use Illuminate\Http\Request;
-use App\Models\Employee;
-use App\Models\Group;
-use App\Models\ServiceCategory;
-use App\Models\Lead;
-use App\Models\Campaign;
 use Storage;
+use App\Models\Bill;
+use App\Models\Lead;
+use App\Models\Plan;
+use App\Models\Admin;
+use App\Models\Group;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Service;
+use App\Models\Campaign;
+use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Password;
+use Illuminate\Http\Request;
+use App\Models\DomainHosting;
+use App\Models\ServiceCategory;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ interface AdminDelete
     public function handlePlanDelete($id);
     public function handlePackageDelete($id);
     public function handleScDelete($id);
+    public function handleSDelete($id);
 }
 
 class AdminDeleteController extends Controller implements AdminDelete
@@ -315,6 +317,29 @@ class AdminDeleteController extends Controller implements AdminDelete
             'status' => 'success',
             'title' => 'Service Category Deleted',
             'description' => 'The Service Category is successfully deleted'
+        ]);
+    }
+
+
+    public function handleSDelete($id)
+    {
+
+        $service = Service::findOrFail($id);
+
+        foreach ($service->documents as $document) {
+            $filePath = public_path('admin_new/service_document/' . $document->document_file);
+
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            $document->delete();
+        }
+        $service->delete();
+        return redirect()->route('admin.view.service.list')->with('message', [
+            'status' => 'success',
+            'title' => 'Service Deleted',
+            'description' => 'The service and its documents were successfully deleted.'
         ]);
     }
 }
