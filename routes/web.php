@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Auth\CommonAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +50,40 @@ Route::get('clear', function () {
     Artisan::call('queue:clear');
     dd('Application Cache Cleared');
 });
+
+
+Route::get('login', [CommonAuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [CommonAuthController::class, 'login']);
+Route::get('register', [CommonAuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [CommonAuthController::class, 'register']);
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('customer/dashboard', function () {
+//         return view('customer.dashboard');
+//     })->name('customer.dashboard');
+
+//     Route::get('service_provider/dashboard', function () {
+//         return view('service_provider.dashboard');
+//     })->name('service_provider.dashboard');
+
+//     Route::get('partner/dashboard', function () {
+//         return view('partner.dashboard');
+//     })->name('partner.dashboard');
+// });
+
+
+Route::middleware(['auth', 'role:customer'])->get('customer/dashboard', function () {
+    // return view('customer.dashboard');
+    return "customer dashboard";
+})->name('customer.dashboard');
+
+Route::middleware(['auth', 'role:service_provider'])->get('service_provider/dashboard', function () {
+    // return view('service_provider.dashboard');
+    return "service provider dashboard";
+})->name('service_provider.dashboard');
+
+Route::middleware(['auth', 'role:partner'])->get('partner/dashboard', function () {
+    // return view('partner.dashboard');
+    return "Partner dashboard";
+})->name('partner.dashboard');

@@ -31,7 +31,4 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::put('/lead/status', [EmployeeAPIController::class, 'handleLeadStatusUpdate'])->name('employee.api.lead.status');
     });
-
-
-
 });
