@@ -10,6 +10,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">
+                    <i class="fa fa-hourglass"></i>
+                    <span class="nav-text">Leads Manager <span class="badge badge-xs badge-danger ms-2">New</span></span>
+                </a>
+            </li>
             <li>
                 <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
                     <i class="fa-solid fa-database"></i>
