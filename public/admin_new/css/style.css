@@ -4,7 +4,7 @@
     Name                 : FILLOW
     Author               : DexignZone
     Author Portfolio     : https://themeforest.net/user/dexignzone/portfolio
-    
+
 
 
     Table of Sass Contents
@@ -16,7 +16,7 @@
         _mixin
         _variable
 
-    2. bootstrap 
+    2. bootstrap
         -Here goes all official bootstrap scss files
 
     3. Global/Base
@@ -333,7 +333,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --bs-body-font-size: 0.875rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: #9da1a5;
+  --bs-body-color: #000000;
   --bs-body-color-rgb: 157, 161, 165;
   --bs-body-bg: #fff;
   --bs-body-bg-rgb: 255, 255, 255;
@@ -21162,7 +21162,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
       .page-titles .breadcrumb li.active {
         color: var(--primary); }
         .page-titles .breadcrumb li.active a {
-          color: #FFA7D7; }
+          color: #ff1193; }
     .page-titles .breadcrumb .breadcrumb-item + .breadcrumb-item:before {
       color: var(--primary); }
       @media only screen and (max-width: 35.9375rem) {
