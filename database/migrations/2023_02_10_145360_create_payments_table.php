@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
 
 return new class extends Migration
 {
@@ -14,9 +16,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->bigIncrements('id')->from(100001);
-            $table->foreignId('customer_id')->nullable()->references('id')->on('customers');
-            $table->foreignId('project_id')->nullable()->references('id')->on('projects');
+            $table->bigIncrements('id');
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->nullOnDelete();
+            $table->foreignId('project_id')->nullable()->constrained('projects')->nullOnDelete();
             $table->enum('type',['Credit','Debit'])->nullable();
             $table->double('amount',16,2)->nullable();
             $table->string('remark')->nullable();
@@ -24,6 +26,8 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE payments AUTO_INCREMENT = 100001;');
     }
 
     /**
