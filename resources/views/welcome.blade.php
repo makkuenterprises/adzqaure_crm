@@ -21,6 +21,7 @@
     <meta property="twitter:description" content="Drive global growth with Adzquare's innovative IT and digital marketing strategies.">
     <meta property="twitter:image" content="https://www.adzquare.com/twitter-card-image.jpg"> <!-- Replace with an actual Twitter card image URL -->
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* CSS Variables for Theming */
@@ -560,10 +561,11 @@
                     <div class="hero-form-container animate-on-scroll fade-in-left">
                         <div class="hero-form">
                             <h3>Ignite Your Growth - Quick Inquiry</h3>
-                            <form action="#" method="POST"> <!-- Replace # with your form processing endpoint -->
+                            <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Replace # with your form processing endpoint -->
+                                @csrf
                                 <input type="text" name="name" placeholder="Your Full Name" required>
-                                <input type="email" name="email" placeholder="Your Business Email" required>
-                                <input type="tel" name="phone" placeholder="Phone Number (Optional)">
+                                <input type="email" name="email" placeholder="Your Business Email">
+                                <input type="tel" name="phone" placeholder="Phone Number" required>
                                 <button type="submit" class="cta-button">Connect With Our Experts</button>
                             </form>
                         </div>
@@ -828,11 +830,12 @@
                 </p>
                 <div class="hero-form animate-on-scroll scale-up" style="animation-delay:0.2s; max-width:750px; margin:auto; background: linear-gradient(145deg, var(--surface-color), var(--card-bg));">
                      <h3>Send Us Your Project Brief or Inquiry</h3>
-                     <form action="#" method="POST"> <!-- Remember to set up form backend -->
+                     <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
+                        @csrf
                         <input type="text" name="name" placeholder="Your Full Name" required>
                         <input type="email" name="email" placeholder="Your Business Email Address" required>
                         <input type="tel" name="phone" placeholder="Your Phone Number (with country code)">
-                        <input type="text" name="company" placeholder="Your Company Name & Country of Operation" required>
+                        <input type="text" name="company" placeholder="State & Country of Operation" required>
                         <textarea name="message" rows="5" placeholder="Briefly describe your project, requirements, or inquiry..." required style="width:100%; padding:14px; margin-bottom:18px; border-radius:8px; border:1px solid var(--border-color); background-color:rgba(10,10,15,0.5); color:var(--text-color); font-family:var(--font-body); font-size:0.95rem;"></textarea>
                         <button type="submit" class="cta-button">Submit Global Inquiry Now</button>
                     </form>
@@ -1008,7 +1011,24 @@
             }
         }
     });
+
     </script>
+
+    @if (session('success'))
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            Toastify({
+                text: "{{ session('success') }}",
+                duration: 5000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#28a745",
+                close: true
+            }).showToast();
+        });
+    </script>
+@endif
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 </body>
 </html>

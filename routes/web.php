@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\CommonAuthController;
 
 /*
@@ -51,6 +52,7 @@ Route::get('clear', function () {
     dd('Application Cache Cleared');
 });
 
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
 Route::get('login', [CommonAuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [CommonAuthController::class, 'login']);

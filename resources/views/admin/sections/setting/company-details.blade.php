@@ -31,7 +31,7 @@
                                                 <!-- Profile image section -->
                                                 <div class="d-flex align-items-center mb-3">
                                                     <div class="profile-preview">
-                                                        @if ($company_details->company_logo)
+                                                        @if (optional($company_details)->company_log)
                                                             <img src="{{ asset('admin/company_logo/' . $company_details->company_logo) }}"
                                                                 alt="Profile Image" class="img-thumbnail"
                                                                 style="max-width: 100px; height: auto;">
@@ -59,7 +59,7 @@
                                                 <!-- Profile image section -->
                                                 <div class="d-flex align-items-center mb-3">
                                                     <div class="profile-preview">
-                                                        @if ($company_details->brand_logo)
+                                                        @if (optional($company_details)->brand_logo)
                                                             <img src="{{ asset('admin/brand_logo/' . $company_details->brand_logo) }}"
                                                                 alt="Profile Image" class="img-thumbnail"
                                                                 style="max-width: 100px; height: auto;">

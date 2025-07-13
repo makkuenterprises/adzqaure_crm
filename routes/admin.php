@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Admin\AdminAPIController;
+use App\Http\Controllers\Admin\InquiryController;
+
+
 
 Route::middleware(['guest:admin'])->group(function () {
     Route::get('login', [AdminAuthController::class, 'viewLogin'])->name('admin.view.login');
@@ -35,7 +38,9 @@ Route::middleware(['auth:admin'])->group(function () {
     });
 
 
-
+Route::prefix('inquiries')->group(function () {
+    Route::get('/index', [InquiryController::class, 'index'])->name('inquiries.index');
+});
 
     Route::prefix('domain-hosting')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewDomainHostingList'])->name('admin.view.domain.hosting.list');
