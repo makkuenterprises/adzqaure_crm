@@ -8,6 +8,7 @@ use App\Models\Lead;
 use App\Models\Plan;
 use App\Models\Admin;
 use App\Models\Group;
+use App\Models\LeadsManager;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Project;
@@ -34,6 +35,7 @@ interface AdminDelete
 {
     public function handleEmployeeDelete($id);
     public function handleGroupDelete($id);
+    public function handleLeadManagerDelete($id);
     public function handleLeadDelete($id);
     public function handleCustomerDelete($id);
     public function handleProjectDelete($id);
@@ -95,6 +97,23 @@ class AdminDeleteController extends Controller implements AdminDelete
             'status' => 'success',
             'title' => 'Group Deleted',
             'description' => 'The group is successfully deleted'
+        ]);
+    }
+
+
+     /*
+    |--------------------------------------------------------------------------
+    | Handle Leads Manager Delete
+    |--------------------------------------------------------------------------
+    */
+    public function handleLeadManagerDelete($id)
+    {
+        $lead = LeadsManager::find($id);
+        $lead->delete();
+        return redirect()->route('admin.view.lead.manager.list')->with('message', [
+            'status' => 'success',
+            'title' => 'Lead Deleted',
+            'description' => 'The Lead is successfully deleted'
         ]);
     }
 

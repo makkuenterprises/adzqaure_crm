@@ -157,6 +157,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleLeadDelete'])->name('admin.handle.lead.delete');
     });
 
+    Route::prefix('leadmanager')->group(function () {
+        Route::get('/list', [AdminViewController::class, 'viewLeadManagerList'])->name('admin.view.lead.manager.list');
+        Route::get('/create', [AdminViewController::class, 'viewLeadManagerCreate'])->name('admin.view.lead.manager.create');
+        Route::post('/create', [AdminCreateController::class, 'handleLeadManagerCreate'])->name('admin.handle.lead.manager.create');
+        Route::get('/delete/{id}', [AdminDeleteController::class, 'handleLeadManagerDelete'])->name('admin.handle.lead.manager.delete');
+        Route::get('/update/{id}', [AdminViewController::class, 'viewLeadManagerUpdate'])->name('admin.view.lead.manager.update');
+        Route::post('/update/{id}', [AdminUpdateController::class, 'handleLeadsManagerUpdate'])->name('admin.handle.lead.manager.update');
+    });
+
     Route::prefix('campaign')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewCampaignList'])->name('admin.view.campaign.list');
         Route::get('/create', [AdminViewController::class, 'viewCampaignCreate'])->name('admin.view.campaign.create');

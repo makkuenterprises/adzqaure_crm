@@ -23,6 +23,7 @@ use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
+use App\Models\LeadsManager;
 use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -54,6 +55,10 @@ interface AdminView
     public function viewLeadList();
     public function viewLeadImport();
     public function viewLeadCreate();
+
+    public function viewLeadManagerList();
+    public function viewLeadManagerImport();
+    public function viewLeadManagerCreate();
 
     public function viewGroupList();
     public function viewGroupCreate();
@@ -248,6 +253,41 @@ class AdminViewController extends Controller implements AdminView
         $leads = Lead::where('group_id', $id)->paginate(20);
         return view('admin.sections.group.group-preview', ['group' => $group, 'leads' => $leads]);
     }
+
+
+    /** View Leads Manager List **/
+    public function viewLeadManagerList()
+    {
+        $leads_manager = LeadsManager::latest()->paginate(15);
+        return view('admin.sections.leadsmanager.leadsmanager-list', ['leads_manager' => $leads_manager]);
+    }
+
+    /** View Group Update **/
+    public function viewLeadManagerUpdate($id)
+    {
+        $leads_manager = LeadsManager::where('id', $id)->first();
+        $status = ['Hot Lead', 'Interested', 'Dead Lead'];
+        return view('admin.sections.leadsmanager.leadsmanager-update', ['status' => $status, 'leads_manager' => $leads_manager]);
+    }
+
+    /** View Lead Manager Import **/
+    public function viewLeadManagerImport()
+    {
+
+
+        return view('admin.sections.leadsmanager.leadsmanager-import');
+    }
+
+    /** View Leads Manager Create **/
+    public function viewLeadManagerCreate()
+    {
+
+        $status = ['Hot Lead', 'Interested', 'Dead Lead'];
+        return view('admin.sections.leadsmanager.leadsmanager-create', [
+        'status' => $status
+    ]);
+    }
+
 
     /** View Service Category List **/
     public function viewScList()

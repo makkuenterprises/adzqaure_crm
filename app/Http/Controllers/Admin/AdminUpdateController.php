@@ -22,6 +22,7 @@ use App\Models\CrmSetting;
 use Illuminate\Http\Request;
 use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
+use App\Models\LeadsManager;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
 use App\Models\ServiceCategory;
@@ -47,6 +48,7 @@ interface AdminUpdate
     public function handleAccountPasswordUpdate(Request $request);
     public function handleEmployeeUpdate(Request $request, $id);
     public function handleGroupUpdate(Request $request, $id);
+    public function handleLeadsManagerUpdate(Request $request, $id);
     public function handleCampaignUpdate(Request $request, $id);
     public function handleCustomerUpdate(Request $request, $id);
     public function handleProjectUpdate(Request $request, $id);
@@ -358,6 +360,49 @@ class AdminUpdateController extends Controller implements AdminUpdate
             }
         }
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Handle Leads Manager Update
+    |--------------------------------------------------------------------------
+    */
+    public function handleLeadsManagerUpdate(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => ['required'],
+            'phone' => ['required'],
+
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        } else {
+            $leads_manager = LeadsManager::where('id', $id)->first();
+            $leads_manager->name = $request->input('name');
+            $leads_manager->email = $request->input('email');
+            $leads_manager->phone = $request->input('phone');
+            $leads_manager->address = $request->input('address');
+            $leads_manager->status = $request->input('status');
+            $leads_manager->remarks = $request->input('remarks');
+            $result = $leads_manager->save();
+
+            if ($result) {
+                return redirect()->route('admin.view.lead.manager.list')->with('message', [
+                    'status' => 'success',
+                    'title' => 'Changes Saved',
+                    'description' => 'The changes are successfully saved'
+                ]);
+            } else {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'An error occurred',
+                    'description' => 'There is an internal server issue, please try again.'
+                ]);
+            }
+
+        }
+    }
+
 
     /*
     |--------------------------------------------------------------------------

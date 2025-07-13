@@ -1,133 +1,125 @@
 @extends('admin.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Leads</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{ route('admin.view.lead.list') }}">Data</a></li>
-        </ul>
-    </div>
-@endsection
+
+@section('main-content')
+    <!--**********************************
+          Content body start
+        ***********************************-->
+    <div class="content-body default-height">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.lead.manager.list') }}">Leads Manager</a></li>
+                </ol>
+            </div>
+            <!-- Row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div>
+                        <a href="{{ route('admin.view.lead.manager.create') }}" type="button"
+                            class="btn btn-sm btn-primary mb-4 open">Create New Leads</a>
+                    </div>
+                    <div class="filter cm-content-box box-primary">
+                        <div class="content-title SlideToolHeader">
+                            <div class="cpa">
+                                <i class="fa-solid fa-file-lines me-1"></i>All Leads
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+                            </div>
+                        </div>
+                        <div class="cm-content-body form excerpt">
+                            <div class="card-body pb-4">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Mobile</th>
+                                                <th>Address</th>
+                                                <th>Status</th>
+                                                <th>Remarks</th>
+                                                <th>Created at</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($leads_manager as $lead)
+                                                <tr>
+                                                    <td>{{ $lead->id }}</td>
+                                                    <td>{{ $lead->name }}</td>
+                                                    <td>{{ $lead->email }}</td>
+                                                    <td>{{ $lead->phone }}</td>
+                                                    <td>{{ $lead->address }}</td>
+                                                    <td>{{ $lead->status }}</td>
+                                                    <td>{{ $lead->remarks }}</td>
+                                                    <td>{{ $lead->created_at->format('M d, Y') }}</td>
 
 
-@section('panel-body')
-    {{-- @dd($employee); --}}
-    <figure class="panel-card">
-        <div class="panel-card-header">
-            <div>
-                <h1 class="panel-card-title">All Data</h1>
-                <p class="panel-card-description">All Data in the website </p>
-            </div>
-            <div>
-                <a href="{{ route('admin.view.lead.create') }}" class="btn-primary-md">Create Lead</a>
-                <a href="{{ route('admin.view.lead.import') }}" class="btn-primary-md">Import Leads</a>
-            </div>
-        </div>
-        <div class="panel-card-body">
-            <div class="panel-card-table">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Select</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Group</th>
-                            <th>Employee</th>
-                            <th>Campaign</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($leads as $lead)
-                            <tr>
-                                <td>{{ $lead->id }}</td>
-                                <td><input type="checkbox" name="lead_id[]" value="{{$lead->id}}"></td>
-                                <td>{{ $lead->name }}</td>
-                                <td>{{ $lead->email }}</td>
-                                <td>{{ $lead->phone }}</td>
-                                <td>{{ $lead->address }}</td>
-                                <td>{{ DB::table('groups')->find($lead->group_id)?->name }}</td>
-                                <td>{{ DB::table('employees')->find($lead->employee_id)?->name }}</td>
-                                <td>{{ DB::table('campaigns')->find($lead->campaign_id)?->name }}</td>
-                                <td>
-                                    <label class="relative cursor-pointer">
-                                        <input onchange="handleUpdateStatus({{ $lead->id }})"
-                                            @checked($lead->status) type="checkbox" class="sr-only peer">
-                                        <div
-                                            class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2.5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-admin-ascent">
-                                        </div>
-                                    </label>
-                                </td>
-                                <td>
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="tel: {{$lead->phone}}"
-                                                        class="dropdown-link-primary"><i data-feather="phone"
-                                                            class="mr-1"></i> Make a Call</a></li>
-                                                <li><a href="mailto: {{$lead->email}}"
-                                                        class="dropdown-link-primary"><i data-feather="mail"
-                                                            class="mr-1"></i> Send a Mail</a></li>
-                                                <li><a href="javascript:handleDelete({{ $lead->id }});"
-                                                        class="dropdown-link-danger"><i data-feather="trash-2"
-                                                            class="mr-1"></i> Delete Lead</a></li>
-                                            </ul>
-                                        </div>
+                                                    <td class="text-nowrap">
+
+                                                        <a href="tel: {{$lead->phone}}"
+                                                            class="btn btn-success btn-sm content-icon">
+                                                            <i class="fa fa-phone"></i>
+                                                        </a>
+                                                        <a href="mailto: {{$lead->email}}"
+                                                            class="btn btn-success btn-sm content-icon">
+                                                            <i class="fa fa-envelope"></i>
+                                                        </a>
+                                                        <a href="{{ route('admin.view.lead.manager.update', ['id' => $lead->id]) }}"
+                                                            class="btn btn-warning btn-sm content-icon">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a href="javascript:handleDelete({{ $lead->id }});"
+                                                            class="btn btn-danger btn-sm content-icon">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+
+                                    <!-- Pagination Information -->
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                        <p class="mb-2 me-3">
+                                            Showing {{ $leads_manager->firstItem() }} to {{ $leads_manager->lastItem() }} of
+                                            {{ $leads_manager->total() }} records
+                                        </p>
+                                        <nav aria-label="Page navigation example mb-2">
+                                            {{ $leads_manager->links('pagination::bootstrap-4') }}
+                                        </nav>
                                     </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </figure>
+    </div>
+    <!--**********************************
+                                     Content body end
+             ***********************************-->
 @endsection
 
-@section('panel-script')
+@section('js')
     <script>
-        document.getElementById('lead-tab').classList.add('active');
-        document.getElementById('lead-management-tab').classList.add('active');
-
-        const handleUpdateStatus = (id) => {
-            fetch("{{ route('admin.api.lead.status') }}", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    _token: "{{ csrf_token() }}"
-                })
-            }).then((response) => {
-                return response.json();
-            }).then((result) => {
-                console.log(result);
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-
-        const handleDelete = (id) => {
+        function handleDelete(id) {
             swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this lead!",
+                    text: "Once deleted, you will not be able to recover this group!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location =
-                            `{{ url('admin/lead/delete') }}/${id}`;
+                        window.location = `{{ url('admin/leadmanager/delete') }}/${id}`;
                     }
                 });
         }
