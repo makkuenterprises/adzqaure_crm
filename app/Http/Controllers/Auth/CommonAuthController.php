@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Customer;
 
 
 class CommonAuthController extends Controller
@@ -24,37 +25,59 @@ class CommonAuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return $this->redirectBasedOnRole(Auth::user());
-        }
+           $customer = Customer::where('phone', $request->phone)->first();
 
-        return redirect()->route('login')->withErrors(['email' => 'Invalid email or password. Please try again.']);
+            if ($customer && Hash::check($request->password, $customer->password)) {
+                Auth::guard('customer')->login($customer);
+
+                return redirect()->route('customer.dashboard');
+            }
+
+
+
+        return redirect()->route('login')->withErrors(['phone' => 'Invalid phone no or password. Please try again.']);
     }
 
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:customer,service_provider,partner',
-        ]);
+public function register(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users|unique:customers,email',
+        'phone' => 'required|string|max:15',
+        'password' => 'required|string|min:8|confirmed',
+        'role' => 'required|in:customer,service_provider,partner',
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('register')->withErrors($validator)->withInput();
-        }
+    if ($validator->fails()) {
+        return redirect()->route('register')->withErrors($validator)->withInput();
+    }
 
-        $user = User::create([
+    if ($request->role === 'customer') {
+        $customer = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
         ]);
 
-        Auth::login($user);
-        return redirect()->route('login');
+        // If you want to log in the customer too, uncomment the line below:
+        Auth::guard('customer')->login($customer);
+
+        return redirect()->route(route: 'customer.dashboard')->with('success', 'Registration successful! Please log in.');
     }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'phone' => $request->phone,
+        'role' => $request->role,
+    ]);
+
+    Auth::login($user);
+    return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+}
+
 
     protected function redirectBasedOnRole(User $user)
     {

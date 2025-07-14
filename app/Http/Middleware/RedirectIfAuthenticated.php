@@ -28,6 +28,9 @@ class RedirectIfAuthenticated
             if ($guard == "employee" && Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::EMPLOYEE);
             }
+            if ($guard === "customer" && Auth::guard($guard)->check()) {
+            return redirect()->route('customer.dashboard');
+            }
             if (Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);
             }
