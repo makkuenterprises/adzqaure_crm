@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
             'role' => "Master Admin",
             'password' => Hash::make('12345678')
         ]);
+
+            $this->call([
+            ServiceCategorySeeder::class,
+        ]);
     }
 }

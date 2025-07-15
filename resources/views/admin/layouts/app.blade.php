@@ -146,6 +146,7 @@
 
     <!-- Dashboard 1 -->
     <script src="{{ asset('admin_new/js/dashboard/dashboard-1.js') }}"></script>
+    <script src="{{ asset('admin_new/vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}"></script>
 
     <script src="{{ asset('admin_new/vendor/owl-carousel/owl.carousel.js') }}"></script>
 

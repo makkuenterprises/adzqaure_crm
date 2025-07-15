@@ -401,7 +401,8 @@ class AdminViewController extends Controller implements AdminView
         $projects = $customer->projects()->paginate(5);
         $bills = $customer->bills()->paginate(10, ['*'], 'bills_page');
         $domainHostings = $customer->domainHostings()->paginate(10, ['*'], 'dh_page');
-        return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects, 'bills' => $bills, 'domainHostings' => $domainHostings]);
+        $passwords = $customer->passwords()->paginate(10, ['*'], 'passwords_page');
+        return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects, 'bills' => $bills, 'domainHostings' => $domainHostings, 'passwords' => $passwords]);
     }
 
 

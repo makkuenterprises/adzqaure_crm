@@ -26,5 +26,10 @@ class Customer extends Authenticatable // ✅ EXTENDS Authenticatable
         // Ordering by the soonest expiry date is most useful
         return $this->hasMany(DomainHosting::class)->orderBy('domain_expiry', 'asc');
     }
+
+    public function passwords(): HasMany
+    {
+        return $this->hasMany(Password::class);
+    }
 }
 

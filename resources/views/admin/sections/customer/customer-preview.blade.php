@@ -317,6 +317,78 @@
                             </div>
                         </div>
 
+                        {{-- Password Manager --}}
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <h4 class="card-title">Password Manager</h4>
+                                    <a href="{{ route('admin.view.password.create', ['customer_id' => $customer->id]) }}" class="btn btn-primary btn-sm">+ Add New Password</a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Username</th>
+                                                    <th>Password</th>
+                                                    <th class="text-end">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($passwords as $password)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <span class="me-2">
+                                                                    @switch($password->type)
+                                                                        @case('Facebook') <i class="fab fa-facebook-square fa-lg text-primary"></i> @break
+                                                                        @case('Twitter') <i class="fab fa-twitter fa-lg text-info"></i> @break
+                                                                        @case('Instagram') <i class="fab fa-instagram fa-lg text-danger"></i> @break
+                                                                        @case('Linkedin') <i class="fab fa-linkedin fa-lg text-primary"></i> @break
+                                                                        @case('Google') <i class="fab fa-google fa-lg text-warning"></i> @break
+                                                                        @case('Microsoft') <i class="fab fa-microsoft fa-lg text-info"></i> @break
+                                                                        @default <i class="fa fa-key"></i> @break
+                                                                    @endswitch
+                                                                </span>
+                                                                <span>{{ $password->type }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ $password->username ?: $password->email }}</td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="password" class="form-control bg-transparent border-0" value="{{ $password->password }}" readonly>
+                                                                <button class="btn btn-outline-secondary" type="button" onclick="handleTogglePassword(event)"><i class="fa fa-eye"></i></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-end text-nowrap">
+                                                            <a href="{{ route('admin.view.password.update', ['id' => $password->id]) }}" class="btn btn-warning btn-xxs" title="Edit">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a href="javascript:handlePasswordDelete({{ $password->id }});" class="btn btn-danger btn-xxs" title="Delete">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4" class="text-center p-4">
+                                                            No passwords have been saved for this customer.
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    {{-- Pagination Links for the passwords --}}
+                                    <div class="mt-3">
+                                        {{ $passwords->links() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
