@@ -395,9 +395,13 @@ class AdminViewController extends Controller implements AdminView
     /** View Customer Preview **/
     public function viewCustomerPreview($id)
     {
-        $customer = Customer::find($id);
-        $projects = Project::where('customer_id', $id)->get();
-        return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects]);
+        // $customer = Customer::find($id);
+        // $projects = Project::where('customer_id', $id)->get();
+        $customer = Customer::findOrFail($id);
+        $projects = $customer->projects()->paginate(5);
+        $bills = $customer->bills()->paginate(10, ['*'], 'bills_page');
+        $domainHostings = $customer->domainHostings()->paginate(10, ['*'], 'dh_page');
+        return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects, 'bills' => $bills, 'domainHostings' => $domainHostings]);
     }
 
 
