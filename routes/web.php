@@ -22,6 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('main');
 
+Route::redirect('/login', '/');
+Auth::routes(['login' => false, 'register' => false]);
+
 Route::get('setup', function () {
     Artisan::call('migrate');
     Artisan::call('db:seed');
@@ -56,9 +59,6 @@ Route::post('login', [CommonAuthController::class, 'login']);
 Route::get('register', [CommonAuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [CommonAuthController::class, 'register']);
 
-Route::middleware('auth:customer')->get('customer/dashboard', function () {
-    return "customer dashboard";
-})->name('customer.dashboard');
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::get('customer/dashboard', function () {

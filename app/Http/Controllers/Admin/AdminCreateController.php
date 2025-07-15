@@ -17,6 +17,7 @@ use App\Models\Service;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\LeadsManager;
 use App\Models\Password;
 use App\Imports\LeadsImport;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ interface AdminCreate
     public function handleEmployeeCreate(Request $request);
     public function handleLeadImport(Request $request);
     public function handleLeadCreate(Request $request);
+    public function handleLeadManagerCreate(Request $request);
     public function handleGroupCreate(Request $request);
     public function handleCampaignCreate(Request $request);
     public function handleCustomerCreate(Request $request);
@@ -136,7 +138,7 @@ class AdminCreateController extends Controller implements AdminCreate
 
     /*
     |--------------------------------------------------------------------------
-    | Handle Employee Create
+    | Handle Leads Create
     |--------------------------------------------------------------------------
     */
     public function handleLeadCreate(Request $request)
@@ -178,6 +180,50 @@ class AdminCreateController extends Controller implements AdminCreate
             }
         }
     }
+
+     /*
+    |--------------------------------------------------------------------------
+    | Handle Leads Manager Create
+    |--------------------------------------------------------------------------
+    */
+    public function handleLeadManagerCreate(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'min:1', 'max:250'],
+            'email' => ['required', 'string', 'min:1', 'max:250'],
+            'phone' => ['required', 'numeric', 'digits_between:10,20'],
+            'address' => ['required', 'string', 'min:1', 'max:1000'],
+            'status' => ['required', 'in:Hot Lead,Interested,Dead Lead'],
+
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation)->withInput();
+        } else {
+
+            $lead = new LeadsManager();
+            $lead->name = $request->input('name');
+            $lead->email = $request->input('email');
+            $lead->phone = $request->input('phone');
+            $lead->address = $request->input('address');
+            $lead->status = $request->input('status');
+
+            if ($lead->save()) {
+            return redirect()->back()->with('message', [
+                    'status' => 'success',
+                    'title' => 'Lead created',
+                    'description' => 'Lead is successfully created.'
+                ]);
+            } else {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'An error occurred',
+                    'description' => 'There is an internal server issue, please try again.'
+                ]);
+            }
+                }
+    }
+
 
     /*
     |--------------------------------------------------------------------------

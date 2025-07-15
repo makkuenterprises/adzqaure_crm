@@ -48,11 +48,7 @@ return [
             'driver' => 'session',
             'provider' => 'employees',
         ],
-        // ✅ Add this:
-        'customer' => [
-            'driver' => 'session',
-            'provider' => 'customers',
-        ],
+    
     ],
 
     /*
@@ -86,11 +82,7 @@ return [
             'model' => App\Models\Employee::class,
         ],
 
-        // ✅ Add this:
-        'customers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Customer::class,
-        ],
+
 
 
         // 'users' => [

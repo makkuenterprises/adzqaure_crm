@@ -58,7 +58,7 @@
                                             <div class="basic-form">
                                                 <select class="default-select form-control wide mb-3" name="status" id="status-select">
                                                     <option value="" selected>Select Status</option>
-                                                    @foreach ($statuses as $status_value)
+                                                    @foreach ($status as $status_value)
                                                         <option value="{{ $status_value }}" {{ old('status') == $status_value ? 'selected' : '' }}>
                                                             {{ $status_value }}
                                                         </option>

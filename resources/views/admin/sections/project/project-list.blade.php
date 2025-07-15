@@ -143,10 +143,11 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="dropdown-menu dropdown-menu-right">
+
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Edit</a>
+                                                                    href="{{ route('admin.view.project.update', ['id' => $project->id]) }}">Update</a>
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Delete</a>
+                                                                    href="javascript:handleDelete({{ $project->id }});">Delete</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -255,9 +256,9 @@
                                                             </div>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Edit</a>
+                                                                    href="{{ route('admin.view.project.update', ['id' => $project->id]) }}">Update</a>
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Delete</a>
+                                                                    href="javascript:handleDelete({{ $project->id }});">Delete</a>
                                                                 <!-- Mark as On Progress option -->
                                                                 <a class="dropdown-item"
                                                                     href="{{ route('admin.project.change-status', ['id' => $project->id, 'status' => 'OnProgress']) }}">
@@ -372,9 +373,9 @@
                                                             </div>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Edit</a>
+                                                                    href="{{ route('admin.view.project.update', ['id' => $project->id]) }}">Update</a>
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Delete</a>
+                                                                    href="javascript:handleDelete({{ $project->id }});">Delete</a>
                                                                 <a class="dropdown-item"
                                                                     href="{{ route('admin.project.change-status', ['id' => $project->id, 'status' => 'Closed']) }}">
                                                                     Mark as Closed
@@ -489,9 +490,9 @@
                                                             </div>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Edit</a>
+                                                                    href="{{ route('admin.view.project.update', ['id' => $project->id]) }}">Update</a>
                                                                 <a class="dropdown-item"
-                                                                    href="javascript:void(0);">Delete</a>
+                                                                    href="javascript:handleDelete({{ $project->id }});">Delete</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -526,6 +527,23 @@
 
 
 @section('js')
+
+    <script>
+        function handleDelete(id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this group!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = `{{ url('admin/group/delete') }}/${id}`;
+                    }
+                });
+        }
+    </script>
     <!--**********************************
                                                                                                                                                                                                                                                                 Scripts
                                                                                                                                                                                                                                                             ***********************************-->

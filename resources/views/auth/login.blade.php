@@ -56,12 +56,12 @@
                                 <form method="POST" action="{{ url('login') }}" class="form-valide-with-icon needs-validation" novalidate>
                                     @csrf
                                     <div class="mb-3">
-                                        <label class="text-label form-label required" for="phone">Phone No.</label>
+                                        <label class="text-label form-label required" for="email">Email Address</label>
                                         <div class="input-group">
                                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                                            <input type="tel" name="phone" value="{{ old('phone') }}" class="form-control" id="phone" placeholder="Enter phone no.." required>
+                                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email" placeholder="Enter Email.." required>
                                             <div class="invalid-feedback">
-                                                @error('phone')
+                                                @error('email')
                                                  <span class="input-error">{{ $message }}</span>
                                                 @enderror
                                             </div>

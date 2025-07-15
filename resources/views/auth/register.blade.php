@@ -58,7 +58,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label class="text-label form-label required" for="phone">Phone</label>
                                         <div class="input-group">
                                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -70,7 +70,7 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label class="text-label form-label required" for="dlab-password">Password</label>
                                         <div class="input-group transparent-append">
