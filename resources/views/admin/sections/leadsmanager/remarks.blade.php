@@ -26,56 +26,45 @@
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="addRemarkModal" tabindex="-1" aria-labelledby="addRemarkModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form action="{{ route('admin.lead.manager.remarks.store', $lead->id) }}" method="POST">
-                                        @csrf
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="addRemarkModalLabel">Add New Remark</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="comment">Remark</label>
-                                                <textarea name="comment" id="comment" class="form-control" rows="4" required></textarea>
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <form action="{{ route('admin.lead.manager.remarks.store', $lead->id) }}" method="POST">
+                                            @csrf
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="addRemarkModalLabel">Add New Remark</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                        </div>
 
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Save Remark</button>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="comment">Remark</label>
+                                                    <textarea name="comment" id="comment" class="form-control" rows="4" required></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Save Remark</button>
+                                            </div>
+                                        </form>
                                         </div>
-                                    </form>
                                     </div>
                                 </div>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>Records</th>
-                                                    <th>Created At</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse($remarks as $remark)
-                                                    <tr>
-                                                        <td>{{ $remark->comment }}</td>
-                                                        <td>{{ $remark->created_at->format('d-m-Y h:i A') }}</td>
-                                                    </tr>
-                                                @empty
+                                <div class="card-body p-0">
+                                    <div id="DZ_W_TimeLine" class="widget-timeline dlab-scroll p-4">
+                                        <ul class="timeline">
+                                            @forelse($remarks as $remark)
+                                            <li>
+                                                <div class="timeline-badge primary"></div>
+                                                <a class="timeline-panel text-muted" href="#">
+                                                    <span>{{ $remark->created_at->format('d-m-Y h:i A') }}</span>
+                                                    <h6 class="mb-0">{{ $remark->comment }}</h6>
+                                                </a>
+                                            </li>
+                                            @empty
                                                     <li class="list-group-item">No remarks found.</li>
                                                 @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    {{-- Pagination Links for the bills --}}
-                                    <div class="mt-3">
-                                        {{ $remarks->links() }}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

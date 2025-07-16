@@ -21,6 +21,25 @@
                     </div>
                     <div class="cm-content-body form excerpt">
                         <div class="card-body pb-4">
+                            <form method="GET" action="{{ route('admin.view.lead.manager.list') }}">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">From Date</label>
+                                        <input type="date" name="from_date" class="form-control"
+                                            value="{{ request('from_date') }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">To Date</label>
+                                        <input type="date" name="to_date" class="form-control"
+                                            value="{{ request('to_date') }}">
+                                    </div>
+                                    <div class="col-md-3 align-self-end">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-filter me-1"></i>Filter</button>
+                                        <a href="{{ route('admin.view.lead.manager.list') }}" class="btn btn-danger">Reset</a>
+                                    </div>
+                                </div>
+                            </form>
+
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>

@@ -31,6 +31,7 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 
+
 use Carbon\Carbon; // Make sure to import Carbon
 
 
@@ -59,7 +60,7 @@ interface AdminView
     public function viewLeadImport();
     public function viewLeadCreate();
 
-    public function viewLeadManagerList();
+    // public function viewLeadManagerList();
     public function viewLeadManagerImport();
     public function viewLeadManagerCreate();
 
@@ -259,9 +260,21 @@ class AdminViewController extends Controller implements AdminView
 
 
     /** View Leads Manager List **/
-    public function viewLeadManagerList()
+    public function viewLeadManagerList(Request $request)
     {
-        $leads_manager = LeadsManager::latest()->paginate(15);
+        $query = LeadsManager::query();
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+
+        $leads_manager = $query->latest()->paginate(15);
+        $leads_manager->appends(request()->query());
+
         return view('admin.sections.leadsmanager.leadsmanager-list', ['leads_manager' => $leads_manager]);
     }
 
