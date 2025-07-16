@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\CommonAuthController;
-
+use App\Exports\GlobalExport;
+use Maatwebsite\Excel\Facades\Excel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,6 +60,32 @@ Route::post('login', [CommonAuthController::class, 'login']);
 Route::get('register', [CommonAuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [CommonAuthController::class, 'register']);
 
+
+Route::get('/admin/export/excel', function (\Illuminate\Http\Request $request) {
+    $modelClass = $request->get('model'); // e.g., App\Models\LeadsManager
+    $fields     = explode(',', $request->get('fields')); // e.g., id,name,email
+    $from       = $request->get('from_date');
+    $to         = $request->get('to_date');
+
+    if (!class_exists($modelClass)) {
+        abort(404, 'Model not found');
+    }
+
+    $query = $modelClass::query();
+
+    if ($from) $query->whereDate('created_at', '>=', $from);
+    if ($to)   $query->whereDate('created_at', '<=', $to);
+
+    $records = $query->get($fields);
+
+    $headers = array_map('ucfirst', $fields);
+    $rows = $records->map(fn($item) => $item->only($fields))->values()->toArray();
+
+    return Excel::download(new GlobalExport('admin.exports.table', [
+        'headers' => $headers,
+        'rows'    => $rows,
+    ]), class_basename($modelClass) . '_export.xlsx');
+})->name('global.export.excel'); // ✅ THIS is required
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::get('customer/dashboard', function () {
