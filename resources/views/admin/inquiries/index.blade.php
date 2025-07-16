@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.lead.manager.list') }}">Leads Manager</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('inquiries.index') }}">Website Inquiries</a></li>
                 </ol>
             </div>
             <!-- Row -->

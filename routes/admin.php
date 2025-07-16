@@ -171,6 +171,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleLeadsManagerUpdate'])->name('admin.handle.lead.manager.update');
         Route::get('{lead}/remarks', [LeadRemarkController::class, 'showRemarks'])->name('admin.lead.manager.remarks');
         Route::post('{lead}/remarks', action: [LeadRemarkController::class, 'storeRemark'])->name('admin.lead.manager.remarks.store');
+        
     });
 
     Route::prefix('campaign')->group(function () {

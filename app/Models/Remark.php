@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Remark extends Model
 {
-    protected $fillable = ['leads_manager_id', 'comment'];
+    protected $fillable = ['leads_manager_id', 'comment','type',
+        'appointment_date',
+        'appointment_time',];
 
     public function lead()
     {
