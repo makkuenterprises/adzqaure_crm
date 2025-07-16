@@ -386,6 +386,14 @@ class AdminUpdateController extends Controller implements AdminUpdate
             $leads_manager->remarks = $request->input('remarks');
             $result = $leads_manager->save();
 
+            // Handle the new remark
+            if ($request->filled('new_remark')) {
+                // This is the beautiful, clean way to do it!
+                $leads_manager->remarks()->create([
+                    'comment' => $request->input('new_remark')
+                ]);
+            }
+
             if ($result) {
                 return redirect()->route('admin.view.lead.manager.list')->with('message', [
                     'status' => 'success',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Admin\AdminAPIController;
+use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\InquiryController;
 
 
@@ -37,10 +38,9 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/crm-settings', [AdminUpdateController::class, 'handleCrmUpdate'])->name('admin.handle.crm.settings.update');
     });
 
-
-Route::prefix('inquiries')->group(function () {
-    Route::get('/index', [InquiryController::class, 'index'])->name('inquiries.index');
-});
+    Route::prefix('inquiries')->group(function () {
+        Route::get('/index', [InquiryController::class, 'index'])->name('inquiries.index');
+    });
 
     Route::prefix('domain-hosting')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewDomainHostingList'])->name('admin.view.domain.hosting.list');
@@ -169,6 +169,8 @@ Route::prefix('inquiries')->group(function () {
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleLeadManagerDelete'])->name('admin.handle.lead.manager.delete');
         Route::get('/update/{id}', [AdminViewController::class, 'viewLeadManagerUpdate'])->name('admin.view.lead.manager.update');
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleLeadsManagerUpdate'])->name('admin.handle.lead.manager.update');
+        Route::get('{lead}/remarks', [LeadRemarkController::class, 'showRemarks'])->name('admin.lead.manager.remarks');
+        Route::post('{lead}/remarks', action: [LeadRemarkController::class, 'storeRemark'])->name('admin.lead.manager.remarks.store');
     });
 
     Route::prefix('campaign')->group(function () {

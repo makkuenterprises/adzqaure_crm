@@ -28,4 +28,16 @@ class LeadsManager extends Model
         'address',
         'status',
     ];
+
+    // In app/Models/Lead.php
+    // public function remarks()
+    // {
+    //     // Assuming you have a Remark model and a 'remarks' table
+    //     return $this->hasMany(Remark::class)->latest(); // 'latest()' shows newest remarks first
+    // }
+
+    public function remarks()
+{
+    return $this->hasMany(Remark::class, 'leads_manager_id');
+}
 }

@@ -85,10 +85,10 @@
                                                             <i class="fa fa-download"></i>
                                                         </a>
 
-                                                        <a href="javascript:handleDelete({{ $bill->id }});"
+                                                        {{-- <a href="javascript:handleDelete({{ $bill->id }});"
                                                             class="btn btn-danger btn-sm content-icon">
                                                             <i class="fa fa-times"></i>
-                                                        </a>
+                                                        </a> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
