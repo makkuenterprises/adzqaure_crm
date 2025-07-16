@@ -27,6 +27,16 @@
                             <div class="tools">
                                 <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
                             </div>
+                            <div class="d-flex justify-content-end mb-3 mt-3">
+                                <a href="{{ route('global.export.excel', [
+                                    'model' => 'App\Models\ServiceCategory',
+                                    'fields' => 'id,name,email,phone,status,created_at',
+                                    'from_date' => request('from_date'),
+                                    'to_date' => request('to_date'),
+                                ]) }}" class="btn btn-success" target="_blank">
+                                    <i class="fa fa-file-excel me-1"></i> Export to Excel
+                                </a>
+                            </div>
                         </div>
                         <div class="cm-content-body form excerpt">
                             <div class="card-body pb-4">
