@@ -226,12 +226,40 @@ function convertNumberToWordsForIndia($number)
                                             style="color: #000;">{{ $customer?->company_name }}</b></p>
                                     <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;">
                                         {{ $customer?->street }},</p>
-                                    <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;">
-                                        {{ $customer?->city }} -
-                                        {{ $customer?->pincode }},
-                                        {{ $customer?->state }},
-                                        {{ $customer?->country }}
-                                    </p>
+                                    @php
+                                        // Create an empty array to hold the parts of the address
+                                        $addressParts = [];
+
+                                        // Check each part of the address. If it exists, add it to the array.
+                                        if ($customer?->city) {
+                                            $addressParts[] = $customer->city;
+                                        }
+                                        if ($customer?->pincode) {
+                                            $addressParts[] = $customer->pincode;
+                                        }
+                                        if ($customer?->state) {
+                                            $addressParts[] = $customer->state;
+                                        }
+                                        if ($customer?->country) {
+                                            $addressParts[] = $customer->country;
+                                        }
+
+                                        // Join the existing parts together with a comma and space
+                                        $addressString = implode(', ', $addressParts);
+                                    @endphp
+
+                                    {{-- Now, check if the address string we built has any content --}}
+                                    @if (!empty($addressString))
+                                        {{-- IF an address exists, display it --}}
+                                        <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;">
+                                            {{ $addressString }}
+                                        </p>
+                                    @else
+                                        {{-- ELSE, display a fallback message --}}
+                                        <p style="font-size: 0.8rem; padding-bottom: 5px; color: #999; font-style: italic;">
+                                            No address information available.
+                                        </p>
+                                    @endif
                                     <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;"><b
                                             style="color: #000;">Email</b> : {{ $customer?->email }},</p>
                                     <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;"><b
@@ -274,60 +302,88 @@ function convertNumberToWordsForIndia($number)
                                                     Amount</th>
                                             </tr>
                                         </thead>
-                                        <tbody
-                                            style=" background-color: #f2ebfc; border: none; border-radius: 5px; overflow: hidden;">
-                                            @if (!is_null($bill->items))
-                                                @foreach (json_decode($bill->items) as $key => $bill_item)
-                                                    <tr>
-                                                        <td
-                                                            style="width: 10%; padding: 12px; font-size: 0.8rem; text-align: left; border-top: 1px solid #cacaca; ">
-                                                            {{ $key + 1 }}</td>
-                                                        <td
-                                                            style="width: 44%; padding: 12px; font-size: 0.8rem; text-align: left; border-top: 1px solid #cacaca;">
-                                                            {{ $bill_item->bill_item_name }}</td>
-                                                        <td
-                                                            style="width: 9%; padding: 12px; font-size: 0.8rem; text-align: left; border-top: 1px solid #cacaca;">
-                                                            {{ $bill_item->bill_item_quantity }}</td>
-                                                        <td
-                                                            style="width: 18%; padding: 12px; font-size: 0.8rem; text-align: right; border-top: 1px solid #cacaca;">
-                                                            Rs. {{ number_format($bill_item->bill_item_price, 2) }}
+                                       <tbody style="background-color: #f2ebfc;">
+                                            {{-- Safer JSON decoding --}}
+                                            @php
+                                                $_items = json_decode($bill->items) ?? [];
+                                            @endphp
+
+                                            @if (!empty($_items))
+                                                @foreach ($_items as $key => $bill_item)
+                                                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                                                        <td style="width: 10%; padding: 12px; font-size: 0.8rem; text-align: left;">
+                                                            {{ $key + 1 }}
                                                         </td>
-                                                        <td
-                                                            style="width: 19%; padding: 12px; font-size: 0.8rem; text-align: right; border-top: 1px solid #cacaca;">
-                                                            Rs. {{ number_format($bill_item->bill_item_total, 2) }}
+                                                        <td style="width: 44%; padding: 12px; font-size: 0.8rem; text-align: left;">
+                                                            {{ $bill_item->bill_item_name ?? 'N/A' }}
+                                                        </td>
+                                                        <td style="width: 9%; padding: 12px; font-size: 0.8rem; text-align: left;">
+                                                            {{ $bill_item->bill_item_quantity ?? 'N/A' }}
+                                                        </td>
+                                                        <td style="width: 18%; padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                            Rs. {{ number_format($bill_item->bill_item_price ?? 0, 2) }}
+                                                        </td>
+                                                        <td style="width: 19%; padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                            Rs. {{ number_format($bill_item->bill_item_total ?? 0, 2) }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
                                             @endif
                                         </tbody>
+
                                         <tfoot style="margin-top: 20px;">
-                                            @if (!is_null($bill->tax))
+                                            {{-- Define the grand total once for consistency --}}
+                                            @php
+                                                $grandTotal = ($bill->total ?? 0) + ($bill->tax ?? 0) - ($bill->discount_amount ?? 0);
+                                            @endphp
+
+                                            {{-- Sub-Total Row (Optional but good practice) --}}
+                                            <tr>
+                                                <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
+                                                    Sub-Total:
+                                                </td>
+                                                <td style="padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                    Rs. {{ number_format($bill->total ?? 0, 2) }}
+                                                </td>
+                                            </tr>
+
+                                            {{-- FIXED: Use a separate @if for Tax, so it always shows when present --}}
+                                            @if($bill->tax > 0)
                                                 <tr>
-                                                    <td style="width: 18%; padding: 12px; font-size: 0.8rem; text-align: right;"
-                                                        colspan="4">GST
-                                                        ({{ DB::table('company_details')->where('billing_tax_percentage', 'billing_tax_percentage')->first()?->value }}%)
-                                                        : </td>
-                                                    <td
-                                                        style="width: 19%; padding: 12px; font-size: 0.8rem; text-align: right;">
-                                                        Rs. {{ number_format($bill->tax, 2) }}</td>
-                                                </tr>
-                                            @else
-                                                <tr>
-                                                    <td colspan="5" style="padding-top: 10px;"></td>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
+                                                        GST ({{ $bill->tax_percentage ?? '18' }}%):
+                                                        {{-- Note: It's better to pass the tax percentage from your controller as $bill->tax_percentage --}}
+                                                    </td>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                        Rs. {{ number_format($bill->tax, 2) }}
+                                                    </td>
                                                 </tr>
                                             @endif
 
+                                            {{-- FIXED: Use a separate @if for Discount, so it always shows when present --}}
+                                            @if($bill->discount_amount > 0)
+                                                <tr>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
+                                                        - Discount:
+                                                    </td>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                        Rs. {{ number_format($bill->discount_amount, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            {{-- Final Grand Total Row --}}
                                             <tr>
-                                                <td colspan="3"
-                                                    style="padding: 12px; font-size: 0.8rem; text-align: left; font-weight: bolder;">
-                                                    Total in Words : <span
-                                                        style="text-transform: uppercase;">{{ convertNumberToWordsForIndia((int) $bill->total) }}</span>
+                                                <td colspan="3" style="padding: 12px; font-size: 0.8rem; text-align: left; font-weight: bold;">
+                                                    {{-- FIXED: Calculate words on the final Grand Total --}}
+                                                    Total in Words : <span style="text-transform: uppercase;">{{ convertNumberToWordsForIndia((int) $grandTotal) }}</span>
                                                 </td>
-                                                <th style="width: 18%; padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;"
-                                                    colspan="1">Total (INR) : </th>
-                                                <th
-                                                    style="width: 19%; padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;">
-                                                    Rs. {{ number_format($bill->total, 2) }}
+                                                <th style="padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;" colspan="1">
+                                                    Total (INR):
+                                                </th>
+                                                <th style="padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;">
+                                                    {{-- FIXED: Use the consistent Grand Total variable --}}
+                                                    Rs. {{ number_format($grandTotal, 2) }}
                                                 </th>
                                             </tr>
                                         </tfoot>

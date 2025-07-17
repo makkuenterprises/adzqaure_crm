@@ -23,7 +23,7 @@
                     @endphp
 
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Payment History | Bill #{{ $bill->id }}</h4>
+                        <h4 class="card-title">Bill #{{ $bill->id }} | Due: ₹{{ number_format($bill->net_payable - $bill->received_amount, 2) }}</h4>
 
                          <div>
                             @if (($bill->net_payable - $bill->received_amount) > 0)
