@@ -10,8 +10,8 @@
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin.view.bill.list') }}">Billing</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.bill.create') }}">Billing
-                            Customer</a>
+                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.bill.create') }}">Create Invoice
+                            </a>
                     </li>
                 </ol>
             </div>
@@ -29,7 +29,7 @@
                                     @csrf
                                     <div class="row g-3">
 
-                                        {{-- Customer --}}
+                                        {{-- Row 1: Customer, Category, Service, Date --}}
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="customer_id" class="input-label">Customer<span
@@ -42,169 +42,127 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('customer_id')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
                                             </div>
                                         </div>
-
-                                        {{-- Bill Date --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="service_category_id" class="input-label">Service Category</label>
+                                                <select class="form-select" id="service_category_id" onchange="updateServices(this.value)">
+                                                    <option value="">Select Category</option>
+                                                    @foreach ($serviceCategories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="service_id" class="input-label">Add Service to Bill</label>
+                                                <select class="form-select" id="service-dropdown" onchange="addServiceToBill(this.value)" disabled>
+                                                    <option value="">Select a category first</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="bill_date" class="input-label">Bill date <span
                                                         class="text-red-500">*</span></label>
-                                                <input type="date" name="bill_date" value="{{ old('bill_date') }}"
-                                                    class="form-control @error('bill_date') input-invalid @enderror"
-                                                    required>
-                                                @error('bill_date')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
+                                                <input type="date" name="bill_date" value="{{ old('bill_date', date('Y-m-d')) }}"
+                                                    class="form-control" required>
                                             </div>
                                         </div>
 
-                                        {{-- Due Date --}}
+                                        {{-- Row 2: Due Date & Currency --}}
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="due_date" class="input-label">Due date</label>
                                                 <input type="date" name="due_date" value="{{ old('due_date') }}"
-                                                    class="form-control @error('due_date') input-invalid @enderror">
-                                                @error('due_date')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
+                                                    class="form-control">
                                             </div>
                                         </div>
-
-                                        {{-- Currency --}}
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="invoice_currency" class="input-label">Invoice Currency <span
                                                         class="text-red-500">*</span></label>
-                                                <select name="invoice_currency" class="form-select" required>
-                                                    <option value="INR" @selected(old('invoice_currency', 'INR') == 'INR')>Indian Rupees (INR)
-                                                    </option>
-                                                    <option value="USD" @selected(old('invoice_currency') == 'USD')>US Dollars (USD)
-                                                    </option>
-                                                    <option value="AUD" @selected(old('invoice_currency') == 'AUD')>Australian Dollars
-                                                        (AUD)</option>
+                                                <select name="invoice_currency" id="invoice_currency" class="form-select" required>
+                                                    <option value="INR" @selected(old('invoice_currency', 'INR') == 'INR')>Indian Rupees (INR)</option>
+                                                    <option value="USD" @selected(old('invoice_currency') == 'USD')>US Dollars (USD)</option>
+                                                    <option value="AUD" @selected(old('invoice_currency') == 'AUD')>Australian Dollars (AUD)</option>
                                                 </select>
-                                                @error('invoice_currency')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
                                             </div>
                                         </div>
 
-                                        {{-- Bill Items --}}
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="bill_items" class="input-label">Bill Items</label>
-                                                <div class="space-y-2" id="bill-items-inputs">
-                                                    <!-- Bill items will be added dynamically -->
-                                                </div>
-                                                <button type="button" onclick="handleCreateBillITem(null,null,null,null)"
-                                                    class="btn btn-secondary">Add Item</button>
-                                                @error('bill_items')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
+                                        {{-- IMPROVED LAYOUT: Bill Items Section --}}
+                                        <div class="col-12 mt-4">
+                                            <h5>Bill Items</h5>
+                                            <hr>
+                                            <!-- Headers for the bill items table -->
+                                            <div class="row d-none d-md-flex fw-bold mb-2">
+                                                <div class="col-md-5">Item Name</div>
+                                                <div class="col-md-2">Quantity</div>
+                                                <div class="col-md-2">Price</div>
+                                                <div class="col-md-2">Total</div>
+                                                <div class="col-md-1">Action</div>
                                             </div>
+
+                                            <!-- Container where bill items will be dynamically added -->
+                                            <div id="bill-items-inputs">
+                                                <!-- Bill items will be added here by JavaScript -->
+                                            </div>
+                                            @error('bill_item_name')
+                                                <span class="input-error d-block">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
-                                        {{-- Apply GST --}}
+                                        {{-- Totals, Discounts, and other fields --}}
+                                        <div class="col-12">
+                                            <hr>
+                                        </div>
+
                                         <div class="col-md-4">
                                             <div class="form-check">
                                                 <input type="checkbox" onchange="handleCalculateBill()" id="apply_gst"
                                                     @checked(old('apply_gst')) name="apply_gst" value="1"
                                                     class="form-check-input">
-                                                <label for="apply_gst" class="form-check-label">Apply Tax (GST) in this
-                                                    bill</label>
+                                                <label for="apply_gst" class="form-check-label">Apply Tax (GST) in this bill</label>
                                             </div>
                                         </div>
-
-                                        {{-- Tax --}}
                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="tax" class="input-label">Tax (GST)</label>
-                                                <input type="number" step="any" value="0.00" id="tax"
-                                                    name="tax" value="{{ old('tax') }}"
-                                                    class="form-control @error('tax') input-invalid @enderror"
-                                                    placeholder="Enter tax" readonly>
-                                                @error('tax')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                                            <label for="tax" class="input-label">Tax (GST)</label>
+                                            <input type="number" id="tax" name="tax" class="form-control" value="0.00" readonly>
                                         </div>
-
-                                        {{-- Total --}}
                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="total" class="input-label">Total</label>
-                                                <input type="number" step="any" value="0.00" id="total"
-                                                    name="total" value="{{ old('total') }}"
-                                                    class="form-control @error('total') input-invalid @enderror"
-                                                    placeholder="Enter total" readonly>
-                                                @error('total')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                                            <label for="total" class="input-label">Sub-Total</label>
+                                            <input type="number" id="total" name="total" class="form-control" value="0.00" readonly>
                                         </div>
 
-                                        <div class="row mt-3">
-                                            <!-- Discount Percentage -->
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="discount_percentage">Discount (%)</label>
-                                                    <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" class="form-control" value="0">
-                                                </div>
-                                            </div>
-
-                                            <!-- Discount Amount -->
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="discount_amount">Discount (₹)</label>
-                                                    <input type="number" name="discount_amount" id="discount_amount" step="0.01" class="form-control" value="0">
-                                                </div>
-                                            </div>
-
-                                            <!-- Payable After Discount -->
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Payable After Discount (₹)</label>
-                                                    <input type="text" id="payable_display" class="form-control" value="0.00" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        {{-- Payment Status --}}
                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="payment_status" class="input-label">Payment Status <span
-                                                        class="text-red-500">*</span></label>
-                                                <select class="form-select" name="payment_status" required>
-                                                    <option value="" @selected(old('payment_status') == '')>Select Payment
-                                                        Status</option>
-                                                    <option value="Paid" @selected(old('payment_status', 'Pending') == 'Paid')>Paid</option>
-                                                    <option value="Pending" @selected(old('payment_status', 'Pending') == 'Pending')>Pending</option>
-                                                </select>
-                                                @error('payment_status')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                                            <label for="discount_percentage">Discount (%)</label>
+                                            <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" class="form-control" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="discount_amount">Discount Amount</label>
+                                            <input type="number" name="discount_amount" id="discount_amount" step="0.01" class="form-control" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Grand Total</label>
+                                            <input type="text" id="payable_display" class="form-control" value="0.00" readonly style="font-weight: bold; font-size: 1.1rem;">
                                         </div>
 
-                                        {{-- Bill Note --}}
+                                        <div class="col-md-4">
+                                            <label for="payment_status" class="input-label">Payment Status <span class="text-red-500">*</span></label>
+                                            <select class="form-select" name="payment_status" required>
+                                                <option value="" @selected(old('payment_status') == '')>Select Status</option>
+                                                {{-- <option value="Paid" @selected(old('payment_status') == 'Paid')>Paid</option> --}}
+                                                <option value="Pending" @selected(old('payment_status', 'Pending') == 'Pending')>Pending</option>
+                                            </select>
+                                        </div>
                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="bill_note" class="input-label">Bill Note</label>
-                                                <textarea name="bill_note" rows="5" class="form-control @error('bill_note') input-invalid @enderror"
-                                                    placeholder="Enter bill note" minlength="1" maxlength="1000">{{ old('bill_note') }}</textarea>
-                                                @error('bill_note')
-                                                    <span class="input-error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                                            <label for="bill_note" class="input-label">Bill Note</label>
+                                            <textarea name="bill_note" rows="4" class="form-control" placeholder="Enter bill note">{{ old('bill_note') }}</textarea>
                                         </div>
-
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-3">Create Invoice</button>
+                                    <button type="submit" class="btn btn-primary mt-4">Create Invoice</button>
                                 </form>
                             </div>
                         </div>
@@ -213,14 +171,18 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                    Content body end
-                                                                ***********************************-->
 @endsection
 
 @section('js')
     <script>
-        // Get references to elements once to avoid repeated lookups
+        // Data from the controller
+        const allServicesGrouped = @json($allServicesGrouped);
+        const allServicesLookup = @json($allServicesForLookup);
+
+        // Get references to DOM elements
+        const serviceCategoryDropdown = document.getElementById('service_category_id');
+        const serviceDropdown = document.getElementById('service-dropdown');
+        const currencyDropdown = document.getElementById('invoice_currency');
         const totalInput = document.getElementById("total");
         const discountPercentageInput = document.getElementById("discount_percentage");
         const discountAmountInput = document.getElementById("discount_amount");
@@ -229,21 +191,50 @@
         const applyGstCheckbox = document.getElementById('apply_gst');
         const billItemsContainer = document.getElementById('bill-items-inputs');
 
+        function addServiceToBill(serviceId) {
+            if (!serviceId) return;
+
+            const service = allServicesLookup[serviceId];
+            if (!service) return;
+
+            const selectedCurrency = currencyDropdown.value;
+            let price = 0;
+            switch (selectedCurrency) {
+                case 'USD': price = service.service_price_in_usd; break;
+                case 'AUD': price = service.service_price_in_aud; break;
+                default:    price = service.service_price_in_inr; break;
+            }
+
+            handleCreateBillITem(service.service_name, 1, price, price);
+            serviceDropdown.value = ''; // Reset for next selection
+        }
+
+        function updateServices(categoryId) {
+            serviceDropdown.innerHTML = '';
+            if (categoryId && allServicesGrouped[categoryId]) {
+                serviceDropdown.disabled = false;
+                serviceDropdown.innerHTML = '<option value="">Select Service</option>';
+                allServicesGrouped[categoryId].forEach(service => {
+                    serviceDropdown.add(new Option(service.service_name, service.id));
+                });
+            } else {
+                serviceDropdown.disabled = true;
+                serviceDropdown.innerHTML = '<option value="">Select a category first</option>';
+            }
+        }
+
         function updatePayableAmount() {
-            let total = parseFloat(totalInput.value) || 0;
+            let subTotalWithTax = parseFloat(totalInput.value) + parseFloat(taxInput.value);
             let discountPercentage = parseFloat(discountPercentageInput.value) || 0;
             let discountAmount = parseFloat(discountAmountInput.value) || 0;
-            let finalPayable = total;
+            let finalPayable = subTotalWithTax;
 
-            // Determine which discount to apply
             if (discountPercentage > 0) {
-                // If a percentage is being used, calculate the amount from it
-                discountAmount = (discountPercentage / 100) * total;
-                discountAmountInput.value = discountAmount.toFixed(2); // Update the other input for clarity
-                finalPayable = total - discountAmount;
+                discountAmount = (discountPercentage / 100) * subTotalWithTax;
+                discountAmountInput.value = discountAmount.toFixed(2);
+                finalPayable -= discountAmount;
             } else if (discountAmount > 0) {
-                // If a fixed amount is used
-                finalPayable = total - discountAmount;
+                finalPayable -= discountAmount;
             }
 
             payableDisplayInput.value = finalPayable.toFixed(2);
@@ -251,111 +242,110 @@
 
         function handleCalculateBill() {
             let subTotal = 0;
-
-            // Calculate subtotal from all bill items
-            document.querySelectorAll('.bill_item_total').forEach((element) => {
-                subTotal += parseFloat(element.value) || 0;
+            document.querySelectorAll('.bill_item_total').forEach(el => {
+                subTotal += parseFloat(el.value) || 0;
             });
+            totalInput.value = subTotal.toFixed(2);
 
-            let finalTotal = subTotal;
             let taxValue = 0;
-
-            // Calculate and add tax if applicable
             if (applyGstCheckbox.checked) {
                 const taxPercentage = {{ DB::table('company_details')->first()->billing_tax_percentage ?? 0 }};
                 taxValue = (subTotal * taxPercentage) / 100;
-                finalTotal += taxValue;
             }
-
             taxInput.value = taxValue.toFixed(2);
-            totalInput.value = finalTotal.toFixed(2);
 
-            // *** THE KEY STEP ***
-            // Now that the total is updated, also update the final payable amount
             updatePayableAmount();
         }
 
-        // Add event listeners
+        // Event listeners for discounts to auto-calculate
         discountPercentageInput.addEventListener('input', (e) => {
-            // If user types a percentage, clear the fixed amount field
-            if (e.target.value) {
-                discountAmountInput.value = '';
-            }
+            if (e.target.value) { discountAmountInput.value = ''; }
             updatePayableAmount();
         });
 
         discountAmountInput.addEventListener('input', (e) => {
-            // If user types a fixed amount, clear the percentage field
-            if (e.target.value) {
-                discountPercentageInput.value = '';
-            }
+            if (e.target.value) { discountPercentageInput.value = ''; }
             updatePayableAmount();
         });
 
+        // Listen for changes on currency and tax to re-calculate everything
+        currencyDropdown.addEventListener('change', handleCalculateBill);
+        applyGstCheckbox.addEventListener('change', handleCalculateBill);
 
-        // --- Your existing `handleCreateBillITem` function (unchanged) ---
+        // =========================================================================
+        // REVISED: This function now creates a read-only item row with a grid layout.
+        // =========================================================================
         function handleCreateBillITem(name, quantity, price, total) {
-            let parentDiv = document.createElement('div');
-            parentDiv.className = "d-flex justify-content-between mb-2";
+            const itemRow = document.createElement('div');
+            itemRow.className = "row align-items-center mb-2";
 
-            let billItemNameInput = document.createElement('input');
-            billItemNameInput.type = "text";
-            billItemNameInput.className = "form-control bill_item_name";
-            billItemNameInput.name = "bill_item_name[]";
-            billItemNameInput.value = name || '';
-            billItemNameInput.required = true;
-            billItemNameInput.placeholder = "Enter item name";
+            // Column for Item Name (Read-only)
+            const nameCol = document.createElement('div');
+            nameCol.className = "col-md-5";
+            const nameInput = document.createElement('input');
+            nameInput.type = "text";
+            nameInput.className = "form-control bill_item_name";
+            nameInput.name = "bill_item_name[]";
+            nameInput.value = name;
+            nameInput.readOnly = true;
+            nameCol.appendChild(nameInput);
 
-            let billItemQuantityInput = document.createElement('input');
-            billItemQuantityInput.type = "number";
-            billItemQuantityInput.className = "form-control bill_item_quantity";
-            billItemQuantityInput.name = "bill_item_quantity[]";
-            billItemQuantityInput.value = quantity || 1;
-            billItemQuantityInput.required = true;
-            billItemQuantityInput.placeholder = "Qty";
-
-            billItemQuantityInput.oninput = (event) => { // use oninput for instant feedback
-                event.target.parentNode.querySelector('.bill_item_total').value = (event.target.parentNode
-                    .querySelector('.bill_item_price').value * event.target.value).toFixed(2);
+            // Column for Quantity (Editable)
+            const qtyCol = document.createElement('div');
+            qtyCol.className = "col-md-2";
+            const qtyInput = document.createElement('input');
+            qtyInput.type = "number";
+            qtyInput.className = "form-control bill_item_quantity";
+            qtyInput.name = "bill_item_quantity[]";
+            qtyInput.value = quantity;
+            qtyInput.min = 1;
+            qtyInput.required = true;
+            qtyInput.oninput = (e) => {
+                const priceVal = parseFloat(e.target.closest('.row').querySelector('.bill_item_price').value) || 0;
+                e.target.closest('.row').querySelector('.bill_item_total').value = (priceVal * e.target.value).toFixed(2);
                 handleCalculateBill();
             };
+            qtyCol.appendChild(qtyInput);
 
-            let billItemPriceInput = document.createElement('input');
-            billItemPriceInput.type = "number";
-            billItemPriceInput.className = "form-control bill_item_price";
-            billItemPriceInput.name = "bill_item_price[]";
-            billItemPriceInput.value = price || '';
-            billItemPriceInput.required = true;
-            billItemPriceInput.placeholder = "Enter price";
-            billItemPriceInput.setAttribute('step', 'any');
+            // Column for Price (Read-only)
+            const priceCol = document.createElement('div');
+            priceCol.className = "col-md-2";
+            const priceInput = document.createElement('input');
+            priceInput.type = "text";
+            priceInput.className = "form-control bill_item_price";
+            priceInput.name = "bill_item_price[]";
+            priceInput.value = parseFloat(price).toFixed(2);
+            priceInput.readOnly = true;
+            priceCol.appendChild(priceInput);
 
-            billItemPriceInput.oninput = (event) => { // use oninput for instant feedback
-                event.target.parentNode.querySelector('.bill_item_total').value = (event.target.parentNode
-                    .querySelector('.bill_item_quantity').value * event.target.value).toFixed(2);
+            // Column for Total (Read-only)
+            const totalCol = document.createElement('div');
+            totalCol.className = "col-md-2";
+            const totalInput = document.createElement('input');
+            totalInput.type = "text";
+            totalInput.className = "form-control bill_item_total";
+            totalInput.name = "bill_item_total[]";
+            totalInput.value = parseFloat(total).toFixed(2);
+            totalInput.readOnly = true;
+            totalCol.appendChild(totalInput);
+
+            // Column for Remove Button
+            const actionCol = document.createElement('div');
+            actionCol.className = "col-md-1";
+            const removeBtn = document.createElement('button');
+            removeBtn.type = "button";
+            removeBtn.className = "btn btn-danger btn-sm";
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = (e) => {
+                e.target.closest('.row').remove();
                 handleCalculateBill();
             };
+            actionCol.appendChild(removeBtn);
 
-            let billItemTotalInput = document.createElement('input');
-            billItemTotalInput.type = "number";
-            billItemTotalInput.className = "form-control bill_item_total";
-            billItemTotalInput.name = "bill_item_total[]";
-            billItemTotalInput.value = total || 0;
-            billItemTotalInput.required = true;
-            billItemTotalInput.placeholder = "Total";
-            billItemTotalInput.setAttribute('step', 'any');
-            billItemTotalInput.setAttribute('readonly', true);
+            itemRow.append(nameCol, qtyCol, priceCol, totalCol, actionCol);
+            billItemsContainer.appendChild(itemRow);
 
-            let remove = document.createElement('button');
-            remove.className = "btn btn-danger";
-            remove.innerHTML = ' × ';
-            remove.type = "button";
-            remove.onclick = (event) => {
-                event.target.parentNode.remove();
-                handleCalculateBill();
-            }
-
-            parentDiv.append(billItemNameInput, billItemQuantityInput, billItemPriceInput, billItemTotalInput, remove);
-            billItemsContainer.appendChild(parentDiv);
+            handleCalculateBill(); // Recalculate everything after adding the row
         }
     </script>
 @endsection

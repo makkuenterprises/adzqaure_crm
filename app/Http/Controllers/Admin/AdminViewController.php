@@ -503,10 +503,17 @@ class AdminViewController extends Controller implements AdminView
     {
 
         $customers = Customer::where('status', true)->get();
-        $serviceCategories = ServiceCategory::all();
-        $services = Service::all();
-        // return view('admin.sections.bill.bill-create', ['customers' => $customers], ['serviceCategories' => $serviceCategories], ['services' => $services]);
-        return view('admin.sections.bill.bill-create', compact('customers', 'serviceCategories', 'services'));
+        $serviceCategories = ServiceCategory::orderBy('name')->get();
+        $allServices = Service::orderBy('service_name')->get();
+        $allServicesGrouped = $allServices->groupBy('service_category_id');
+        $allServicesForLookup = $allServices->keyBy('id');
+
+        return view('admin.sections.bill.bill-create', compact(
+            'customers',
+            'serviceCategories',
+            'allServicesGrouped',
+            'allServicesForLookup'
+        ));
     }
 
     /** View Bill Update **/
