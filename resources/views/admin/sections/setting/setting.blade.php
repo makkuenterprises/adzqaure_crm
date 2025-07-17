@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="card-footer mt-0">
                                     <a href="{{ route('admin.view.account.setting') }}"
-                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                        class="btn btn-primary btn-block btn-loader">Edit Infomation</a>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="card-footer mt-0">
                                     <a href="{{ route('admin.view.company.details.setting') }}"
-                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                        class="btn btn-primary btn-block btn-loader">Edit Infomation</a>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="card-footer mt-0">
                                     <a href="{{ route('admin.view.mail.credentials.setting') }}"
-                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                        class="btn btn-primary btn-block btn-loader">Edit Infomation</a>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer mt-0">
-                                    <a href="{{ route('admin.view.crm.setting') }}" class="btn btn-primary btn-block">Edit
+                                    <a href="{{ route('admin.view.crm.setting') }}" class="btn btn-primary btn-block btn-loader">Edit
                                         Infomation</a>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="card-footer mt-0">
                                     <a href="{{ route('admin.view.payment-setting') }}"
-                                        class="btn btn-primary btn-block">Edit Infomation</a>
+                                        class="btn btn-primary btn-block btn-loader">Edit Infomation</a>
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,7 @@
                         </div>
                         <div class="card-body">
                             <div class="basic-form">
-                                <form action="{{ route('admin.handle.bill.create') }}" method="POST"
+                                <form action="{{ route('admin.handle.bill.create') }}" method="POST" class="needs-loader"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="row g-3">

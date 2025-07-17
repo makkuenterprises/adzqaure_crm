@@ -196,6 +196,50 @@
                 cardsCenter();
             }, 1000);
         });
+
+        // --- NEW REUSABLE LOADER FOR BUTTONS ---
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- LOGIC FOR FORMS (handles validation) ---
+            // It looks for any form with class="needs-loader"
+            const formsToWatch = document.querySelectorAll('form.needs-loader');
+            formsToWatch.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.innerHTML = `
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Processing...
+                        `;
+                    }
+                });
+            });
+
+            // --- LOGIC FOR LINKS and non-form buttons (navigates on click) ---
+            // It looks for any <a> or <button type="button"> with class="btn-loader"
+            const buttonsToWatch = document.querySelectorAll('a.btn-loader, button.btn-loader');
+            buttonsToWatch.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    // Check if the button is already disabled to prevent re-triggering
+                    if (button.classList.contains('disabled')) {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    button.classList.add('disabled'); // Visually disable for <a> tags
+                    if (button.tagName === 'BUTTON') {
+                        button.disabled = true;
+                    }
+
+                    button.innerHTML = `
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    `;
+                });
+            });
+
+        });
     </script>
     {{-- <script src="{{ asset('admin/js/app.js') }}"></script> --}}
 

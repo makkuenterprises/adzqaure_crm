@@ -21,8 +21,8 @@
                 <p class="panel-card-description">All Data in the website </p>
             </div>
             <div>
-                <a href="{{ route('admin.view.lead.create') }}" class="btn-primary-md">Create Lead</a>
-                <a href="{{ route('admin.view.lead.import') }}" class="btn-primary-md">Import Leads</a>
+                <a href="{{ route('admin.view.lead.create') }}" class="btn-primary-md btn-loader">Create Lead</a>
+                <a href="{{ route('admin.view.lead.import') }}" class="btn-primary-md btn-loader">Import Leads</a>
             </div>
         </div>
         <div class="panel-card-body">

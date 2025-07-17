@@ -74,7 +74,7 @@
             <div class="row">
                 @if (request()->has('customer_id') && request('customer_id') != '')
                     <div class="col-lg-3 mt-4">
-                        <a href="{{ url('/admin/password/create') . '?customer_id=' . request('customer_id') }}" class="btn btn-sm btn-primary">Add
+                        <a href="{{ url('/admin/password/create') . '?customer_id=' . request('customer_id') }}" class="btn btn-sm btn-primary btn-loader">Add
                             Password</a>
                     </div>
                 @endif

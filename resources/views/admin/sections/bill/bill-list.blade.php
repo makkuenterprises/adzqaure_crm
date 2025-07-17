@@ -17,7 +17,7 @@
                 <div class="col-xl-12">
                     <div>
                         <a href="{{ route('admin.view.bill.create') }}" type="button"
-                            class="btn btn-sm btn-primary mb-4 open">Create Invoice</a>
+                            class="btn btn-sm btn-primary mb-4 open btn-loader">Create Invoice</a>
                     </div>
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">
@@ -92,7 +92,7 @@
                                                             <i class="fa fa-window-maximize"></i>
                                                         </a>
                                                         <a href="{{ route('admin.handle.bill.invoice', ['id' => $bill->id]) }}"
-                                                            class="btn btn-success btn-sm content-icon">
+                                                            class="btn btn-success btn-sm content-icon download-invoice-btn">
                                                             <i class="fa fa-download"></i>
                                                         </a>
 
@@ -128,9 +128,12 @@
 @endsection
 
 @section('js')
-    <script>
-        function handleDelete(id) {
+    {{-- Make sure SweetAlert2 is included in your main layout (app.blade.php) --}}
+    If not, you can add it here: <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        // Your existing delete function
+        function handleDelete(id) {
             swal({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this bill!",
@@ -145,5 +148,41 @@
                     }
                 });
         }
+
+        // --- NEW CODE FOR DOWNLOAD TOAST ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Find all buttons with the new class
+            const downloadButtons = document.querySelectorAll('.download-invoice-btn');
+
+            // 2. Loop through each button and add a click event listener
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    // 3. Prevent the link from navigating immediately
+                    event.preventDefault();
+
+                    // 4. Get the download URL from the link's href
+                    const downloadUrl = this.href;
+
+                    // 5. Configure and show the toast notification using SweetAlert2
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 2000, // Toast will show for 2 seconds
+                      timerProgressBar: true,
+                    });
+
+                    Toast.fire({
+                      icon: 'info',
+                      title: 'Preparing your invoice for download...'
+                    });
+
+                    // 6. After a short delay, proceed to the download URL
+                    setTimeout(() => {
+                        window.location.href = downloadUrl;
+                    }, 1500); // 1.5-second delay to allow user to see the toast
+                });
+            });
+        });
     </script>
 @endsection

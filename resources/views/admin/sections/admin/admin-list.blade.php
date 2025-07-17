@@ -17,7 +17,7 @@
                 <div class="col-xl-12">
                     <div>
                         <a href="{{ route('admin.view.admin.create') }}" type="button"
-                            class="btn btn-sm btn-primary mb-4 open">Create New Admin</a>
+                            class="btn btn-sm btn-primary mb-4 open btn-loader">Create New Admin</a>
                     </div>
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">

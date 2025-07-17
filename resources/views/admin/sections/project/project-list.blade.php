@@ -34,7 +34,7 @@
 
                 </div>
                 <div class="mb-4">
-                    <a href="{{ route('admin.view.project.create') }}" class="btn btn-primary btn-rounded">+ New Project</a>
+                    <a href="{{ route('admin.view.project.create') }}" class="btn btn-primary btn-rounded btn-loader">+ New Project</a>
                 </div>
             </div>
             <div class="row">

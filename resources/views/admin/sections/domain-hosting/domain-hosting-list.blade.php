@@ -18,7 +18,7 @@
                 <div class="col-xl-12">
                     <div>
                         <a href="{{ route('admin.view.domain.hosting.create') }}" type="button"
-                            class="btn btn-sm btn-primary mb-4 open">Add Domain & Hosting</a>
+                            class="btn btn-sm btn-primary mb-4 open btn-loader">Add Domain & Hosting</a>
                     </div>
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">

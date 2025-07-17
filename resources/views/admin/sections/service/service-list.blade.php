@@ -17,7 +17,7 @@
                 <div class="col-xl-12">
                     <div>
                         <a href="{{ route('admin.view.service.create') }}" type="button"
-                            class="btn btn-sm btn-primary mb-4 open">Create Service</a>
+                            class="btn btn-sm btn-primary mb-4 open btn-loader">Create Service</a>
                     </div>
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">
@@ -33,7 +33,7 @@
                                     'fields' => 'id,name,email,phone,status,created_at',
                                     'from_date' => request('from_date'),
                                     'to_date' => request('to_date'),
-                                ]) }}" class="btn btn-success" target="_blank">
+                                ]) }}" class="btn btn-success btn-loader" target="_blank">
                                     <i class="fa fa-file-excel me-1"></i> Export to Excel
                                 </a>
                             </div>
