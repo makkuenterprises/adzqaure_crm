@@ -11,9 +11,27 @@ class Bill extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'bills';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+
      public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(PaymentHistory::class, 'bill_id');
     }
 
 

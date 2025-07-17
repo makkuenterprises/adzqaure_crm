@@ -56,10 +56,15 @@
                                                     <td>₹{{ number_format($bill->total, 2) }}</td>
                                                     <td>₹{{ number_format($bill->discount_amount, 2) }}</td>
                                                     <td>₹{{ number_format($bill->net_payable, 2) }}</td>
-                                                    <td class="fw-bold {{ ($bill->net_payable - $bill->received_amount) > 0 ? 'text-danger' : 'text-success' }}">
-                                                        {{-- The calculation is done right here --}}
-                                                        ₹{{ number_format($bill->net_payable - $bill->received_amount, 2) }}
+                                                    @php
+                                                        $total_received = $bill->paymentHistories ? $bill->paymentHistories->sum('received_amount') : 0;
+                                                        $due_amount = $bill->net_payable - $total_received;
+                                                    @endphp
+
+                                                    <td class="fw-bold {{ $due_amount > 0 ? 'text-danger' : 'text-success' }}">
+                                                        ₹{{ number_format($due_amount, 2) }}
                                                     </td>
+
                                                     <td>{{ date('d-m-Y', strtotime($bill->bill_date)) }}</td>
                                                     <td>
                                                         @if (\Carbon\Carbon::parse($bill->due_date) <= \Carbon\Carbon::now())
@@ -85,6 +90,7 @@
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History"><i class="fa fa-history"></i></a>
                                                         <a href="{{ route('admin.handle.bill.duplicate', ['id' => $bill->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-window-maximize"></i>

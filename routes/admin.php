@@ -8,8 +8,7 @@ use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Admin\AdminAPIController;
 use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\InquiryController;
-
-
+use App\Http\Controllers\PaymentHistoryController;
 
 Route::middleware(['guest:admin'])->group(function () {
     Route::get('login', [AdminAuthController::class, 'viewLogin'])->name('admin.view.login');
@@ -101,6 +100,8 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleBillDelete'])->name('admin.handle.bill.delete');
         Route::get('/invoice/{id}', [AdminViewController::class, 'handleBillInvoiceDownload'])->name('admin.handle.bill.invoice');
         Route::get('/duplicate/{id}', [AdminCreateController::class, 'handleBillDuplicate'])->name('admin.handle.bill.duplicate');
+        Route::get('{bill}/history', [PaymentHistoryController::class, 'showHistory'])->name('admin.bill.history');
+        Route::post('{bill}/history', action: [PaymentHistoryController::class, 'storeHistory'])->name('admin.bill.history.store');
     });
 
     Route::prefix('admin-access')->group(function () {
@@ -171,7 +172,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleLeadsManagerUpdate'])->name('admin.handle.lead.manager.update');
         Route::get('{lead}/remarks', [LeadRemarkController::class, 'showRemarks'])->name('admin.lead.manager.remarks');
         Route::post('{lead}/remarks', action: [LeadRemarkController::class, 'storeRemark'])->name('admin.lead.manager.remarks.store');
-        
+
     });
 
     Route::prefix('campaign')->group(function () {

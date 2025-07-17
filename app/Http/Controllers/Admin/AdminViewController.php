@@ -26,6 +26,7 @@ use App\Models\MailCredential;
 use App\Models\PaymentSetting;
 use App\Models\LeadsManager;
 use App\Models\ServiceCategory;
+use App\Models\PaymentHistory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
@@ -490,8 +491,11 @@ class AdminViewController extends Controller implements AdminView
     /** View Bill List **/
     public function viewBillList()
     {
+
+        $paymentHistory = PaymentHistory::all();
+        $bills = Bill::with('paymentHistories')->latest()->paginate(10);
         $bills = Bill::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.sections.bill.bill-list', ['bills' => $bills]);
+        return view('admin.sections.bill.bill-list', ['bills' => $bills, 'paymentHistory' => $paymentHistory]);
     }
 
     /** View Bill Create **/
