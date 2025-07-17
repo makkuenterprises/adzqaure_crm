@@ -147,6 +147,33 @@
                                             </div>
                                         </div>
 
+                                        <div class="row mt-3">
+                                            <!-- Discount Percentage -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="discount_percentage">Discount (%)</label>
+                                                    <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" class="form-control" value="0">
+                                                </div>
+                                            </div>
+
+                                            <!-- Discount Amount -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="discount_amount">Discount (₹)</label>
+                                                    <input type="number" name="discount_amount" id="discount_amount" step="0.01" class="form-control" value="0">
+                                                </div>
+                                            </div>
+
+                                            <!-- Payable After Discount -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Payable After Discount (₹)</label>
+                                                    <input type="text" id="payable_display" class="form-control" value="0.00" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         {{-- Payment Status --}}
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -177,7 +204,7 @@
                                         </div>
 
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Create Customer</button>
+                                    <button type="submit" class="btn btn-primary mt-3">Create Invoice</button>
                                 </form>
                             </div>
                         </div>
@@ -193,32 +220,81 @@
 
 @section('js')
     <script>
-        function handleCalculateBill() {
+        // Get references to elements once to avoid repeated lookups
+        const totalInput = document.getElementById("total");
+        const discountPercentageInput = document.getElementById("discount_percentage");
+        const discountAmountInput = document.getElementById("discount_amount");
+        const payableDisplayInput = document.getElementById("payable_display");
+        const taxInput = document.getElementById("tax");
+        const applyGstCheckbox = document.getElementById('apply_gst');
+        const billItemsContainer = document.getElementById('bill-items-inputs');
 
-            let total = 0;
-            let itemTotal = 0;
+        function updatePayableAmount() {
+            let total = parseFloat(totalInput.value) || 0;
+            let discountPercentage = parseFloat(discountPercentageInput.value) || 0;
+            let discountAmount = parseFloat(discountAmountInput.value) || 0;
+            let finalPayable = total;
 
-            document.querySelectorAll('.bill_item_total').forEach((element) => {
-                itemTotal += parseInt(element.value);
-            });
-
-            total += itemTotal;
-
-            if (document.getElementById('apply_gst').checked) {
-                const taxPercentage = {{ DB::table('company_details')->first()->billing_tax_percentage ?? 0 }};
-                let tax = (total * taxPercentage) / 100;
-                total += tax;
-                document.getElementById('tax').value = tax.toFixed(2);
-            } else {
-                let tax = 0;
-                document.getElementById('tax').value = tax.toFixed(2);
+            // Determine which discount to apply
+            if (discountPercentage > 0) {
+                // If a percentage is being used, calculate the amount from it
+                discountAmount = (discountPercentage / 100) * total;
+                discountAmountInput.value = discountAmount.toFixed(2); // Update the other input for clarity
+                finalPayable = total - discountAmount;
+            } else if (discountAmount > 0) {
+                // If a fixed amount is used
+                finalPayable = total - discountAmount;
             }
 
-            document.getElementById('total').value = total.toFixed(2);
-        };
+            payableDisplayInput.value = finalPayable.toFixed(2);
+        }
 
+        function handleCalculateBill() {
+            let subTotal = 0;
+
+            // Calculate subtotal from all bill items
+            document.querySelectorAll('.bill_item_total').forEach((element) => {
+                subTotal += parseFloat(element.value) || 0;
+            });
+
+            let finalTotal = subTotal;
+            let taxValue = 0;
+
+            // Calculate and add tax if applicable
+            if (applyGstCheckbox.checked) {
+                const taxPercentage = {{ DB::table('company_details')->first()->billing_tax_percentage ?? 0 }};
+                taxValue = (subTotal * taxPercentage) / 100;
+                finalTotal += taxValue;
+            }
+
+            taxInput.value = taxValue.toFixed(2);
+            totalInput.value = finalTotal.toFixed(2);
+
+            // *** THE KEY STEP ***
+            // Now that the total is updated, also update the final payable amount
+            updatePayableAmount();
+        }
+
+        // Add event listeners
+        discountPercentageInput.addEventListener('input', (e) => {
+            // If user types a percentage, clear the fixed amount field
+            if (e.target.value) {
+                discountAmountInput.value = '';
+            }
+            updatePayableAmount();
+        });
+
+        discountAmountInput.addEventListener('input', (e) => {
+            // If user types a fixed amount, clear the percentage field
+            if (e.target.value) {
+                discountPercentageInput.value = '';
+            }
+            updatePayableAmount();
+        });
+
+
+        // --- Your existing `handleCreateBillITem` function (unchanged) ---
         function handleCreateBillITem(name, quantity, price, total) {
-
             let parentDiv = document.createElement('div');
             parentDiv.className = "d-flex justify-content-between mb-2";
 
@@ -226,7 +302,7 @@
             billItemNameInput.type = "text";
             billItemNameInput.className = "form-control bill_item_name";
             billItemNameInput.name = "bill_item_name[]";
-            billItemNameInput.value = name;
+            billItemNameInput.value = name || '';
             billItemNameInput.required = true;
             billItemNameInput.placeholder = "Enter item name";
 
@@ -234,11 +310,11 @@
             billItemQuantityInput.type = "number";
             billItemQuantityInput.className = "form-control bill_item_quantity";
             billItemQuantityInput.name = "bill_item_quantity[]";
-            billItemQuantityInput.value = quantity;
+            billItemQuantityInput.value = quantity || 1;
             billItemQuantityInput.required = true;
-            billItemQuantityInput.placeholder = "Enter quantity";
+            billItemQuantityInput.placeholder = "Qty";
 
-            billItemQuantityInput.onchange = (event) => {
+            billItemQuantityInput.oninput = (event) => { // use oninput for instant feedback
                 event.target.parentNode.querySelector('.bill_item_total').value = (event.target.parentNode
                     .querySelector('.bill_item_price').value * event.target.value).toFixed(2);
                 handleCalculateBill();
@@ -248,12 +324,12 @@
             billItemPriceInput.type = "number";
             billItemPriceInput.className = "form-control bill_item_price";
             billItemPriceInput.name = "bill_item_price[]";
-            billItemPriceInput.value = price;
+            billItemPriceInput.value = price || '';
             billItemPriceInput.required = true;
             billItemPriceInput.placeholder = "Enter price";
             billItemPriceInput.setAttribute('step', 'any');
 
-            billItemPriceInput.onchange = (event) => {
+            billItemPriceInput.oninput = (event) => { // use oninput for instant feedback
                 event.target.parentNode.querySelector('.bill_item_total').value = (event.target.parentNode
                     .querySelector('.bill_item_quantity').value * event.target.value).toFixed(2);
                 handleCalculateBill();
@@ -263,7 +339,7 @@
             billItemTotalInput.type = "number";
             billItemTotalInput.className = "form-control bill_item_total";
             billItemTotalInput.name = "bill_item_total[]";
-            billItemTotalInput.value = total;
+            billItemTotalInput.value = total || 0;
             billItemTotalInput.required = true;
             billItemTotalInput.placeholder = "Total";
             billItemTotalInput.setAttribute('step', 'any');
@@ -271,7 +347,7 @@
 
             let remove = document.createElement('button');
             remove.className = "btn btn-danger";
-            remove.innerHTML = ' &times ';
+            remove.innerHTML = ' × ';
             remove.type = "button";
             remove.onclick = (event) => {
                 event.target.parentNode.remove();
@@ -279,7 +355,7 @@
             }
 
             parentDiv.append(billItemNameInput, billItemQuantityInput, billItemPriceInput, billItemTotalInput, remove);
-            document.getElementById('bill-items-inputs').appendChild(parentDiv);
+            billItemsContainer.appendChild(parentDiv);
         }
     </script>
 @endsection

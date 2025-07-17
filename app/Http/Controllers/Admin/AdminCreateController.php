@@ -524,6 +524,8 @@ class AdminCreateController extends Controller implements AdminCreate
             'invoice_currency' => ['required', 'string'],
             'payment_status' => ['required', 'string'],
             'bill_note' => ['nullable', 'string'],
+            'discount_percentage' => ['nullable', 'numeric', 'min:0'], // <-- ADDED: Validation for discount percentage
+            'discount_amount' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         if ($validation->fails()) {
@@ -549,6 +551,11 @@ class AdminCreateController extends Controller implements AdminCreate
                 ]);
             }
 
+            // --- Calculation & Saving Logic ---
+            $total = (float)($request->input('total') ?? 0);
+            $discountAmount = (float)($request->input('discount_amount') ?? 0);
+            $netPayable = $total - $discountAmount; // Calculate net payable
+
             $bill = new Bill();
             $bill->customer_id = $request->input('customer_id');
             $bill->items = json_encode($items);
@@ -557,6 +564,9 @@ class AdminCreateController extends Controller implements AdminCreate
             }
             $bill->payment_status = $request->input('payment_status');
             $bill->total = $request->input('total');
+            $bill->discount_percentage = $request->input('discount_percentage') ?? 0;
+            $bill->discount_amount = $request->input('discount_amount') ?? 0;
+            $bill->net_payable = $netPayable; // <-- SAVE THE CALCULATED NET PAYABLE
             $bill->bill_date = $request->input('bill_date');
             $bill->due_date = $request->input('due_date');
             $bill->invoice_currency = $request->input('invoice_currency');

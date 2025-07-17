@@ -37,7 +37,10 @@
                                                 <th>S.No</th>
                                                 {{-- <th>Invoice No.</th> --}}
                                                 <th>Customer Name</th>
-                                                <th>Amount</th>
+                                                <th>Total Amount</th>
+                                                <th>Discount</th>
+                                                <th>Net Payable</th>
+                                                <th>Due Amount</th>
                                                 <th>Bill Date</th>
                                                 <th>Due Date</th>
                                                 <th>Status</th>
@@ -50,7 +53,13 @@
                                                 <tr>
                                                     <td>{{ $bills->firstItem() + $index }}</td>
                                                     <td>{{ DB::table('customers')->find($bill->customer_id)?->name }}</td>
-                                                    <td>{{ env('APP_CURRENCY') }}{{ number_format($bill->total, 2) }}</td>
+                                                    <td>₹{{ number_format($bill->total, 2) }}</td>
+                                                    <td>₹{{ number_format($bill->discount_amount, 2) }}</td>
+                                                    <td>₹{{ number_format($bill->net_payable, 2) }}</td>
+                                                    <td class="fw-bold {{ ($bill->net_payable - $bill->received_amount) > 0 ? 'text-danger' : 'text-success' }}">
+                                                        {{-- The calculation is done right here --}}
+                                                        ₹{{ number_format($bill->net_payable - $bill->received_amount, 2) }}
+                                                    </td>
                                                     <td>{{ date('d-m-Y', strtotime($bill->bill_date)) }}</td>
                                                     <td>
                                                         @if (\Carbon\Carbon::parse($bill->due_date) <= \Carbon\Carbon::now())

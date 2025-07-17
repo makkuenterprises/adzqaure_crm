@@ -305,7 +305,7 @@ function convertNumberToWordsForIndia($number)
                                                 <tr>
                                                     <td style="width: 18%; padding: 12px; font-size: 0.8rem; text-align: right;"
                                                         colspan="4">GST
-                                                        ({{ DB::table('company_details')->where('name', 'billing_tax_percentage')->first()?->value }}%)
+                                                        ({{ DB::table('company_details')->where('billing_tax_percentage', 'billing_tax_percentage')->first()?->value }}%)
                                                         : </td>
                                                     <td
                                                         style="width: 19%; padding: 12px; font-size: 0.8rem; text-align: right;">
@@ -327,7 +327,8 @@ function convertNumberToWordsForIndia($number)
                                                     colspan="1">Total (INR) : </th>
                                                 <th
                                                     style="width: 19%; padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;">
-                                                    Rs. {{ number_format($bill->total, 2) }}</th>
+                                                    Rs. {{ number_format($bill->total, 2) }}
+                                                </th>
                                             </tr>
                                         </tfoot>
                                     </table>

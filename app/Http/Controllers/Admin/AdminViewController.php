@@ -499,7 +499,10 @@ class AdminViewController extends Controller implements AdminView
     {
 
         $customers = Customer::where('status', true)->get();
-        return view('admin.sections.bill.bill-create', ['customers' => $customers]);
+        $serviceCategories = ServiceCategory::all();
+        $services = Service::all();
+        // return view('admin.sections.bill.bill-create', ['customers' => $customers], ['serviceCategories' => $serviceCategories], ['services' => $services]);
+        return view('admin.sections.bill.bill-create', compact('customers', 'serviceCategories', 'services'));
     }
 
     /** View Bill Update **/
@@ -508,7 +511,9 @@ class AdminViewController extends Controller implements AdminView
 
         $bill = Bill::find($id);
         $customers = Customer::where('status', true)->get();
-        return view('admin.sections.bill.bill-update', ['bill' => $bill, 'customers' => $customers]);
+        $serviceCategories = ServiceCategory::all();
+        $services = Service::all();
+        return view('admin.sections.bill.bill-update', compact('customers', 'serviceCategories', 'services'));
     }
 
     /** View Bill Invoice Download **/
@@ -518,7 +523,7 @@ class AdminViewController extends Controller implements AdminView
         $customer = Customer::find($bill->customer_id);
         $company = CompanyDetail::query();
         $bill_invoice = PDF::loadView('admin.documents.bill-template', ['bill' => $bill, 'customer' => $customer, 'company' => $company]);
-        return $bill_invoice->download('Invoice-' . $bill->id . '-makku-enterprises-' . str_replace(' ', '-', strtolower($customer->company_name)) . '.pdf');
+        return $bill_invoice->download('Invoice-' . $bill->id . '-adzquare-' . str_replace(' ', '-', strtolower($customer->company_name)) . '.pdf');
         // return view('admin.documents.bill-template',['bill' => $bill, 'customer' => $customer, 'company' => $company]);
     }
 
