@@ -56,13 +56,9 @@
                                                     <td>₹{{ number_format($bill->total, 2) }}</td>
                                                     <td>₹{{ number_format($bill->discount_amount, 2) }}</td>
                                                     <td>₹{{ number_format($bill->net_payable, 2) }}</td>
-                                                    @php
-                                                        $total_received = $bill->paymentHistories ? $bill->paymentHistories->sum('received_amount') : 0;
-                                                        $due_amount = $bill->net_payable - $total_received;
-                                                    @endphp
-
-                                                    <td class="fw-bold {{ $due_amount > 0 ? 'text-danger' : 'text-success' }}">
-                                                        ₹{{ number_format($due_amount, 2) }}
+                                                    {{-- THIS IS THE CORRECT, EFFICIENT, AND CONSISTENT WAY --}}
+                                                    <td class="fw-bold {{ ($bill->net_payable - $bill->received_amount) > 0 ? 'text-danger' : 'text-success' }}">
+                                                        ₹{{ number_format($bill->net_payable - $bill->received_amount, 2) }}
                                                     </td>
 
                                                     <td>{{ date('d-m-Y', strtotime($bill->bill_date)) }}</td>

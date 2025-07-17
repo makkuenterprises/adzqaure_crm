@@ -16,13 +16,26 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
+
+                    @php
+                        // Define the due amount once to use it multiple times
+                        $due_amount = $bill->net_payable - $bill->received_amount;
+                    @endphp
+
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Payment History | Bill #{{ $bill->id }}</h4>
-                        
+
                          <div>
-                                        <a href="#" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">+ Add Received Payment</a>
-                                        <a href="{{ route('admin.view.bill.list') }}" class="btn btn-success btn-sm">Back</a>
-                                    </div>
+                            @if (($bill->net_payable - $bill->received_amount) > 0)
+                                <a href="#" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">+ Add Received Payment</a>
+                            @else
+                                {{-- Otherwise, show a disabled "Fully Paid" badge --}}
+                                <span class="btn btn-success btn-sm me-2 disabled">
+                                    <i class="fa fa-check me-1"></i> Fully Paid
+                                </span>
+                            @endif
+                                <a href="{{ route('admin.view.bill.list') }}" class="btn btn-success btn-sm">Back</a>
+                        </div>
                     </div>
 
                     <!-- Payment Modal -->
