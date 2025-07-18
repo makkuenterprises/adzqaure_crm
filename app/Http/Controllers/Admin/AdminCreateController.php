@@ -554,7 +554,8 @@ class AdminCreateController extends Controller implements AdminCreate
             // --- Calculation & Saving Logic ---
             $total = (float)($request->input('total') ?? 0);
             $discountAmount = (float)($request->input('discount_amount') ?? 0);
-            $netPayable = $total - $discountAmount; // Calculate net payable
+            $tax = (float)($request->input('tax') ?? 0);
+            $netPayable = $total - $discountAmount + $tax; // Calculate net payable
 
             $bill = new Bill();
             $bill->customer_id = $request->input('customer_id');

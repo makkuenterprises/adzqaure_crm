@@ -123,6 +123,25 @@ function convertNumberToWordsForIndia($number)
         th {
             text-align: left;
         }
+
+        /* ======================================= */
+/* CSS for the "PAID" stamp */
+/* ======================================= */
+.paid-stamp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    color: #008000;
+    border: 7px solid #008000;
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-size: 5rem;
+    font-weight: bold;
+    opacity: 0.2; /* Makes it semi-transparent */
+    z-index: 99;  /* Ensures it's on top of other content */
+    pointer-events: none; /* Makes the stamp un-clickable */
+}
     </style>
 
 
@@ -131,7 +150,13 @@ function convertNumberToWordsForIndia($number)
 <body>
     <main>
 
-        <section>
+        <section style="position: relative;">
+            @php
+                $dueAmount = $bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount;
+            @endphp
+            @if ($bill->payment_status === 'Paid' || $dueAmount <= 0)
+                <div class="paid-stamp">PAID</div>
+            @endif
             <div>
                 <div>
                     <h2 style="font-size: 2.5rem; margin-bottom: 0px; color: #6738C7; font-weight: bold;">Invoice</h1>
@@ -140,19 +165,19 @@ function convertNumberToWordsForIndia($number)
                                 <td>
                                     <table class="ignore" style="font-size: 0.8rem;">
                                         <tr>
-                                            <th style="width: 100px; padding-bottom: 5px; color: #5a5a5a;">Invoice No
+                                            <th style="width: 100px; padding-bottom: 5px; color: #5a5a5a;">Invoice No.
                                             </th>
                                             <td style="padding-bottom: 5px;  color: #000; font-weight: bolder;">
-                                                #MAK{{ $bill->id }}</td>
+                                                #ADZ/{{ $bill->created_at->year }}/{{ $bill->id }}</td>
                                         </tr>
                                         <tr>
-                                            <th style="width: 100px; padding-bottom: 5px; color: #5a5a5a;">Invoice Date
+                                            <th style="width: 100px; padding-bottom: 5px; color: #5a5a5a;">Invoice Date:
                                             </th>
                                             <td style="padding-bottom: 5px; color: #000; font-weight: bolder;">
                                                 {{ date('d M Y', strtotime($bill->bill_date)) }}</td>
                                         </tr>
                                         <tr>
-                                            <th style="width: 100px; color: #5a5a5a;">Due Date</th>
+                                            <th style="width: 100px; color: #5a5a5a;">Payment Due Date:</th>
                                             <td style="color: #000; font-weight: bolder;">
                                                 {{ date('d M Y', strtotime($bill->due_date)) }}</td>
                                         </tr>
@@ -176,6 +201,8 @@ function convertNumberToWordsForIndia($number)
                                             alt="company_logo" style="height: 140px; width: auto; margin-left: auto;">
                                     @else
                                     @endif
+                                    <div style="font-weight: bold;">CIN: U72900BR2021PTC054492</div>
+                                    <div>Since 2021</div>
                                 </td>
 
                             </tr>
@@ -193,6 +220,8 @@ function convertNumberToWordsForIndia($number)
                                     <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;"><b
                                             style="color: #000;">{{ DB::table('company_details')->first()->brand_name }}</b>
                                     </p>
+                                    <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;">A Unit of <b style="color: #000;">{{ DB::table('company_details')->first()->company_name }}</b></p>
+
                                     <p style="font-size: 0.8rem; padding-bottom: 5px; color: #5a5a5a;">
                                         {{ DB::table('company_details')->first()->company_address_street ?? '' }},
                                         </< /p>
@@ -273,7 +302,7 @@ function convertNumberToWordsForIndia($number)
                 <table style="width: 100%;">
                     <tr>
                         <td style="text-align: center; font-size: 1rem;"><b>Country of Supply</b>: India</td>
-                        <td style="text-align: center; font-size: 1rem;"><b>Place of Supply</b>: Bihar (10)</td>
+                        <td style="text-align: center; font-size: 1rem;"><b>Place of Supply</b>: Bihar</td>
                     </tr>
                 </table>
                 <br>
@@ -364,13 +393,15 @@ function convertNumberToWordsForIndia($number)
                                             @if($bill->discount_amount > 0)
                                                 <tr>
                                                     <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
-                                                        - Discount:
+                                                        (-) Discount:
                                                     </td>
                                                     <td style="padding: 12px; font-size: 0.8rem; text-align: right;">
                                                         Rs. {{ number_format($bill->discount_amount, 2) }}
                                                     </td>
                                                 </tr>
                                             @endif
+
+
 
                                             {{-- Final Grand Total Row --}}
                                             <tr>
@@ -379,13 +410,35 @@ function convertNumberToWordsForIndia($number)
                                                     Total in Words : <span style="text-transform: uppercase;">{{ convertNumberToWordsForIndia((int) $grandTotal) }}</span>
                                                 </td>
                                                 <th style="padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;" colspan="1">
-                                                    Total (INR):
+                                                    Net Payable:
                                                 </th>
                                                 <th style="padding: 12px; font-size: 1rem; text-align: right; border-top: 2px solid #000; border-bottom: 2px solid #000;">
                                                     {{-- FIXED: Use the consistent Grand Total variable --}}
                                                     Rs. {{ number_format($grandTotal, 2) }}
                                                 </th>
                                             </tr>
+                                             @if($bill->received_amount > 0)
+                                                <tr>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
+                                                        (-) Received Amount:
+                                                    </td>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;">
+                                                        Rs. {{ number_format($bill->received_amount, 2) }}
+                                                    </td>
+
+                                                </tr>
+                                            @endif
+                                            @if($bill->received_amount > 0)
+                                                <tr>
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right;" colspan="4">
+                                                        Due Amount:
+                                                    </td>
+
+                                                    <td style="padding: 12px; font-size: 0.8rem; text-align: right; font-weight: bold;" {{ ($bill->net_payable - $bill->received_amount) > 0 ? 'text-danger' : 'text-success' }}">
+                                                        Rs.{{ number_format($bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         </tfoot>
                                     </table>
                                 </div>
