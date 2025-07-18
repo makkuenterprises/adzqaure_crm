@@ -102,6 +102,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/duplicate/{id}', [AdminCreateController::class, 'handleBillDuplicate'])->name('admin.handle.bill.duplicate');
         Route::get('{bill}/history', [PaymentHistoryController::class, 'showHistory'])->name('admin.bill.history');
         Route::post('{bill}/history', action: [PaymentHistoryController::class, 'storeHistory'])->name('admin.bill.history.store');
+        
     });
 
     Route::prefix('admin-access')->group(function () {

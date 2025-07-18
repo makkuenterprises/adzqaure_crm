@@ -527,6 +527,7 @@ class AdminViewController extends Controller implements AdminView
         return view('admin.sections.bill.bill-update', compact('customers', 'serviceCategories', 'services'));
     }
 
+
     /** View Bill Invoice Download **/
     public function handleBillInvoiceDownload($id)
     {

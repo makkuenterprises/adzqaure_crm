@@ -68,4 +68,6 @@ public function storeHistory(Request $request, $billId)
 
     return redirect()->back()->with('success', 'Payment of ₹' . $validatedData['received_amount'] . ' added successfully.');
 }
+
+
 }

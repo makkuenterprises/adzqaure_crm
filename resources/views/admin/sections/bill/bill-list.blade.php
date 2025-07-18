@@ -83,11 +83,17 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-nowrap">
-
+                                                        @php
+                                                            // Calculate the due amount for a clean condition check
+                                                            $dueAmount = $bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount;
+                                                        @endphp
+                                                        @if ($dueAmount > 0 && $bill->received_amount == 0)
                                                         <a href="{{ route('admin.view.bill.update', ['id' => $bill->id]) }}"
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        @endif
+
                                                         <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History"><i class="fa fa-history"></i></a>
                                                         <a href="{{ route('admin.handle.bill.duplicate', ['id' => $bill->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
