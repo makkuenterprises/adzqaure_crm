@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('package_id')->nullable()->references('id')->on('packages');
             $table->foreignId('domain_hosting_id')->nullable()->references('id')->on('domain_hostings');
             $table->enum('payment_for', ['Package', 'Domain Hosting'])->nullable();
-            $table->enum('payment_status',['Paid','Pending']);
+            $table->enum('payment_status',['Paid','Pending', 'Settled']);
             $table->json('items')->nullable();
             $table->double('tax',16,2)->nullable();
             $table->double('total',16,2)->nullable();

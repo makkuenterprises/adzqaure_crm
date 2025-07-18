@@ -69,5 +69,36 @@ public function storeHistory(Request $request, $billId)
     return redirect()->back()->with('success', 'Payment of ₹' . $validatedData['received_amount'] . ' added successfully.');
 }
 
+public function settleBill(Request $request, $billId)
+    {
+        $bill = Bill::findOrFail($billId);
+
+        // 1. Calculate the actual remaining due amount to be settled.
+        $settlementAmount = max(0, $bill->net_payable - $bill->received_amount);
+
+        // 2. Safety check: if there's nothing to settle, do nothing.
+        if ($settlementAmount <= 0) {
+            return redirect()->back()->with('info', 'This bill is already paid or settled.');
+        }
+
+        // 3. Log this settlement action in the payment history for auditing.
+        PaymentHistory::create([
+            'bill_id' => $bill->id,
+            'received_amount' => $settlementAmount, // Storing the settled amount here for consistency
+            'payment_method' => 'SETTLEMENT', // A clear flag to identify this transaction type
+            'notes' => "Invoice settled. Remaining due of ₹" . number_format($settlementAmount, 2) . " written off.",
+        ]);
+
+        // 4. Update the master bill:
+        // - Increment the discount amount by the settled amount.
+        // - Set the status to 'Paid'.
+        $bill->increment('discount_amount', $settlementAmount);
+        $bill->payment_status = 'Settled';
+        $bill->save();
+
+        return redirect()->back()->with('success', 'Invoice has been successfully settled.');
+    }
+
+
 
 }

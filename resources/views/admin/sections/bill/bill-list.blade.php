@@ -77,6 +77,8 @@
                                                         <div class="d-flex align-items-center">
                                                             @if ($bill->payment_status == 'Paid')
                                                                 <i class="fa fa-circle text-success me-1"></i> Paid
+                                                            @elseif ($bill->payment_status == 'Settled')
+                                                                <i class="fa fa-circle text-success me-1"></i> Settled
                                                             @else
                                                                 <i class="fa fa-circle text-danger me-1"></i> Pending
                                                             @endif
@@ -92,6 +94,7 @@
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+
                                                         @endif
 
                                                         <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History"><i class="fa fa-history"></i></a>

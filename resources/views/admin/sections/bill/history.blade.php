@@ -18,20 +18,23 @@
                 <div class="card">
 
                     @php
-                        // Define the due amount once to use it multiple times
-                        $due_amount = $bill->net_payable - $bill->received_amount;
+                        // THE ONE TRUE CALCULATION for the due amount. This is the only one we need.
+                        // It correctly accounts for the total, tax, payments received, AND discounts/settlements.
+                        $due_amount = $bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount;
                     @endphp
 
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Bill #{{ $bill->id }} | Due: ₹{{ number_format($bill->net_payable - $bill->received_amount, 2) }}</h4>
+                       <h4 class="card-title">Bill #{{ $bill->id }} | Due: ₹{{ number_format($bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount, 2) }}</h4>
 
                          <div>
-                            @if (($bill->net_payable - $bill->received_amount) > 0)
+                            @if (!in_array($bill->payment_status, ['Paid', 'Settled']))
                                 <a href="#" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">+ Add Received Payment</a>
+                                {{-- NEW: Bill Settlement Button --}}
+                                <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#settleBillModal">Settle Bill</a>
                             @else
-                                {{-- Otherwise, show a disabled "Fully Paid" badge --}}
-                                <span class="btn btn-success btn-sm me-2 disabled">
-                                    <i class="fa fa-check me-1"></i> Fully Paid
+                               <span class="btn btn-success btn-sm me-2 disabled">
+                                    <i class="fa fa-check me-1"></i>
+                                    {{ $bill->payment_status }} {{-- This will dynamically show 'Paid' or 'Settled' --}}
                                 </span>
                             @endif
                                 <a href="{{ route('admin.view.bill.list') }}" class="btn btn-success btn-sm">Back</a>
@@ -61,7 +64,7 @@
                                                 <option value="Cash">Cash</option>
                                                 <option value="UPI">UPI</option>
                                                 <option value="Bank Transfer">Bank Transfer</option>
-                                                <option value="Card">Card</option>
+
                                             </select>
                                         </div>
 
@@ -80,6 +83,36 @@
                         </div>
                     </div>
                     <!-- End Modal -->
+
+                    <!-- ============================================= -->
+                    <!-- NEW: Bill Settlement Confirmation Modal -->
+                    <!-- ============================================= -->
+                    <div class="modal fade" id="settleBillModal" tabindex="-1" aria-labelledby="settleBillModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="POST" action="{{ route('admin.bill.settle', $bill->id) }}">
+                                    @csrf
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="settleBillModalLabel">Confirm Bill Settlement</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to settle this invoice?</p>
+                                        <p class="alert alert-warning">
+                                            The remaining due amount of <strong>₹{{ number_format($due_amount, 2) }}</strong> will be written off as a settlement discount, and the invoice will be marked as <strong>Paid</strong>. This action cannot be undone.
+                                        </p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-success">Yes, Settle Invoice</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Settlement Modal -->
 
                     <div class="card-body p-0">
                         <div id="DZ_W_TimeLine" class="widget-timeline dlab-scroll p-4">
