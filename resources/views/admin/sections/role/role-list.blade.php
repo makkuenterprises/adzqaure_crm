@@ -38,7 +38,8 @@
                                                 <th>S.No</th>
                                                 <th>Roles</th>
                                                 <th>Slug</th>
-                                                <th>Actions</th>
+                                                <th>Created at</th>
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -46,19 +47,11 @@
                                                 <tr>
                                                     <td>{{ $role->id }}</td>
                                                     <td>{{ $role->name }}</td>
+                                                    <td>{{ $role->slug }}</td>
                                                     <td>{{ $role->created_at->format('Y-m-d H:i') }}</td>
 
 
-                                                    <td class="text-nowrap">
-                                                        <a href="{{ route('admin.view.role.update', ['id' => $role->id]) }}"
-                                                            class="btn btn-warning btn-sm content-icon">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                        <a href="javascript:handleDelete({{ $role->id }});"
-                                                            class="btn btn-danger btn-sm content-icon">
-                                                            <i class="fa fa-times"></i>
-                                                        </a>
-                                                    </td>
+
                                                 </tr>
 
                                             @endforeach

@@ -26,6 +26,7 @@ use App\Models\DomainHosting;
 use App\Models\ServiceCategory;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str; 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
@@ -187,12 +188,21 @@ class AdminCreateController extends Controller implements AdminCreate
     // handle Role create
     public function handleRoleCreate(Request $request)
     {
+        // 1. Validate ONLY the name field from the user's input.
         $request->validate([
             'name' => 'required|string|max:191|unique:roles,name',
-            'slug' => 'required|string|max:191|unique:roles,slug',
         ]);
 
-        Role::create($request->only('name', 'slug'));
+        // 2. Prepare the data for saving.
+        $dataToSave = [
+            'name' => $request->name,
+            // 3. Automatically generate the slug from the name.
+            // Example: "Super Admin" becomes "super-admin"
+            'slug' => Str::slug($request->name, '-'),
+        ];
+
+    // 4. Create the role using the prepared data.
+    Role::create($dataToSave);
 
         return redirect()->route('admin.view.role.list')->with('success', 'Role created successfully.');
     }
