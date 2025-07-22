@@ -126,6 +126,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('delete/{id}', [AdminDeleteController::class, 'handleEmployeeDelete'])->name('admin.handle.employee.delete');
     });
 
+    Route::prefix('role')->group(function () {
+        Route::get('/list', [AdminViewController::class, 'viewRoleList'])->name('admin.view.role.list');
+        Route::get('/create', [AdminViewController::class, 'viewRoleCreate'])->name('admin.view.role.create');
+        Route::get('/update/{id}', [AdminViewController::class, 'viewRoleUpdate'])->name('admin.view.role.update');
+        Route::post('/create', [AdminCreateController::class, 'handleRoleCreate'])->name('admin.handle.role.create');
+        Route::post('/update/{id}', [AdminUpdateController::class, 'handleRoleUpdate'])->name('admin.handle.role.update');
+        Route::get('/delete/{id}', [AdminDeleteController::class, 'handleRoleDelete'])->name('admin.handle.role.delete');
+    });
+
     Route::prefix('group')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewGroupList'])->name('admin.view.group.list');
         Route::get('/create', [AdminViewController::class, 'viewGroupCreate'])->name('admin.view.group.create');

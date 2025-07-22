@@ -16,6 +16,7 @@ use App\Models\Service;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Role;
 use App\Models\Password;
 use Illuminate\Http\Request;
 use App\Models\DomainHosting;
@@ -37,6 +38,7 @@ interface AdminDelete
     public function handleGroupDelete($id);
     public function handleLeadManagerDelete($id);
     public function handleLeadDelete($id);
+    public function handleRoleDelete($id);
     public function handleCustomerDelete($id);
     public function handleProjectDelete($id);
     public function handlePaymentDelete($id);
@@ -98,6 +100,15 @@ class AdminDeleteController extends Controller implements AdminDelete
             'title' => 'Group Deleted',
             'description' => 'The group is successfully deleted'
         ]);
+    }
+
+    // Role Delete
+    public function handleRoleDelete($id)
+    {
+        $role = Role::findOrFail($id);
+        $role->delete();
+
+        return redirect()->route('admin.view.role.list')->with('success', 'Role deleted successfully.');
     }
 
 

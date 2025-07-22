@@ -32,7 +32,7 @@
                     <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
                 </ul>
             </li>
-            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+            {{-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-briefcase"></i>
                     <span class="nav-text">Work</span>
                 </a>
@@ -40,7 +40,7 @@
                     <li><a href="{{ route('admin.view.plan.list') }}">Plan</a></li>
                     <li><a href="{{ route('admin.view.package.list') }}">Package</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-heart"></i>
@@ -62,10 +62,11 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.view.service.list') }}">Services</a></li>
                     <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
-                    <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li>
+                    {{-- <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li> --}}
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     <li><a href="#">Manage Trusted Partners</a></li>
                     <li><a href="#">Manage Service Providers</a></li>
+                    <li><a href="{{ route('admin.view.role.list') }}">Manage Roles</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -86,8 +87,8 @@
 
 
         <div class="copyright">
-            <p>Makku Enterprises © 2025 All Rights Reserved</p>
-            <p class="fs-12">Made with <span class="heart"></span> by Adzquare</p>
+            <p>Makku Enterprises © {{ date('Y') }} All Rights Reserved</p>
+            <p class="fs-12">Made with <span class="heart"></span> by <a href="https://adzquare.com">Adzquare</a></p>
         </div>
     </div>
 </div>

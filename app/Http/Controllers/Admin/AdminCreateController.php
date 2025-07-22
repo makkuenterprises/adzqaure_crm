@@ -16,6 +16,7 @@ use App\Models\Project;
 use App\Models\Service;
 use App\Models\Campaign;
 use App\Models\Customer;
+use App\Models\Role;
 use App\Models\Employee;
 use App\Models\LeadsManager;
 use App\Models\Password;
@@ -45,6 +46,7 @@ interface AdminCreate
     public function handleEmployeeCreate(Request $request);
     public function handleLeadImport(Request $request);
     public function handleLeadCreate(Request $request);
+    public function handleRoleCreate(Request $request);
     public function handleLeadManagerCreate(Request $request);
     public function handleGroupCreate(Request $request);
     public function handleCampaignCreate(Request $request);
@@ -179,6 +181,20 @@ class AdminCreateController extends Controller implements AdminCreate
                 ]);
             }
         }
+    }
+
+
+    // handle Role create
+    public function handleRoleCreate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:191|unique:roles,name',
+            'slug' => 'required|string|max:191|unique:roles,slug',
+        ]);
+
+        Role::create($request->only('name', 'slug'));
+
+        return redirect()->route('admin.view.role.list')->with('success', 'Role created successfully.');
     }
 
      /*

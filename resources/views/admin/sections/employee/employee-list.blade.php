@@ -47,6 +47,7 @@
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
+                                                <th>Emp Id</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Phone</th>
@@ -59,6 +60,7 @@
                                             @foreach ($employees as $index => $employee)
                                                 <tr>
                                                     <td>{{ $employees->firstItem() + $index }}</td>
+                                                    <td>{{ $employee->employee_id }}</td>
                                                     <td>{{ $employee->name }}</td>
                                                     <td>{{ $employee->email }}</td>
                                                     <td>{{ $employee->phone }}</td>

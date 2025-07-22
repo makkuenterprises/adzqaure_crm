@@ -22,6 +22,7 @@ use App\Models\CrmSetting;
 use Illuminate\Http\Request;
 use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
+use App\Models\Role;
 use App\Models\LeadsManager;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
@@ -48,6 +49,7 @@ interface AdminUpdate
     public function handleAccountPasswordUpdate(Request $request);
     public function handleEmployeeUpdate(Request $request, $id);
     public function handleGroupUpdate(Request $request, $id);
+    public function handleRoleUpdate(Request $request, $id);
     public function handleLeadsManagerUpdate(Request $request, $id);
     public function handleCampaignUpdate(Request $request, $id);
     public function handleCustomerUpdate(Request $request, $id);
@@ -409,6 +411,22 @@ class AdminUpdateController extends Controller implements AdminUpdate
             }
 
         }
+    }
+
+    // Handle Update Roles
+    public function handleRoleUpdate(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+
+        $request->validate([
+            // Ensure the name is unique, but ignore the current role's name
+            'name' => 'required|string|max:191|unique:roles,name,' . $role->id,
+            'slug' => 'required|string|max:191|unique:roles,slug,' . $role->slug,
+        ]);
+
+        $role->update($request->only('name', 'slug'));
+
+        return redirect()->route('admin.view.role.list')->with('success', 'Role updated successfully.');
     }
 
 

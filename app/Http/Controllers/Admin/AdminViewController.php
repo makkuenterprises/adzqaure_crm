@@ -24,6 +24,7 @@ use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
+use App\Models\Role;
 use App\Models\LeadsManager;
 use App\Models\ServiceCategory;
 use App\Models\PaymentHistory;
@@ -79,6 +80,10 @@ interface AdminView
     public function viewCustomerCreate();
     public function viewCustomerUpdate($id);
     public function viewCustomerPreview($id);
+
+    public function viewRoleList();
+    public function viewRoleCreate();
+    public function viewRoleUpdate($id);
 
     public function viewProjectList();
     public function viewProjectCreate();
@@ -420,6 +425,25 @@ class AdminViewController extends Controller implements AdminView
         $domainHostings = $customer->domainHostings()->paginate(10, ['*'], 'dh_page');
         $passwords = $customer->passwords()->paginate(10, ['*'], 'passwords_page');
         return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects, 'bills' => $bills, 'domainHostings' => $domainHostings, 'passwords' => $passwords]);
+    }
+
+    public function viewRoleList()
+    {
+
+        
+        $data['roles'] = Role::latest()->paginate(10);
+        return view('admin.sections.role.role-list', $data);
+    }
+
+    public function viewRoleCreate()
+    {
+        return view('admin.sections.role.role-create');
+    }
+
+    public function viewRoleUpdate($id)
+    {
+        $data['role'] = Role::findOrFail($id);
+        return view('admin.sections.role.role-update', $data);
     }
 
 

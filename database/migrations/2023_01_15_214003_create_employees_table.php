@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id')->from(100001);
+            $table->string('employee_id')->unique()->nullable();
             $table->string('name');
             $table->string('firstname');
             $table->string('lastname');
