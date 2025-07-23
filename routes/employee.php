@@ -5,8 +5,14 @@ use App\Http\Controllers\Employee\EmployeeViewController;
 use App\Http\Controllers\Employee\EmployeeUpdateController;
 use App\Http\Controllers\Employee\EmployeeCreateController;
 use App\Http\Controllers\Employee\EmployeeDeleteController;
+use App\Http\Controllers\Admin\AdminViewController;
+use App\Http\Controllers\LeadRemarkController;
+use App\Http\Controllers\Admin\AdminUpdateController;
+use App\Http\Controllers\Admin\AdminCreateController;
+use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Employee\EmployeeAPIController;
 use App\Http\Controllers\Employee\EmployeeInquiryController;
+use App\Http\Controllers\Employee\LeadManagerController;
 
 Route::middleware(['guest:employee'])->group(function () {
     Route::get('login', [EmployeeAuthController::class, 'viewLogin'])->name('employee.view.login');
@@ -35,5 +41,17 @@ Route::middleware(['auth:employee'])->group(function () {
 
     Route::prefix('api')->group(function () {
         Route::put('/lead/status', [EmployeeAPIController::class, 'handleLeadStatusUpdate'])->name('employee.api.lead.status');
+    });
+
+
+    Route::prefix('leadmanager')->group(function () {
+        Route::get('/list', [LeadManagerController::class, 'viewLeadManagerList'])->name('employee.view.lead.manager.list');
+        Route::get('/create', [LeadManagerController::class, 'viewLeadManagerCreate'])->name('employee.view.lead.manager.create');
+        Route::post('/create', [LeadManagerController::class, 'handleLeadManagerCreate'])->name('employee.handle.lead.manager.create');
+        Route::get('/delete/{id}', [LeadManagerController::class, 'handleLeadManagerDelete'])->name('employee.handle.lead.manager.delete');
+        Route::get('/update/{id}', [LeadManagerController::class, 'viewLeadManagerUpdate'])->name('employee.view.lead.manager.update');
+        Route::post('/update/{id}', [LeadManagerController::class, 'handleLeadsManagerUpdate'])->name('employee.handle.lead.manager.update');
+        Route::get('{lead}/remarks', [LeadManagerController::class, 'showRemarks'])->name('employee.lead.manager.remarks');
+        Route::post('{lead}/remarks', action: [LeadManagerController::class, 'storeRemark'])->name('employee.lead.manager.remarks.store');
     });
 });
