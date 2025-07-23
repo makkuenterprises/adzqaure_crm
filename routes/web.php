@@ -102,17 +102,18 @@ Route::get('/admin/export/excel', function (\Illuminate\Http\Request $request) {
 // });
 
 
-Route::middleware(['auth', 'role:customer'])->get('customer/dashboard', function () {
-    // return view('customer.dashboard');
-    return "customer dashboard";
+
+Route::middleware(['auth', 'type:customer'])->get('customer/dashboard', function () {
+    // Correctly points to 'resources/views/customers/dashboard.blade.php'
+    return view('customer.dashboard');
 })->name('customer.dashboard');
 
-Route::middleware(['auth', 'role:service_provider'])->get('service_provider/dashboard', function () {
+Route::middleware(['auth', 'type:service_provider'])->get('service_provider/dashboard', function () {
     // return view('service_provider.dashboard');
-    return "service provider dashboard";
+    return "service_provider.dashboard";
 })->name('service_provider.dashboard');
 
-Route::middleware(['auth', 'role:partner'])->get('partner/dashboard', function () {
+Route::middleware(['auth', 'type:partner'])->get('partner/dashboard', function () {
     // return view('partner.dashboard');
     return "Partner dashboard";
 })->name('partner.dashboard');

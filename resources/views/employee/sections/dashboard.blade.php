@@ -1,77 +1,172 @@
-
-
 @extends('employee.layouts.app')
 
-@section('panel-header')
-    <div>
-        <h1 class="panel-title">Dashboard</h1>
-        <ul class="breadcrumb">
-            <li><a href="{{route('employee.view.dashboard')}}">Team Member</a></li>
-            <li><i data-feather="chevron-right"></i></li>
-            <li><a href="{{route('employee.view.dashboard')}}">Dashboard</a></li>
-        </ul>
-    </div>
-@endsection
 
-@section('panel-body')
-<figure class="panel-card">
-    <div class="panel-card-header">
-        <div>
-            <h1 class="panel-card-title">All Campaign</h1>
-            <p class="panel-card-description">All campaign allocated for you </p>
-        </div>
-    </div>
-    <div class="panel-card-body">
-        <div class="panel-card-table">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Lead Count</th>
-                        <th>Created on</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!empty($lead_id))
-                        @foreach ($campaigns as $campaign)
-                            <tr>
-                                <td>{{ $campaign->id }}</td>
-                                <td>{{ $campaign->name }}</td>
-                                <td>{{ DB::table('leads')->where('campaign_id', $campaign->id)->count() }}</td>
-                                <td>{{ date('D d M Y', strtotime($campaign->created_at)) }}</td>
-                                <td>
-                                    <div class="table-dropdown">
-                                        <button>Options<i data-feather="chevron-down"
-                                                class="ml-1 toggler-icon"></i></button>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li><a href="{{ route('employee.view.campaign.preview', ['id' => $campaign->id]) }}"
-                                                        class="dropdown-link-primary"><i data-feather="external-link"
-                                                            class="mr-1"></i> Preview Campaign</a></li>
-                                            </ul>
+@section('main-content')
+    <!--**********************************
+                                        Content body start
+                                    ***********************************-->
+    <div class="content-body default-height">
+        <!-- row -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card tryal-gradient">
+                                        <div class="card-body tryal row">
+                                            <div class="col-xl-7 col-sm-7">
+                                                <h2 class="mb-0">Manage your project in one touch</h2>
+                                                <span>Let Adzquare manage your project automatically with our best
+                                                    AI systems </span>
+                                                <a href="javascript:void(0);" class="btn btn-rounded">Try Our
+                                                    Services Now</a>
+                                            </div>
+                                            <div class="col-xl-5 col-sm-5 ">
+                                                <img src="{{ asset('admin_new/images/chart.png') }}" alt=""
+                                                    class="sd-shape">
+                                            </div>
                                         </div>
                                     </div>
-                                </td>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-primary">
+                                        <div class="card-body  p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-users"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Domains & Hosting</p>
+                                                    <h3 class="text-white">{{ DB::table('domain_hostings')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-secondary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 80%"></div>
+                                                    </div>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-secondary">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-graduation-cap"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Total Data</p>
+                                                    <h3 class="text-white">{{ DB::table('leads')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-primary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 76%"></div>
+                                                    </div>
 
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card">
+                                                <div
+                                                    class="card-body card-padding d-flex align-items-center justify-content-between">
+                                                    <div>
+                                                        <h4 class="mb-3 text-nowrap">Total Clients</h4>
+                                                        <div class="d-flex align-items-center">
+                                                            <h2 class="fs-32 font-w700 mb-0 counter">
+                                                                {{ DB::table('customers')->count() }}</h2>
+                                                            <div class="ms-4 d-flex align-items-center">
+                                                                <svg width="16" height="11" viewBox="0 0 21 11"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z"
+                                                                        fill="#09BD3C" />
+                                                                </svg>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="columnChart"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card">
+                                                <div class="card-body d-flex px-4  justify-content-between">
+                                                    <div>
+                                                        <div class="">
+                                                            <h2 class="fs-32 font-w700 counter">
+                                                                {{ DB::table('projects')->count() }}</h2>
+                                                            <h4 class="mb-0 text-nowrap">Total Projects</h4>
+
+                                                        </div>
+                                                    </div>
+                                                    <div id="NewCustomers1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-warning">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-user"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Admin Access</p>
+                                                    <h3 class="text-white">{{ DB::table('admins')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-primary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 50%"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="widget-stat card bg-danger ">
+                                        <div class="card-body p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-users"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">Employees</p>
+                                                    <h3 class="text-white">{{ DB::table('employees')->count() }}</h3>
+                                                    <div class="progress mb-2 bg-secondary">
+                                                        <div class="progress-bar progress-animated bg-white"
+                                                            style="width: 30%"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="panel-card-footer">
-
-    </div>
-</figure>
-@endsection
-
-@section('panel-script')
-    <script>
-        document.getElementById('dashboard-tab').classList.add('active');
-    </script>
+    <!--**********************************
+                                        Content body end
+                                    ***********************************-->
 @endsection

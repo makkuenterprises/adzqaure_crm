@@ -170,6 +170,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($customers as $index => $customer)
+                                            
                                                 <tr>
                                                     <td>{{ $customers->firstItem() + $index }}</td>
                                                     <td><a

@@ -104,13 +104,13 @@
                                         </div>
                                     </div>
                                     <div class="basic-form">
-                                        <select class="default-select form-control wide mb-3" name="role" id="role" required>
-                                            <option selected disabled>Select Role</option>
+                                        <select class="default-select form-control wide mb-3" name="type" id="type" required>
+                                            <option selected disabled>Select Type</option>
                                             <option value="customer">Customer</option>
                                             <option value="service_provider">Service Provider Program</option>
                                             <option value="partner">Partner Program</option>
                                         </select>
-                                        @error('role')
+                                        @error('type')
                                             <span class="input-error">{{ $message }}</span>
                                         @enderror
                                     </div>

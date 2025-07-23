@@ -388,10 +388,10 @@ class AdminViewController extends Controller implements AdminView
     public function viewCustomerList()
     {
 
-        $customers = Customer::orderBy('created_at', 'desc')->paginate(10);
-        $totalCustomers = Customer::count();
-        $activeCustomers = Customer::where('status', 1)->count();
-        $inactiveCustomers = Customer::where('status', 0)->count();
+        $customers = Customer::where('type', 'customer')->orderBy('created_at', 'desc')->paginate(10);
+        $totalCustomers = Customer::where('type', 'customer')->count();
+        $activeCustomers = Customer::where('status', 1)->where('type', 'customer')->count();
+        $inactiveCustomers = Customer::where('status', 0)->where('type', 'customer')->count();
         return view('admin.sections.customer.customer-list', [
             'customers' => $customers,
             'totalCustomers' => $totalCustomers,
@@ -430,7 +430,7 @@ class AdminViewController extends Controller implements AdminView
     public function viewRoleList()
     {
 
-        
+
         $data['roles'] = Role::latest()->paginate(10);
         return view('admin.sections.role.role-list', $data);
     }
