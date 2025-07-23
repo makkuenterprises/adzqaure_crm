@@ -1,48 +1,55 @@
 @extends('employee.layouts.app')
 
-@section('panel-header')
-<div>
-    <h1 class="panel-title">Setting</h1>
-    <ul class="breadcrumb">
-        <li><a href="{{route('employee.view.dashboard')}}">Team Member</a></li>
-        <li><i data-feather="chevron-right"></i></li>
-        <li><a href="{{route('employee.view.setting')}}">Setting</a></li>
-    </ul>
-</div>
-@endsection
-
-@section('panel-body')
-
-    <div class="grid md:grid-cols-3 sm:grid-cols-1 md:gap-10 sm:gap-5">
-
-        {{-- Account Information Card (Start) --}}
-        <figure class="panel-card">
-            <div class="h-[220px] w-full bg-admin-ascent border-admin-ascent bg-opacity-50 flex items-center justify-center">
-                <img src="{{ is_null(auth()->user('employee')->profile) ? asset('employee/images/default-profile.png') : asset('storage/'.auth()->user('employee')->profile) }}" alt="profile" class="h-[100px] w-[100px] rounded-full border bg-white">
+@section('main-content')
+    <!--**********************************
+                                            Content body start
+                                    ***********************************-->
+    <div class="content-body default-height">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Management</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Settings</a></li>
+                </ol>
             </div>
-            <div class="space-y-5 p-7">
-                <div class="space-y-2">
-                    <h1 class="font-semibold text-2xl">{{auth()->user()->name}}</h1>
-                    <h1 class="text-slate-700 text-sm font-medium flex items-center">
-                        <i data-feather="mail" class="h-4 w-4 mr-2"></i> {{auth()->user()->email}}
-                    </h1>
-                    <h1 class="text-slate-700 text-sm font-medium flex items-center">
-                        <i data-feather="phone" class="h-4 w-4 mr-2"></i> {{auth()->user()->phone}}
-                    </h1>
-                </div>
-                <div>
-                    <a href="{{route('employee.view.account.setting')}}">
-                    <button type="button" class="btn-primary-md w-full"><i data-feather="edit" class="h-4 w-4 opacity-50 absolute mr-auto"></i>Edit Information</button></a>
+
+            <!-- Row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row"> <!-- Added row wrapper -->
+                        <div class="col-xl-4 col-lg-12 col-sm-12">
+                            <div class="card overflow-hidden">
+                                <div class="text-center p-5 overlay-box"
+                                    style="background-image: url(images/big/img5.jpg);">
+                                    <img src="{{ is_null(auth()->user()->profile) || auth()->user()->profile == '' ? asset('admin/profile/default-profile.png') : asset('admin/profile/' . auth()->user()->profile) }}"
+                                        width="100" class="img-fluid rounded-circle" alt="profile image">
+                                    <h3 class="mt-3 mb-0 text-white">{{ auth()->user()->name }}</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-12">
+                                            <div class="bgl-primary rounded p-3">
+                                                <h4 class="mb-0">Account Info</h4>
+                                                <small>Manage your account information</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-footer mt-0">
+                                    <a href="{{ route('employee.view.account.setting') }}"
+                                        class="btn btn-primary btn-block btn-loader">Edit Infomation</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- End of row wrapper -->
                 </div>
             </div>
-        </figure>
-        {{-- Account Information Card (End) --}}
-
+        </div>
     </div>
-@endsection
-
-@section('panel-script')
-<script>
-    document.getElementById('setting-tab').classList.add('active');
-</script>
+    <!--**********************************
+                                            Content body end
+                                    ***********************************-->
 @endsection

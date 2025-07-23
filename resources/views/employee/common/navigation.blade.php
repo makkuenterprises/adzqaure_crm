@@ -5,13 +5,13 @@
     <div class="dlabnav-scroll">
         <ul class="metismenu" id="menu">
 
-            <li><a href="{{ route('admin.view.dashboard') }}" aria-expanded="false">
+            <li><a href="{{ route('employee.view.dashboard') }}" aria-expanded="false">
                     <i class="fas fa-home"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
 
-            <li><a href="{{ route('inquiries.index') }}" aria-expanded="false">
+            <li><a href="{{ route('employee.inquiries.index') }}" aria-expanded="false">
                     <i class="fa fa-envelope"></i>
                     <span class="nav-text">Inquiries <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
@@ -21,7 +21,7 @@
                     <span class="nav-text">Leads Manager <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
                     <i class="fa-solid fa-database"></i>
                     <span class="nav-text">Data Records <span class="badge badge-xs badge-danger ms-2">New</span></span>
@@ -31,7 +31,7 @@
                     <li><a href="{{ route('admin.view.lead.import') }}">Import Data</a></li>
                     <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
                 </ul>
-            </li>
+            </li> --}}
             {{-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-briefcase"></i>
                     <span class="nav-text">Work</span>
@@ -55,30 +55,17 @@
                 </ul>
             </li>
 
-            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fa-solid fa-users-gear"></i>
-                    <span class="nav-text">Master</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.service.list') }}">Services</a></li>
-                    <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
-                    {{-- <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li> --}}
-                    <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
-                    <li><a href="#">Manage Trusted Partners</a></li>
-                    <li><a href="#">Manage Service Providers</a></li>
-                    <li><a href="{{ route('admin.view.role.list') }}">Manage Roles</a></li>
-                </ul>
-            </li>
+
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-user-tie"></i>
                     <span class="nav-text">Employees</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.employee.list') }}">Manage Employees</a></li>
+                    {{-- <li><a href="{{ route('admin.view.employee.list') }}">Manage Employees</a></li> --}}
                     <li><a href="uc-nestable.html">Task Manager</a></li>
                 </ul>
             </li>
-            <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">
+            <li><a href="{{ route('employee.view.setting') }}" aria-expanded="false">
                     <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
                 </a>

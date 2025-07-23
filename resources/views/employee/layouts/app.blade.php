@@ -54,20 +54,20 @@
 
 <body>
 
-    @include('admin.common.loader')
+    @include('employee.common.loader')
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
 
-        @include('admin.common.header')
+        @include('employee.common.header')
 
         {{-- @include('admin.common.chatbox') --}}
 
-        @include('admin.common.top-header')
+        @include('employee.common.top-header')
 
 
-        @include('admin.common.navigation')
+        @include('employee.common.navigation')
 
 
         @yield('main-content')
@@ -118,7 +118,7 @@
         </div> --}}
 
 
-        @include('admin.common.footer')
+        @include('employee.common.footer')
 
     </div>
     <!--**********************************

@@ -6,6 +6,7 @@ use App\Http\Controllers\Employee\EmployeeUpdateController;
 use App\Http\Controllers\Employee\EmployeeCreateController;
 use App\Http\Controllers\Employee\EmployeeDeleteController;
 use App\Http\Controllers\Employee\EmployeeAPIController;
+use App\Http\Controllers\Employee\EmployeeInquiryController;
 
 Route::middleware(['guest:employee'])->group(function () {
     Route::get('login', [EmployeeAuthController::class, 'viewLogin'])->name('employee.view.login');
@@ -21,6 +22,10 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::get('/account-information', [EmployeeViewController::class, 'viewAccountSetting'])->name('employee.view.account.setting');
         Route::post('/account-information', [EmployeeUpdateController::class, 'handleAccountInformationUpdate'])->name('employee.handle.account.information.update');
         Route::post('/account-password', [EmployeeUpdateController::class, 'handleAccountPasswordUpdate'])->name('employee.handle.account.password.update');
+    });
+
+    Route::prefix('inquiries')->group(function () {
+        Route::get('/index', [EmployeeInquiryController::class, 'index'])->name('employee.inquiries.index');
     });
 
     Route::prefix('campaign')->group(function () {
