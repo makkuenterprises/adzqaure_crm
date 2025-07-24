@@ -10,6 +10,7 @@ use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
+use App\Http\Controllers\Employee\EmployeeCustomerController;
 use App\Http\Controllers\Employee\EmployeeAPIController;
 use App\Http\Controllers\Employee\EmployeeInquiryController;
 use App\Http\Controllers\Employee\LeadManagerController;
@@ -53,5 +54,15 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::post('/update/{id}', [LeadManagerController::class, 'handleLeadsManagerUpdate'])->name('employee.handle.lead.manager.update');
         Route::get('{lead}/remarks', [LeadManagerController::class, 'showRemarks'])->name('employee.lead.manager.remarks');
         Route::post('{lead}/remarks', action: [LeadManagerController::class, 'storeRemark'])->name('employee.lead.manager.remarks.store');
+    });
+
+    Route::prefix('customer')->group(function () {
+        Route::get('/list', [EmployeeCustomerController::class, 'viewCustomerList'])->name('employee.view.customer.list');
+        Route::get('/create', [EmployeeCustomerController::class, 'viewCustomerCreate'])->name('employee.view.customer.create');
+        Route::get('/update/{id}', [EmployeeCustomerController::class, 'viewCustomerUpdate'])->name('employee.view.customer.update');
+        Route::get('/preview/{id}', [EmployeeCustomerController::class, 'viewCustomerPreview'])->name('employee.view.customer.preview');
+        Route::post('/create', [EmployeeCustomerController::class, 'handleCustomerCreate'])->name('employee.handle.customer.create');
+        Route::post('/update/{id}', [EmployeeCustomerController::class, 'handleCustomerUpdate'])->name('employee.handle.customer.update');
+        Route::get('/delete/{id}', [EmployeeCustomerController::class, 'handleCustomerDelete'])->name('employee.handle.customer.delete');
     });
 });

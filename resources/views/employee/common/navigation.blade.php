@@ -47,7 +47,7 @@
                     <span class="nav-text">Customers</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.customer.list') }}">Manage Customers</a></li>
+                    <li><a href="{{ route('employee.view.customer.list') }}">Manage Customers</a></li>
                     <li><a href="{{ route('admin.view.project.list') }}">Customer Projects</a></li>
                     <li><a href="{{ route('admin.view.domain.hosting.list') }}">Domain & Hosting</a></li>
                     <li><a href="{{ route('admin.view.bill.list') }}">Payment & Bills</a></li>
