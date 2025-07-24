@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('employee.layouts.app')
 
 @section('css')
     <style>
@@ -45,15 +45,15 @@
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.view.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ route('admin.view.password.list') }}">Password Manager</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee.view.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('employee.view.password.list') }}">Password Manager</a></li>
                 </ol>
             </div>
 
             <!-- Row -->
             <div class="row">
                 <div class="col-lg-6">
-                    <form method="GET" action="{{ route('admin.view.password.list') }}"
+                    <form method="GET" action="{{ route('employee.view.password.list') }}"
                         class="d-flex align-items-center justify-content-between">
                         <div class="form-group w-100 mb-0">
                             <label for="customer_id"> <strong>Select Customer : </strong></label>
@@ -74,7 +74,7 @@
             <div class="row">
                 @if (request()->has('customer_id') && request('customer_id') != '')
                     <div class="col-lg-3 mt-4">
-                        <a href="{{ url('/admin/password/create') . '?customer_id=' . request('customer_id') }}" class="btn btn-sm btn-primary btn-loader">Add
+                        <a href="{{ url('/employee/password/create') . '?customer_id=' . request('customer_id') }}" class="btn btn-sm btn-primary btn-loader">Add
                             Password</a>
                     </div>
                 @endif
@@ -156,7 +156,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-nowrap">
-                                                <a href="{{ route('admin.view.password.update', ['id' => $password->id]) }}"
+                                                <a href="{{ route('employee.view.password.update', ['id' => $password->id]) }}"
                                                     class="btn btn-warning btn-sm content-icon">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
@@ -207,7 +207,7 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         window.location =
-                            `{{ url('admin/customer/delete') }}/${id}`;
+                            `{{ url('employee/customer/delete') }}/${id}`;
                     }
                 });
         }

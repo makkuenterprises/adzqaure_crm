@@ -16,6 +16,7 @@ use App\Http\Controllers\Employee\EmployeeInquiryController;
 use App\Http\Controllers\Employee\LeadManagerController;
 use App\Http\Controllers\Employee\EmployeeProjectController;
 use App\Http\Controllers\Employee\EmployeePasswordController;
+use App\Http\Controllers\Employee\EmployeeDomainHostingController;
 
 
 Route::middleware(['guest:employee'])->group(function () {
@@ -87,5 +88,15 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::post('/update/{id}', [EmployeeProjectController::class, 'handleProjectUpdate'])->name('employee.handle.project.update');
         Route::get('/delete/{id}', [EmployeeProjectController::class, 'handleProjectDelete'])->name('employee.handle.project.delete');
         Route::get('employee/project/{id}/change-status/{status}', [EmployeeProjectController::class, 'changeStatus'])->name('employee.project.change-status');
+    });
+
+    Route::prefix('domain-hosting')->group(function () {
+        Route::get('/list', [EmployeeDomainHostingController::class, 'viewDomainHostingList'])->name('employee.view.domain.hosting.list');
+        Route::get('/create', [EmployeeDomainHostingController::class, 'viewDomainHostingCreate'])->name('employee.view.domain.hosting.create');
+        Route::get('/update/{id}', [EmployeeDomainHostingController::class, 'viewDomainHostingUpdate'])->name('employee.view.domain.hosting.update');
+        Route::post('/create', [EmployeeDomainHostingController::class, 'handleDomainHostingCreate'])->name('employee.handle.domain.hosting.create');
+        Route::post('/update/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingUpdate'])->name('employee.handle.domain.hosting.update');
+        Route::get('/delete/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingDelete'])->name('employee.handle.domain.hosting.delete');
+        Route::get('/bill/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingBillCreate'])->name('employee.handle.domain.hosting.bill.create');
     });
 });
