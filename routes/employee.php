@@ -14,6 +14,9 @@ use App\Http\Controllers\Employee\EmployeeCustomerController;
 use App\Http\Controllers\Employee\EmployeeAPIController;
 use App\Http\Controllers\Employee\EmployeeInquiryController;
 use App\Http\Controllers\Employee\LeadManagerController;
+use App\Http\Controllers\Employee\EmployeeProjectController;
+use App\Http\Controllers\Employee\EmployeePasswordController;
+
 
 Route::middleware(['guest:employee'])->group(function () {
     Route::get('login', [EmployeeAuthController::class, 'viewLogin'])->name('employee.view.login');
@@ -64,5 +67,25 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::post('/create', [EmployeeCustomerController::class, 'handleCustomerCreate'])->name('employee.handle.customer.create');
         Route::post('/update/{id}', [EmployeeCustomerController::class, 'handleCustomerUpdate'])->name('employee.handle.customer.update');
         Route::get('/delete/{id}', [EmployeeCustomerController::class, 'handleCustomerDelete'])->name('employee.handle.customer.delete');
+    });
+
+    Route::prefix('password')->group(function () {
+        Route::get('/list', [EmployeePasswordController::class, 'viewPasswordList'])->name('employee.view.password.list');
+        Route::get('/create', [EmployeePasswordController::class, 'viewPasswordCreate'])->name('employee.view.password.create');
+        Route::get('/update/{id}', [EmployeePasswordController::class, 'viewPasswordUpdate'])->name('employee.view.password.update');
+        Route::post('/create', [EmployeePasswordController::class, 'handlePasswordCreate'])->name('employee.handle.password.create');
+        Route::post('/update/{id}', [EmployeePasswordController::class, 'handlePasswordUpdate'])->name('employee.handle.password.update');
+        Route::get('/delete/{id}', [EmployeePasswordController::class, 'handlePasswordDelete'])->name('employee.handle.password.delete');
+    });
+
+    Route::prefix('project')->group(function () {
+        Route::get('/list', [EmployeeProjectController::class, 'viewProjectList'])->name('employee.view.project.list');
+        Route::get('/create', [EmployeeProjectController::class, 'viewProjectCreate'])->name('employee.view.project.create');
+        Route::get('/update/{id}', [EmployeeProjectController::class, 'viewProjectUpdate'])->name('employee.view.project.update');
+        Route::get('/preview/{id}', [EmployeeProjectController::class, 'viewProjectPreview'])->name('employee.view.project.preview');
+        Route::post('/create', [EmployeeProjectController::class, 'handleProjectCreate'])->name('employee.handle.project.create');
+        Route::post('/update/{id}', [EmployeeProjectController::class, 'handleProjectUpdate'])->name('employee.handle.project.update');
+        Route::get('/delete/{id}', [EmployeeProjectController::class, 'handleProjectDelete'])->name('employee.handle.project.delete');
+        Route::get('employee/project/{id}/change-status/{status}', [EmployeeProjectController::class, 'changeStatus'])->name('employee.project.change-status');
     });
 });

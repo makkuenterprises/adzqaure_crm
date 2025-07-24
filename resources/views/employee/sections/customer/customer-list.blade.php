@@ -190,10 +190,10 @@
                                                     </td>
                                                     <td class="text-nowrap">
 
-                                                        <a href="{{ route('employee.view.customer.update', ['id' => $customer->id]) }}"
+                                                        {{-- <a href="{{ route('employee.view.customer.update', ['id' => $customer->id]) }}"
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a href="{{ route('employee.view.password.list', ['customer_id' => $customer->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-lock"></i>
@@ -202,10 +202,7 @@
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
-                                                        <a href="javascript:handleDelete({{ $customer->id }});"
-                                                            class="btn btn-danger btn-sm content-icon">
-                                                            <i class="fa fa-times"></i>
-                                                        </a>
+
                                                     </td>
                                                 </tr>
                                             @endforeach
