@@ -90,7 +90,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handlePaymentDelete'])->name('admin.handle.payment.delete');
     });
 
-    Route::prefix('billing')->group(function () {
+    Route::prefix('billing')->group(callback: function () {
         Route::get('/list', [AdminViewController::class, 'viewBillList'])->name('admin.view.bill.list');
         Route::get('/create', [AdminViewController::class, 'viewBillCreate'])->name('admin.view.bill.create');
         Route::get('/update/{id}', [AdminViewController::class, 'viewBillUpdate'])->name('admin.view.bill.update');

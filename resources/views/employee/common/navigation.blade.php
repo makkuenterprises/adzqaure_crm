@@ -50,7 +50,7 @@
                     <li><a href="{{ route('employee.view.customer.list') }}">Manage Customers</a></li>
                     <li><a href="{{ route('employee.view.project.list') }}">Customer Projects</a></li>
                     <li><a href="{{ route('employee.view.domain.hosting.list') }}">Domain & Hosting</a></li>
-                    <li><a href="{{ route('admin.view.bill.list') }}">Payment & Bills</a></li>
+                    <li><a href="{{ route('employee.view.bill.list') }}">Payment & Bills</a></li>
                     <li><a href="{{ route('employee.view.password.list') }}">Paassword Manager</a></li>
                 </ul>
             </li>

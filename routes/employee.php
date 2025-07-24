@@ -10,6 +10,7 @@ use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
+use App\Http\Controllers\PaymentHistoryController;
 use App\Http\Controllers\Employee\EmployeeCustomerController;
 use App\Http\Controllers\Employee\EmployeeAPIController;
 use App\Http\Controllers\Employee\EmployeeInquiryController;
@@ -17,6 +18,9 @@ use App\Http\Controllers\Employee\LeadManagerController;
 use App\Http\Controllers\Employee\EmployeeProjectController;
 use App\Http\Controllers\Employee\EmployeePasswordController;
 use App\Http\Controllers\Employee\EmployeeDomainHostingController;
+use App\Http\Controllers\Employee\EmployeePaymentController;
+use App\Http\Controllers\Employee\EmployeeBillController;
+
 
 
 Route::middleware(['guest:employee'])->group(function () {
@@ -98,5 +102,31 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::post('/update/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingUpdate'])->name('employee.handle.domain.hosting.update');
         Route::get('/delete/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingDelete'])->name('employee.handle.domain.hosting.delete');
         Route::get('/bill/{id}', [EmployeeDomainHostingController::class, 'handleDomainHostingBillCreate'])->name('employee.handle.domain.hosting.bill.create');
+    });
+
+    Route::prefix('payment')->group(function () {
+        Route::get('/list', [EmployeePaymentController::class, 'viewPaymentList'])->name('employee.view.payment.list');
+        Route::get('/create', [EmployeePaymentController::class, 'viewPaymentCreate'])->name('employee.view.payment.create');
+        Route::get('/update/{id}', [EmployeePaymentController::class, 'viewPaymentUpdate'])->name('employee.view.payment.update');
+        Route::post('/create', [EmployeePaymentController::class, 'handlePaymentCreate'])->name('employee.handle.payment.create');
+        Route::post('/update/{id}', [EmployeePaymentController::class, 'handlePaymentUpdate'])->name('employee.handle.payment.update');
+        Route::get('/delete/{id}', [EmployeePaymentController::class, 'handlePaymentDelete'])->name('employee.handle.payment.delete');
+    });
+
+    Route::prefix('billing')->group(callback: function () {
+        Route::get('/list', [EmployeeBillController::class, 'viewBillList'])->name('employee.view.bill.list');
+        Route::get('/create', [EmployeeBillController::class, 'viewBillCreate'])->name('employee.view.bill.create');
+        Route::get('/update/{id}', [EmployeeBillController::class, 'viewBillUpdate'])->name('employee.view.bill.update');
+        Route::get('/download/{id}', [EmployeeBillController::class, 'handleBillInvoiceDownload'])->name('employee.view.bill.download');
+        Route::post('/create', [EmployeeBillController::class, 'handleBillCreate'])->name('employee.handle.bill.create');
+        Route::post('/update/{id}', [EmployeeBillController::class, 'handleBillUpdate'])->name('employee.handle.bill.update');
+        Route::get('/delete/{id}', [EmployeeBillController::class, 'handleBillDelete'])->name('employee.handle.bill.delete');
+        Route::get('/invoice/{id}', [EmployeeBillController::class, 'handleBillInvoiceDownload'])->name('employee.handle.bill.invoice');
+        Route::get('/duplicate/{id}', [EmployeeBillController::class, 'handleBillDuplicate'])->name('employee.handle.bill.duplicate');
+        Route::get('{bill}/history', [EmployeeBillController::class, 'showHistory'])->name('employee.bill.history');
+        Route::post('{bill}/history', action: [EmployeeBillController::class, 'storeHistory'])->name('employee.bill.history.store');
+        // In your admin route group...
+        Route::post('/settle/{id}', [EmployeeBillController::class, 'settleBill'])->name('employee.bill.settle');
+
     });
 });
