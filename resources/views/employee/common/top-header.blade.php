@@ -119,11 +119,11 @@
 
 
                     <li class="nav-item dropdown  header-profile">
-                        <a class="nav-link" href="{{route('admin.view.account.setting')}}" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link" href="{{route('employee.view.account.setting')}}" role="button" data-bs-toggle="dropdown">
                             <img src="{{ is_null(auth()->user()->profile) || auth()->user()->profile == '' ? asset('admin/profile/default-profile.png') : asset('admin/profile/' . auth()->user()->profile) }}" width="56" alt="profile">
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a href="{{route('admin.view.account.setting')}}" class="dropdown-item ai-icon">
+                            <a href="{{route('employee.view.account.setting')}}" class="dropdown-item ai-icon">
                                 <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
                                     width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -133,7 +133,7 @@
                                 </svg>
                                 <span class="ms-2">Profile </span>
                             </a>
-                            <a href="{{route('admin.view.setting')}}" class="dropdown-item ai-icon">
+                            <a href="{{route('employee.view.setting')}}" class="dropdown-item ai-icon">
 
                                 <svg id="icon-cog" xmlns="http://www.w3.org/2000/svg" class="text-success"
                                     width="18" height="18" viewBox="0 0 25 25" fill="none"

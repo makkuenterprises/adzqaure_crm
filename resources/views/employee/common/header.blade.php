@@ -2,7 +2,7 @@
             Nav header start
         ***********************************-->
 <div class="nav-header">
-    <a href="{{ route('admin.view.dashboard') }}" class="brand-logo">
+    <a href="{{ route('employee.view.dashboard') }}" class="brand-logo">
         {{-- <svg class="logo-abbr" width="55" height="55" viewBox="0 0 55 55" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
