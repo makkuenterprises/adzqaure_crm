@@ -531,6 +531,7 @@
                     <li><a href="#hero" class="active">Home</a></li>
                     <li><a href="#digital-360">360° Solutions</a></li>
                     <li><a href="#specific-services">Services</a></li>
+                    <li><a href="store">Store</a></li>
                     <li><a href="#partners">Partners</a></li>
                     <li><a href="#international-presence">Global Reach</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>

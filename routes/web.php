@@ -23,6 +23,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('main');
 
+Route::get('store', function () {
+
+    return view('store');
+})->name('store');
+
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);
 
