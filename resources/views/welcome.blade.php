@@ -521,7 +521,11 @@
 
     <header id="main-header">
         <div class="container">
-            <a href="#hero" class="logo">Adzquare</a>
+
+            <a href="#hero" class="logo">
+                <img src="{{ asset('web/images/logo-main.png') }}" alt="Adzquare Logo" style="height: 26px;">
+            </a>
+            {{-- <a href="#hero" class="logo">Adzquare</a> --}}
             <nav>
                 <ul id="nav-menu">
                     <li><a href="#hero" class="active">Home</a></li>
