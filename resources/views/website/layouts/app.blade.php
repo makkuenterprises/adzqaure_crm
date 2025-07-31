@@ -53,7 +53,7 @@
 
         /* Basic Reset & Defaults */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 12px; }
+        html { scroll-behavior: smooth; font-size: 10px; }
         body {
             font-family: var(--font-body);
             line-height: 1.7;
@@ -370,7 +370,7 @@
         }
         .partner-logo {
 
-            max-width: 100%px;
+            max-width: 100%;
             filter: grayscale(80%) brightness(1.5) contrast(1.2);
             transition: filter 0.3s ease, transform 0.3s ease;
             opacity: 0.7;
@@ -525,41 +525,6 @@
             .partner-logo { height: 40px; max-width: 100px;}
          }
 
-                    /* Preloader Styles */
-            body.loading {
-                overflow: hidden;
-            }
-            #preloader {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 9999;
-                background: var(--bg-color);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                transition: opacity 0.75s ease, visibility 0.75s ease;
-            }
-            #preloader.loader-hidden {
-                opacity: 0;
-                visibility: hidden;
-            }
-            .spinner {
-                width: 60px;
-                height: 60px;
-                border: 5px solid var(--border-color);
-                border-top-color: var(--primary-accent);
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-            }
-            @keyframes spin {
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-
     </style>
 </head>
 
@@ -690,18 +655,6 @@
             }
         }
     });
-
-    // --- Preloader Logic ---
-    const preloader = document.getElementById('preloader');
-    const bodyForLoader = document.body;
-
-    window.onload = () => {
-        // Wait for everything to load, then hide preloader
-        if (preloader) {
-            preloader.classList.add('loader-hidden');
-        }
-        bodyForLoader.classList.remove('loading');
-    };
 
     </script>
 
