@@ -22,6 +22,9 @@
     <meta property="twitter:description" content="Drive global growth with Adzquare's innovative IT and digital marketing strategies.">
     <meta property="twitter:image" content="https://www.adzquare.com/twitter-card-image.jpg"> <!-- Replace with an actual Twitter card image URL -->
 
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin_new/images/favicon.png') }}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
