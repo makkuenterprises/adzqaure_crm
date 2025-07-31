@@ -20,22 +20,22 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
 
-    return view('welcome');
+    return view('website.welcome');
 })->name('main');
 
 Route::get('store', function () {
 
-    return view('store');
+    return view('website.store');
 })->name('store');
 
 Route::get('privacy-policy', function () {
 
-    return view('privacy-policy');
+    return view('website.privacy-policy');
 })->name('privacy-policy');
 
 Route::get('terms-of-service', function () {
 
-    return view('terms-of-service');
+    return view('website.terms-of-service');
 })->name('terms-of-service');
 
 Route::redirect('/login', '/');
