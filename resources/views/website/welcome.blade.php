@@ -118,6 +118,7 @@
                             <li>Building Cross-Border Link Ecosystems & Digital PR</li>
                             <li>Conversion Rate Optimization (CRO) for Search Traffic</li>
                         </ul>
+                        <a href="#" class="add-to-cart-btn">View Details</a>
                     </div>
                 </div>
                  <div class="specific-service-card animate-on-scroll fade-in-right">
@@ -132,6 +133,7 @@
                             <li>Worldwide Influencer Marketing & Collaboration</li>
                             <li>Social Listening & Brand Reputation Management</li>
                         </ul>
+                        <a href="#" class="add-to-cart-btn">View Details</a>
                     </div>
                 </div>
                  <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -146,7 +148,9 @@
                             <li>Advanced Audience Segmentation & Retargeting Strategies</li>
                             <li>Programmatic Advertising & Display Network Management</li>
                         </ul>
+                        <a href="#" class="add-to-cart-btn">View Details</a>
                     </div>
+
                 </div>
                 <div class="specific-service-card animate-on-scroll fade-in-right">
                    <div class="service-icon">💬</div> <!-- Icon: Chat Bubble for Direct Engagement -->
@@ -160,6 +164,7 @@
                            <li>High-Converting Global Landing Page Design & Optimization</li>
                            <li>CRM Integration & Automated Lead Nurturing Sequences</li>
                        </ul>
+                       <a href="#" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
                <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -174,6 +179,7 @@
                            <li>Custom Web & Mobile Application Development</li>
                            <li>DevOps & IT Automation Consulting</li>
                        </ul>
+                       <a href="#" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
             </div>
@@ -191,9 +197,9 @@
                     Collaborating with industry leaders to integrate and deliver best-in-class, cutting-edge solutions for our global clientele.
                 </p>
                 <div class="partners-grid">
-                    <img src="https://via.placeholder.com/200x80/FFFFFF/000000?text=Razorpay+Logo" alt="Razorpay Payment Solutions Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.2s;">
-                    <img src="https://via.placeholder.com/200x80/FFFFFF/000000?text=PhonePe+Logo" alt="PhonePe Digital Payments Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.3s;">
-                    <img src="https://via.placeholder.com/200x80/FFFFFF/000000?text=Jio+Haptik+Logo" alt="Jio Haptik AI Chatbot Solutions Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.4s;">
+                    <img src="{{ asset('web/images/razorpay.png') }}" alt="Razorpay Payment Solutions Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.2s;">
+                    <img src="{{ asset('web/images/phonepe.png') }}" alt="PhonePe Digital Payments Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.3s;">
+                    <img src="{{ asset('web/images/jio.png') }}" alt="Jio Haptik AI Chatbot Solutions Logo" class="partner-logo animate-on-scroll scale-up" style="animation-delay: 0.4s;">
                     <!-- Add more partner logos as needed. Use their official logos. -->
                 </div>
             </div>
@@ -248,21 +254,21 @@
                 <div class="testimonial-grid">
                     <div class="testimonial-card gradient-card animate-on-scroll fade-in-left" style="animation-delay:0.2s;">
                         <div class="client-avatar" alt="Client Avatar - Jane D.">JD</div> <!-- Use <img src="path/to/jane-avatar.jpg" alt="Jane Doe"> -->
-                        <blockquote>"Adzquare didn't just meet expectations; they shattered them. Their innovative digital strategies propelled our market reach in the USA to new heights. Truly a world-class, visionary partner!"</blockquote>
-                        <p class="client-name">Jane Doe</p>
-                        <p class="client-info">CEO, TechForward Solutions Inc. (USA)</p>
+                        <blockquote>"Partnering with Adzquare was a game-changer for our brand. Their 360° digital marketing strategy, especially their mastery of SEO and local market analytics, gave us unprecedented visibility. We saw a 200% increase in qualified leads within the first six months. Their team doesn't just deliver services; they deliver results."</blockquote>
+                        <p class="client-name">Priya Sharma</p>
+                        <p class="client-info">Marketing Director, SaffronStays Hospitality (Mumbai, India)</p>
                     </div>
                     <div class="testimonial-card gradient-card animate-on-scroll fade-in-up" style="animation-delay:0.3s;">
                         <div class="client-avatar" alt="Client Avatar - Ravi S.">RS</div> <!-- Use <img src="path/to/ravi-avatar.jpg" alt="Ravi Sharma"> -->
-                        <blockquote>"The bespoke IT infrastructure support and cloud solutions for our UK operations have been impeccable. Adzquare's team is highly responsive, deeply knowledgeable, and an absolute pleasure to work with."</blockquote>
-                        <p class="client-name">Ravi Sharma</p>
-                        <p class="client-info">Operations Director, Innovate Global Ltd. (UK)</p>
+                        <blockquote>"As a fast-growing SaaS startup, we needed a robust and scalable IT infrastructure. Adzquare's team provided an impeccable cloud solution and custom software development that streamlined our operations completely. Their technical expertise and 24/7 support are truly world-class. They are not just a vendor, but a vital technology partner in our growth."</blockquote>
+                        <p class="client-name">Rohan Mehta</p>
+                        <p class="client-info">Founder & CEO, Tech-Verse Solutions (Bengaluru, India)</p>
                     </div>
                     <div class="testimonial-card gradient-card animate-on-scroll fade-in-right" style="animation-delay:0.4s;">
                         <div class="client-avatar" alt="Client Avatar - Sarah K.">SK</div> <!-- Use <img src="path/to/sarah-avatar.jpg" alt="Sarah K."> -->
-                        <blockquote>"Our lead generation in the competitive Australian market saw a staggering 150% increase thanks to Adzquare's data-driven and precisely targeted campaigns. Exceptional results and outstanding communication!"</blockquote>
-                        <p class="client-name">Sarah Kensington</p>
-                        <p class="client-info">Head of Marketing, AusBiz Dynamics Co. (Australia)</p>
+                        <blockquote>"We always dreamed of taking our artisanal products to the global stage, but the complexity was overwhelming. Adzquare's expertise in international e-commerce and targeted PPC campaigns for the US and UK markets was phenomenal. They managed everything from lead generation to conversion optimization, effectively bridging the gap between our Indian craftsmanship and a global audience."</blockquote>
+                        <p class="client-name">Arjun Reddy</p>
+                        <p class="client-info">Head of E-commerce, CraftsOfIndia Retail Pvt. Ltd. (Jaipur, India)</p>
                     </div>
                 </div>
             </div>
@@ -279,27 +285,40 @@
                 <p class="section-subtitle animate-on-scroll fade-in" style="animation-delay:0.1s;">Your questions, answered. Get clear insights into our global services, processes, and how we drive success for businesses like yours.</p>
                 <div class="faq-list">
                     <details class="faq-item animate-on-scroll fade-in-up" style="animation-delay:0.2s;">
-                        <summary class="faq-question">What specific international markets does Adzquare primarily serve and have expertise in?</summary>
+                        <summary class="faq-question">What makes Adzquare different from a typical marketing agency or IT firm?</summary>
                         <div class="faq-content">
-                            <p>Adzquare has a robust presence and extensive experience catering to clients in major global markets including India, the USA, the UK, and Australia. Our teams possess deep understanding of these regions, and we are fully equipped to manage and deliver successful projects in various other international territories.</p>
+                            <p>Our core difference is Integrated Expertise. A typical marketing agency can run ads but may not understand the underlying technology, leading to slow websites and lost conversions. An IT firm can build an app but may not know how to market it. <br> <br>
+Adzquare bridges this gap. We build your digital infrastructure (website, apps, cloud) with marketing goals in mind from day one, and we execute marketing campaigns that leverage a deep understanding of the technology. This creates a seamless, high-performance digital ecosystem where every part works together to maximize your results.</p>
                         </div>
                     </details>
                     <details class="faq-item animate-on-scroll fade-in-up" style="animation-delay:0.3s;">
-                        <summary class="faq-question">How does Adzquare effectively manage projects and communication across different time zones for international clients?</summary>
+                        <summary class="faq-question">My last agency focused on clicks and likes. How do I know I'll get a real return on my investment (ROI) with you?</summary>
                         <div class="faq-content">
-                            <p>Our project management framework is inherently designed for seamless global collaboration. We establish crystal-clear communication channels, leverage advanced collaborative software, and structure our teams to ensure significant overlapping work hours. This guarantees responsive interaction and continuous progress for our international clients, regardless of their location.</p>
+                            <p>We believe vanity metrics are a waste of your time and money. Our entire strategy is built around the KPIs that directly impact your bottom line: leads, customer acquisition cost, sales revenue, and overall profitability. We use advanced analytics to track every rupee and dollar spent, providing you with transparent, easy-to-understand reports that clearly connect our efforts to your business growth. We succeed when you succeed.</p>
                         </div>
                     </details>
                     <details class="faq-item animate-on-scroll fade-in-up" style="animation-delay:0.4s;">
-                        <summary class="faq-question">Can Adzquare tailor digital marketing strategies to be effective in specific countries and cultural contexts?</summary>
+                        <summary class="faq-question">My marketing and IT feel disconnected. Can you handle everything under one roof?</summary>
                         <div class="faq-content">
-                            <p>Absolutely. Localization is key to our international success. We conduct in-depth market research for each target country, analyzing cultural nuances, local search engine algorithms, competitor strategies, and specific consumer behaviors. This data allows us to craft highly localized and impactful SEO, SMM, SEM, and content marketing strategies that resonate powerfully with the target audience in each unique region.</p>
+                            <p>Absolutely. This is the exact problem we solve. Managing separate vendors for SEO, web development, cloud hosting, and cybersecurity leads to miscommunication, delays, and missed opportunities. As your single, unified partner, we ensure your SEO expert is talking to your developer, and your cybersecurity lead is aligned with your e-commerce manager. The result is a faster, more secure, and more effective strategy where everyone is pulling in the same direction.</p>
                         </div>
                     </details>
                      <details class="faq-item animate-on-scroll fade-in-up" style="animation-delay:0.5s;">
-                        <summary class="faq-question">What types of AI-powered solutions and innovations does Adzquare offer to businesses?</summary>
+                        <summary class="faq-question">We want to expand globally. How do you make a strategy work in different countries like the USA, UK, or Australia?</summary>
                         <div class="faq-content">
-                            <p>Adzquare is at the forefront of leveraging Artificial Intelligence. We offer AI solutions for advanced predictive analytics, sophisticated marketing automation, hyper-personalized customer experiences, the development of intelligent and conversational AI chatbots, and the optimization of complex IT operations. Our primary objective is to harness AI to drive tangible efficiency, foster innovation, and create a competitive edge for your business in the global marketplace.</p>
+                            <p>This is our specialty. A successful global strategy is about localization, not just translation. We don't simply run the same ads in a different language. Our international teams conduct deep market research to understand the unique cultural nuances, consumer behaviors, and competitive landscapes of each region. We adapt your messaging, visuals, and platforms to be highly resonant and effective, turning your brand into a global player.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item animate-on-scroll fade-in-up" style="animation-delay:0.5s;">
+                        <summary class="faq-question">What does the process look like from my first call to project launch?</summary>
+                        <div class="faq-content">
+                            <p>We follow a clear, transparent, and collaborative process to ensure we are aligned every step of the way:</p>
+                            <ul>
+                                <li>Discovery & Analysis: We start with a deep-dive session to understand your business, your goals, and your biggest challenges.</li>
+                                <li>Strategy & Proposal: We present a custom-built, data-driven strategy and a detailed proposal with a clear scope, timeline, and deliverables. No surprises.</li>
+                                <li>Onboarding & Kick-off: You meet your dedicated project manager and team. We set up all communication channels and finalize the project roadmap.</li>
+                                <li>Execution & Reporting: We get to work, providing you with regular updates and comprehensive performance reports so you always know the status of your project and its impact.</li>
+                            </ul>
                         </div>
                     </details>
                 </div>

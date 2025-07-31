@@ -1,3 +1,6 @@
+
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +59,14 @@
             overflow-x: hidden;
             position: relative;
         }
+
+         .add-to-cart-btn { background: transparent; border: 1px solid var(--primary-accent); color: var(--primary-accent); padding: 8px 15px; border-radius: 50px; cursor: pointer; font-weight: 600; font-family: var(--font-body); font-size: 0.9rem; transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; }
+        .add-to-cart-btn:hover { background-color: var(--primary-accent); box-shadow: 0 0 10px var(--glow-color); color: white; transform: scale(1.05); }
+
+        .add-to-cart-btn {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
 
         /* Animated Background Elements (Particles & Bubbles) */
         .bg-animation-container, .bubbles {
@@ -355,8 +366,8 @@
             margin-top: 40px;
         }
         .partner-logo {
-            height: 60px;
-            max-width: 150px;
+
+            max-width: 100%px;
             filter: grayscale(80%) brightness(1.5) contrast(1.2);
             transition: filter 0.3s ease, transform 0.3s ease;
             opacity: 0.7;
@@ -511,6 +522,41 @@
             .partner-logo { height: 40px; max-width: 100px;}
          }
 
+                    /* Preloader Styles */
+            body.loading {
+                overflow: hidden;
+            }
+            #preloader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                background: var(--bg-color);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: opacity 0.75s ease, visibility 0.75s ease;
+            }
+            #preloader.loader-hidden {
+                opacity: 0;
+                visibility: hidden;
+            }
+            .spinner {
+                width: 60px;
+                height: 60px;
+                border: 5px solid var(--border-color);
+                border-top-color: var(--primary-accent);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
     </style>
 </head>
 
@@ -641,6 +687,18 @@
             }
         }
     });
+
+    // --- Preloader Logic ---
+    const preloader = document.getElementById('preloader');
+    const bodyForLoader = document.body;
+
+    window.onload = () => {
+        // Wait for everything to load, then hide preloader
+        if (preloader) {
+            preloader.classList.add('loader-hidden');
+        }
+        bodyForLoader.classList.remove('loading');
+    };
 
     </script>
 

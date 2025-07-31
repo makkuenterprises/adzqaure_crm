@@ -10,12 +10,12 @@
                 <div class="footer-column animate-on-scroll fade-in-up" style="animation-delay:0.2s;">
                     <h4>Explore Adzquare</h4>
                     <ul>
-                        <li><a href="#hero" title="Adzquare Home">Home</a></li>
-                        <li><a href="#specific-services" title="Our IT & Digital Marketing Services">Our Services</a></li>
-                        <li><a href="#partners" title="Adzquare Technology Partners">Partners</a></li>
-                        <li><a href="#testimonials" title="Client Testimonials">Client Success</a></li>
-                        <li><a href="#faqs" title="Frequently Asked Questions">FAQs</a></li>
-                        <li><a href="#contact" title="Contact Adzquare">Contact Us</a></li>
+                        <li><a href="/#hero" title="Adzquare Home">Home</a></li>
+                        <li><a href="/#digital-360" title="Our IT & Digital Marketing Services">Our Services</a></li>
+                        <li><a href="/#partners" title="Adzquare Technology Partners">Partners</a></li>
+                        <li><a href="/#testimonials" title="Client Testimonials">Client Success</a></li>
+                        <li><a href="/#faqs" title="Frequently Asked Questions">FAQs</a></li>
+                        <li><a href="/#contact" title="Contact Adzquare">Contact Us</a></li>
                         <li><a href="privacy-policy" title="Adzquare Privacy Policy">Privacy Policy</a></li> <!-- Add link -->
                         <li><a href="terms-of-service" title="Adzquare Terms of Service">Terms of Service</a></li> <!-- Add link -->
                         <li><a href="/team-member/login" title="Adzquare's Global Reach">Team Login</a> | <a href="/admin/login" title="Adzquare's Global Reach">Admin Login</a></li>
