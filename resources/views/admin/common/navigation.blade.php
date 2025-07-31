@@ -16,6 +16,7 @@
                     <span class="nav-text">Inquiries <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
             </li>
+
             <li><a href="{{ route('admin.view.lead.manager.list') }}" aria-expanded="false">
                     <i class="fa fa-hourglass"></i>
                     <span class="nav-text">Leads Manager <span class="badge badge-xs badge-danger ms-2">New</span></span>
@@ -31,6 +32,11 @@
                     <li><a href="{{ route('admin.view.lead.import') }}">Import Data</a></li>
                     <li><a href="{{ route('admin.view.group.list') }}">Data Groups</a></li>
                 </ul>
+            </li>
+            <li><a href="{{ route('admin.view.quotation.list') }}" aria-expanded="false">
+                    <i class="fa fa-book"></i>
+                    <span class="nav-text">Quotation</span>
+                </a>
             </li>
             {{-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-briefcase"></i>

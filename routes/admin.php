@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminAPIController;
 use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\PaymentHistoryController;
+use App\Http\Controllers\QuotationController;
 
 Route::middleware(['guest:admin'])->group(function () {
     Route::get('login', [AdminAuthController::class, 'viewLogin'])->name('admin.view.login');
@@ -104,6 +105,18 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('{bill}/history', action: [PaymentHistoryController::class, 'storeHistory'])->name('admin.bill.history.store');
         // In your admin route group...
         Route::post('/settle/{id}', [PaymentHistoryController::class, 'settleBill'])->name('admin.bill.settle');
+
+    });
+
+    Route::prefix('quotation')->group(callback: function () {
+        Route::get('/list', [QuotationController::class, 'viewQuotationList'])->name('admin.view.quotation.list');
+        Route::get('/create', [QuotationController::class, 'viewQuotationCreate'])->name('admin.view.quotation.create');
+        Route::get('/update/{id}', [QuotationController::class, 'viewQuotationUpdate'])->name('admin.view.quotation.update');
+        Route::get('/download/{id}', [QuotationController::class, 'handleQuotationDownload'])->name('admin.view.quotation.download');
+        Route::post('/create', [QuotationController::class, 'handleQuotationCreate'])->name('admin.handle.quotation.create');
+        Route::post('/update/{id}', [QuotationController::class, 'handleQuotationUpdate'])->name('admin.handle.quotation.update');
+        // Route::get('/delete/{id}', [AdminDeleteController::class, 'handleBillDelete'])->name('admin.handle.quotation.delete');
+        Route::get('/quote/{id}', [QuotationController::class, 'handleQuotationDownload'])->name('admin.handle.quotation.invoice');
 
     });
 
