@@ -21,6 +21,7 @@
     <meta property="twitter:description" content="Drive global growth with Adzquare's innovative IT and digital marketing strategies.">
     <meta property="twitter:image" content="https://www.adzquare.com/twitter-card-image.jpg"> <!-- Replace with an actual Twitter card image URL -->
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -579,7 +580,7 @@
             </div>
         </section>
 
-        <!-- 360 Digital Marketing Overview Section -->
+       <!-- 360 Digital Marketing Overview Section -->
         <section id="digital-360" class="section">
             <div class="section-3d-bg">
                 <div class="s3d-shape s1"></div>
@@ -591,30 +592,45 @@
                     We navigate the complexities of the digital cosmos to chart a course for your brand's global success. Our integrated strategies ensure every touchpoint contributes to your growth, whether you're targeting audiences in India, the USA, UK, or Australia.
                 </p>
                 <div class="services-overview-grid">
+                    <!-- Card 1: Digital Marketing -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.2s;">
                         <div class="icon-placeholder">🌌</div> <!-- Icon: Galaxy/Strategy -->
-                        <h3>Strategic Constellations</h3>
-                        <p>Mapping data-driven, bespoke strategies for stellar digital performance across diverse international markets.</p>
+                        <h3>Digital Marketing</h3>
+                        <p>Crafting comprehensive, data-driven strategies to navigate the digital landscape and achieve your core business objectives.</p>
                     </div>
+                    <!-- Card 2: SEO -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="icon-placeholder">💡</div> <!-- Icon: Idea/Creativity -->
-                        <h3>Creative Nebulas</h3>
-                        <p>Forging compelling, culturally-resonant content and captivating designs that engage global audiences and build brand loyalty.</p>
+                        <div class="icon-placeholder">📈</div> <!-- Icon: Growth Chart -->
+                        <h3>SEO</h3>
+                        <p>Enhancing your website's visibility on search engines to drive sustained organic traffic and achieve top rankings.</p>
                     </div>
+                    <!-- Card 3: SEM -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.4s;">
-                        <div class="icon-placeholder">🛰️</div> <!-- Icon: Satellite/Reach -->
-                        <h3>Targeted Trajectories</h3>
-                        <p>Precision outreach using advanced analytics to connect with your ideal customers on the right platforms, at the optimal time, worldwide.</p>
+                        <div class="icon-placeholder">🎯</div> <!-- Icon: Target -->
+                        <h3>SEM</h3>
+                        <p>Utilizing paid search strategies to place your brand in front of motivated customers and maximize return on investment.</p>
                     </div>
+                    <!-- Card 4: Web & Mobile App Development -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.5s;">
-                        <div class="icon-placeholder">🔬</div> <!-- Icon: Microscope/Analysis -->
-                        <h3>Analytical Orbits</h3>
-                        <p>Continuously refining strategies through meticulous tracking, A/B testing, and data analysis for peak performance and maximum ROI.</p>
+                        <div class="icon-placeholder">💻</div> <!-- Icon: Laptop/Code -->
+                        <h3>Web & Mobile App Development</h3>
+                        <p>Building responsive websites and intuitive mobile applications that provide a seamless, high-performance user experience.</p>
+                    </div>
+                    <!-- Card 5: Content Creation -->
+                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="icon-placeholder">✍️</div> <!-- Icon: Writing Hand -->
+                        <h3>Content Creation</h3>
+                        <p>Developing engaging and valuable content that resonates with your target audience and builds lasting brand authority.</p>
+                    </div>
+                    <!-- Card 6: Meta & Google Ads -->
+                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.7s;">
+                        <div class="icon-placeholder">📢</div> <!-- Icon: Megaphone/Ads -->
+                        <h3>Meta & Google Ads</h3>
+                        <p>Running hyper-targeted ad campaigns on the world's largest platforms to reach specific demographics and drive conversions.</p>
                     </div>
                 </div>
             </div>
         </section>
-
         <!-- Specific Services Section -->
         <section id="specific-services" class="section">
              <div class="section-3d-bg">
@@ -855,6 +871,8 @@
                 <div class="footer-column animate-on-scroll fade-in-right" style="animation-delay:0.1s;">
                     <h4>About Adzquare Global</h4>
                     <p>Adzquare is a premier international IT and 360° Digital Marketing powerhouse. We are dedicated to architecting innovative, data-driven solutions that propel businesses across India, the USA, UK, Australia, and beyond to new heights of success and leadership in the dynamic digital age.</p>
+                    <p>Powered By Makku Enterprises Pvt. Ltd.</p>
+                    <p>CIN: U72900BR2021PTC054492</p>
                 </div>
                 <div class="footer-column animate-on-scroll fade-in-up" style="animation-delay:0.2s;">
                     <h4>Explore Adzquare</h4>
@@ -865,27 +883,27 @@
                         <li><a href="#testimonials" title="Client Testimonials">Client Success</a></li>
                         <li><a href="#faqs" title="Frequently Asked Questions">FAQs</a></li>
                         <li><a href="#contact" title="Contact Adzquare">Contact Us</a></li>
-                        <li><a href="#" title="Adzquare Privacy Policy">Privacy Policy</a></li> <!-- Add link -->
-                        <li><a href="#" title="Adzquare Terms of Service">Terms of Service</a></li> <!-- Add link -->
+                        <li><a href="privacy-policy" title="Adzquare Privacy Policy">Privacy Policy</a></li> <!-- Add link -->
+                        <li><a href="terms-of-service" title="Adzquare Terms of Service">Terms of Service</a></li> <!-- Add link -->
                         <li><a href="/team-member/login" title="Adzquare's Global Reach">Team Login</a> | <a href="/admin/login" title="Adzquare's Global Reach">Admin Login</a></li>
                     </ul>
                 </div>
                 <div class="footer-column animate-on-scroll fade-in-left" style="animation-delay:0.3s;">
                     <h4>Connect With Our Global Team</h4>
-                    <p><strong>Global Headquarters (Example):</strong><br>123 Innovation Drive, Tech City, Silicon Valley, Global</p>
-                    <p><strong>International Phone:</strong> <a href="tel:+10000000000" title="Call Adzquare International">+1 (000) 000-0000</a></p>
-                    <p><strong>General Inquiries:</strong> <a href="mailto:global.inquiries@adzquare.com" title="Email Adzquare Global Inquiries">global.inquiries@adzquare.com</a></p>
+                    <p><strong>Global Headquarters:</strong><br>123 Innovation Drive, Tech City, Silicon Valley, Global</p>
+                    <p><strong>Phone:</strong> <a href="tel:+919304878684" title="Call Adzquare International">+91 9304878684</a></p>
+                    <p><strong>General Inquiries:</strong> <a href="mailto:hello@adzquare.in" title="Email Adzquare Global Inquiries">hello@adzquare.in</a></p>
                     <p><em>(Regional offices in India, US, UK, Australia - Contact us for local details)</em></p>
                     <div class="footer-social-icons">
-                        <a href="#" aria-label="Adzquare on Facebook" title="Adzquare on Facebook">FB</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on Twitter" title="Adzquare on Twitter">TW</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on LinkedIn" title="Adzquare on LinkedIn">IN</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on Instagram" title="Adzquare on Instagram">IG</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on YouTube" title="Adzquare on YouTube">YT</a> <!-- Replace with SVG icon -->
+                        <a href="#" aria-label="Adzquare on Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Adzquare on Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Adzquare on LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Adzquare on Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Adzquare on YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom-text animate-on-scroll fade-in" style="animation-delay:0.4s;">
+            <div class="footer-bottom-text ">
                 <p>&copy; <span id="currentYear"></span> Adzquare. All Rights Reserved. | Architecting Your Global Digital Future.</p>
             </div>
         </div>

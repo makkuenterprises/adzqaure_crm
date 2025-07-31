@@ -28,6 +28,16 @@ Route::get('store', function () {
     return view('store');
 })->name('store');
 
+Route::get('privacy-policy', function () {
+
+    return view('privacy-policy');
+})->name('privacy-policy');
+
+Route::get('terms-of-service', function () {
+
+    return view('terms-of-service');
+})->name('terms-of-service');
+
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);
 
