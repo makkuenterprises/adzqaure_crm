@@ -50,7 +50,7 @@
 
         /* Basic Reset & Defaults */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; }
+        html { scroll-behavior: smooth; font-size: 12px; }
         body {
             font-family: var(--font-body);
             line-height: 1.7;
