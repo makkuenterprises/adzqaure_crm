@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "doctrine/dbal": "^3.3",
         "gemini-api-php/laravel": "^0.3.0",
+        "google/cloud": "^0.296.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",

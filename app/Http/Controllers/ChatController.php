@@ -2,41 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-// We will use the base Client directly, not the Facade
-use GeminiAPI\Client as GeminiClient;
+use Illuminate\Support\Str;
+use App\Models\Message;
 
 class ChatController extends Controller
 {
-    public function chat(Request $request)
+    protected $geminiService;
+
+    public function __construct(GeminiService $geminiService)
     {
+        $this->geminiService = $geminiService;
+    }
 
-        dd('THE CACHE IS CLEARED! THIS IS THE NEW CONTROLLER.');
-        $request->validate(['prompt' => 'required|string']);
+    public function handleChat(Request $request)
+    {
+        // 1. VALIDATE: Adjust validation to expect 'prompt' instead of 'message'.
+        $request->validate([
+            'prompt' => 'required|string|max:1000',
+        ]);
 
-        try {
-            // =================== THE DIRECT METHOD TEST ===================
+        $userMessage = $request->input('prompt');
 
-            // 1. Manually create the Gemini Client with your key.
-            //    REPLACE 'YOUR_GEMINI_API_KEY_HERE' with your actual key.
-            $client = new GeminiClient("AIzaSyDEB6UjI_dkD-Y7ihTKh0yCTu9FW6ARMb8");
-
-            // 2. Select the model and generate the text directly.
-            //    We are hardcoding the correct model name here.
-            $response = $client
-                ->gemini('gemini-1.5-flash-latest') // Use the correct model
-                ->generateContent($request->input('prompt'));
-
-            // =============================================================
-
-            // Return the successful response
-            return response()->json(['response' => $response->text()]);
-
-        } catch (\Exception $e) {
-            // If it fails, log the real error and return a generic one.
-            Log::error('Direct Method Gemini API Error: ' . $e->getMessage());
-            return response()->json(['error' => 'The AI service failed to connect.'], 500);
+        // 2. MANAGE SESSION: Get or create the session_id from the Laravel session.
+        // This is more secure and reliable than passing it from the client.
+        $sessionId = $request->session()->get('chat_session_id');
+        if (!$sessionId) {
+            $sessionId = (string) Str::uuid();
+            $request->session()->put('chat_session_id', $sessionId);
         }
+
+        $userId = auth()->id(); // Works if the user is logged in.
+
+        // 3. SAVE USER MESSAGE: (No changes here)
+        Message::create([
+            'session_id' => $sessionId,
+            'user_id' => $userId,
+            'role' => 'user',
+            'content' => $userMessage,
+        ]);
+
+        // 4. GET HISTORY: Retrieve context for the conversation.
+        // The previous logic was incorrect; it included the message we just added.
+        // We should get history *before* the current message.
+        $history = Message::where('session_id', $sessionId)
+                            ->where('role', '!=', 'user') // Optional: only use model responses as context to save tokens
+                            ->orderBy('created_at', 'desc') // Get the most recent
+                            ->limit(10) // Limit context length
+                            ->get()
+                            ->reverse() // Put them back in chronological order
+                            ->map(function ($msg) {
+                                return ['role' => $msg->role, 'text' => $msg->content];
+                            })
+                            ->toArray();
+
+
+        // 5. GET AI RESPONSE: (No changes here, it just works)
+        $aiResponse = $this->geminiService->getResponse($userMessage, $history);
+
+        // 6. SAVE AI RESPONSE: (No changes here)
+        Message::create([
+            'session_id' => $sessionId,
+            'user_id' => $userId,
+            'role' => 'model',
+            'content' => $aiResponse,
+        ]);
+
+        // 7. RETURN RESPONSE: Adjust the JSON key to 'response' to match the frontend JS.
+        return response()->json([
+            'response' => $aiResponse,
+        ]);
     }
 }

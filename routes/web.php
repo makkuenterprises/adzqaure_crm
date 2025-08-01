@@ -69,7 +69,7 @@ Route::get('clear', function () {
     dd('Application Cache Cleared');
 });
 
-Route::post('/chat', [ChatController::class, 'chat']);
+Route::post('/chat', [ChatController::class, 'handleChat'])->name('chat.send');
 
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
