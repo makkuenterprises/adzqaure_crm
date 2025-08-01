@@ -22,24 +22,55 @@ function sendMessage() {
   if (!text) return;
 
   const messages = document.getElementById('chat-messages');
-  messages.innerHTML += `<div><strong>You:</strong> ${text}</div>`;
+  // Display the user's message immediately
+  messages.innerHTML += `<div style="margin-bottom: 8px;"><strong>You:</strong> ${text}</div>`;
   input.value = '';
+  messages.scrollTop = messages.scrollHeight;
 
+  // Display a "typing" indicator for better UX
+  const thinkingDiv = document.createElement('div');
+  thinkingDiv.id = 'thinking';
+  thinkingDiv.innerHTML = `<div style="margin-bottom: 8px;"><strong>AI:</strong> Thinking...</div>`;
+  messages.appendChild(thinkingDiv);
+  messages.scrollTop = messages.scrollHeight;
+
+  // The fetch call to your Laravel API route
   fetch("/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      "Accept": "application/json" // It's good practice to accept JSON
     },
     body: JSON.stringify({ message: text })
   })
-  .then(res => res.json())
+  .then(res => {
+    // Check if the response is successful, otherwise parse the error
+    if (!res.ok) {
+      return res.json().then(errorData => {
+        throw new Error(errorData.message || 'Server returned an error');
+      });
+    }
+    return res.json();
+  })
   .then(data => {
-    messages.innerHTML += `<div><strong>AI:</strong> ${data.reply}</div>`;
+    // Remove the "Thinking..." message
+    const thinkingNode = document.getElementById('thinking');
+    if (thinkingNode) {
+      thinkingNode.remove();
+    }
+    // Display the AI's reply
+    messages.innerHTML += `<div style="margin-bottom: 8px;"><strong>AI:</strong> ${data.reply}</div>`;
     messages.scrollTop = messages.scrollHeight;
   })
-  .catch(() => {
-    messages.innerHTML += `<div><strong>AI:</strong> Sorry, something went wrong.</div>`;
+  .catch((error) => {
+    console.error('Error:', error);
+    const thinkingNode = document.getElementById('thinking');
+    if (thinkingNode) {
+        thinkingNode.remove();
+    }
+    // Display a user-friendly error in the chat
+    messages.innerHTML += `<div style="margin-bottom: 8px; color: red;"><strong>AI:</strong> Sorry, I encountered an error. Please try again.</div>`;
+    messages.scrollTop = messages.scrollHeight;
   });
 }
 </script>

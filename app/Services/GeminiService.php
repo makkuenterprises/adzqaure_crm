@@ -4,17 +4,29 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Client\RequestException;
 
 class GeminiService
 {
+    protected $apiKey;
+    protected $apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+
+    public function __construct()
+    {
+        $this->apiKey = env('GEMINI_API_KEY');
+    }
+
     public function ask($message)
     {
-        try {
-            $apiKey = env('GEMINI_API_KEY');
+        if (!$this->apiKey) {
+            Log::error('Gemini API key is not set.');
+            return 'AI service is not configured. Please add GEMINI_API_KEY to your .env file.';
+        }
 
+        try {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}", [
+            ])->post("{$this->apiEndpoint}?key={$this->apiKey}", [
                 'contents' => [
                     [
                         'parts' => [
@@ -22,28 +34,39 @@ class GeminiService
                             ['text' => $message],
                         ]
                     ]
-                ]
+                ],
+                'generationConfig' => [
+                    'temperature' => 0.9,
+                    'topK' => 1,
+                    'topP' => 1,
+                    'maxOutputTokens' => 2048,
+                    'stopSequences' => [],
+                ],
             ]);
 
-            if (!$response->successful()) {
-                Log::error('Gemini API HTTP error', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                ]);
-                return 'AI service is currently unavailable.';
-            }
+            // This will automatically throw an exception for HTTP errors (4xx or 5xx)
+            $response->throw();
 
             $json = $response->json();
 
-            // Optional: Log entire response for debugging
+            // Log the successful response for debugging purposes
             Log::info('Gemini API response:', $json);
 
+            // Safely access the response text
             $text = $json['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
-            return $text ?: 'I couldn’t generate a proper reply.';
+            return $text ?: 'The AI returned a response I couldn’t understand.';
+
+        } catch (RequestException $e) {
+            // Log the detailed error from the API
+            Log::error('Gemini API HTTP error', [
+                'status' => $e->response->status(),
+                'body' => $e->response->body(),
+            ]);
+            return 'The AI service is currently unavailable. Please try again later.';
         } catch (\Exception $e) {
             Log::error('GeminiService Exception: ' . $e->getMessage());
-            return 'Something went wrong while contacting AI.';
+            return 'A system error occurred while contacting the AI service.';
         }
     }
 }
