@@ -42,6 +42,26 @@ class GeminiService
                     'maxOutputTokens' => 2048,
                     'stopSequences' => [],
                 ],
+
+                // ADD THIS BLOCK
+                'safetySettings' => [
+                    [
+                        'category' => 'HARM_CATEGORY_HARASSMENT',
+                        'threshold' => 'BLOCK_ONLY_HIGH',
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                        'threshold' => 'BLOCK_ONLY_HIGH',
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                        'threshold' => 'BLOCK_ONLY_HIGH',
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                        'threshold' => 'BLOCK_ONLY_HIGH',
+                    ],
+                ],
             ]);
 
             // This will automatically throw an exception for HTTP errors (4xx or 5xx)
