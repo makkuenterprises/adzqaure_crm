@@ -3,6 +3,7 @@
 
 @extends('website.layouts.app')
 
+
 <body>
     <!-- Animated Backgrounds: Bubbles and Particles -->
     <div class="bg-animation-container"> <!-- For particle effects --> </div>
@@ -349,6 +350,8 @@ Adzquare bridges this gap. We build your digital infrastructure (website, apps, 
     </main>
 
     @extends('website.layouts.footer')
+
+    <x-gemini-chat />
 
 </body>
 </html>

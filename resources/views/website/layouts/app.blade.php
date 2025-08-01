@@ -1,6 +1,3 @@
-
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +6,8 @@
     <meta name="description" content="Adzquare: Your international partner for cutting-edge IT solutions and results-driven 360° digital marketing services. We empower businesses in the USA, UK, India, Australia, and beyond.">
     <meta name="keywords" content="digital marketing, IT solutions, SEO, SEM, SMM, web development, app development, Adzquare, international digital marketing, USA, UK, India, Australia, global IT services">
     <meta name="author" content="Adzquare">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.adzquare.com/"> <!-- Replace with your actual URL -->
@@ -526,6 +525,8 @@
          }
 
     </style>
+
+
 </head>
 
 
@@ -673,3 +674,5 @@
     </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+

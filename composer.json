@@ -7,14 +7,15 @@
     "require": {
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
+        "doctrine/dbal": "^3.3",
+        "gemini-api-php/laravel": "^0.3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.1",
         "maatwebsite/excel": "^3.1",
-        "opis/closure": "3.6",
-        "doctrine/dbal": "^3.3"
+        "opis/closure": "3.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -62,7 +63,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",

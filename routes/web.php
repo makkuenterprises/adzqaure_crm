@@ -7,6 +7,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\CommonAuthController;
 use App\Exports\GlobalExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +68,8 @@ Route::get('clear', function () {
     Artisan::call('queue:clear');
     dd('Application Cache Cleared');
 });
+
+Route::post('/chat', [ChatController::class, 'chat']);
 
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
