@@ -11,6 +11,8 @@ class ChatController extends Controller
 {
     public function chat(Request $request)
     {
+
+        dd('THE CACHE IS CLEARED! THIS IS THE NEW CONTROLLER.');
         $request->validate(['prompt' => 'required|string']);
 
         try {
