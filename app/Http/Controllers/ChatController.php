@@ -17,10 +17,7 @@ class ChatController extends Controller
             return response()->json(['response' => $response]);
 
         } catch (\Exception $e) {
-            // This will log the actual API error to your log file for debugging
             Log::error('Gemini API Error: ' . $e->getMessage());
-
-            // This sends a clean error back to the user
             return response()->json(['error' => 'The AI service is currently unavailable.'], 500);
         }
     }
