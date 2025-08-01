@@ -526,6 +526,7 @@
 
     </style>
 
+@include('components.gemini')
 
 </head>
 

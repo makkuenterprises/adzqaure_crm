@@ -7,7 +7,6 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\CommonAuthController;
 use App\Exports\GlobalExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,7 +68,6 @@ Route::get('clear', function () {
     dd('Application Cache Cleared');
 });
 
-Route::post('/chat', [ChatController::class, 'handleChat'])->name('chat.send');
 
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 

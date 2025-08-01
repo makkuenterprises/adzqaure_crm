@@ -351,7 +351,7 @@ Adzquare bridges this gap. We build your digital infrastructure (website, apps, 
 
     @extends('website.layouts.footer')
 
-    <x-gemini-chat />
+    
 
 </body>
 </html>
