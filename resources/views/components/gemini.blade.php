@@ -1,11 +1,19 @@
 <!-- Self-contained Gemini Chat Component - v4 (Markdown & Close Button) -->
 <div>
-    <!-- The Floating Chat Button -->
-    <div class="gemini-chat-button" id="gemini-chat-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
-            <path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66l.19-.34L13 3h1l-1 7h3.5c.49 0 .56.33.4.66l-.16.34L11 21z"/>
-        </svg>
+    <!-- START: NEW CONTAINER FOR THE BUTTON AND LABEL -->
+    <div class="gemini-floating-container" id="gemini-floating-container">
+        <!-- New "Let's Chat" Label -->
+        <div class="gemini-chat-label">
+            Let's Chat
+        </div>
+        <!-- The Floating Chat Button (now inside the container) -->
+        <div class="gemini-chat-button" id="gemini-chat-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+                <path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66l.19-.34L13 3h1l-1 7h3.5c.49 0 .56.33.4.66l-.16.34L11 21z"/>
+            </svg>
+        </div>
     </div>
+    <!-- END: NEW CONTAINER -->
 
     <!-- The Chat Window -->
     <div class="gemini-chat-window" id="gemini-chat-window">
@@ -49,8 +57,24 @@
 
 <style>
     /* (All your existing CSS is perfect and remains here) */
-    .gemini-chat-button { position: fixed; bottom: 20px; right: 20px; background-image: linear-gradient(135deg, #FF8C00, #FFA500); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); z-index: 9998; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .gemini-chat-button:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+        .gemini-chat-button {
+        background-image: linear-gradient(135deg, #FF8C00, #FFA500);
+        color: white;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Apply hover effect to button when container is hovered */
+    .gemini-floating-container:hover .gemini-chat-button {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
     .gemini-chat-window { position: fixed; bottom: 90px; right: 20px; width: 370px; max-height: 75vh; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 9999; font-family: 'Roboto', 'Segoe UI', sans-serif; }
     .gemini-chat-header { background-color: #2c3e50; color: white; padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #2c3e50; display: flex; justify-content: space-between; align-items: center; }
     .gemini-chat-header-title { display: flex; align-items: center; gap: 12px; }
@@ -81,12 +105,45 @@
     .gemini-send-button:hover { background-color: #eb4000; }
     .gemini-mic-button.listening svg { animation: pulse 1.5s infinite; }
     @keyframes pulse { 0% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.7; } }
+
+    /* START: Styles for the new container and label */
+    .gemini-floating-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9998;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .gemini-chat-label {
+        background-color: #2c3e50; /* Matches header color */
+        color: white;
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        opacity: 0; /* Initially hidden */
+        transform: translateY(10px); /* Start slightly lower */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none; /* Allows clicks to pass through to the button */
+    }
+
+    /* Show the label on hover of the container */
+    .gemini-floating-container:hover .gemini-chat-label {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
 
 <script>
 (function() {
     document.addEventListener('DOMContentLoaded', function () {
-        const chatButton = document.getElementById('gemini-chat-button');
+        const floatingContainer = document.getElementById('gemini-floating-container');
         const chatWindow = document.getElementById('gemini-chat-window');
         const chatInput = document.getElementById('gemini-chat-input');
         const chatBody = document.getElementById('gemini-chat-body');
@@ -104,7 +161,7 @@
                 loadAndDisplayHistory();
             }
         };
-        chatButton.addEventListener('click', toggleChatWindow);
+        floatingContainer.addEventListener('click', toggleChatWindow);
         closeButton.addEventListener('click', toggleChatWindow); // The close button does the same thing
         // --- END: Chat window visibility logic ---
 
@@ -146,7 +203,8 @@
             };
             recognition.onerror = (event) => { console.error("Speech recognition error:", event.error); micButton.classList.remove('listening'); };
             recognition.onend = () => { isListening = false; micButton.classList.remove('listening'); };
-            micButton.addEventListener('click', () => {
+            micButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stop click from bubbling to container
                 if (isListening) { recognition.stop(); return; }
                 recognition.start();
                 isListening = true;
