@@ -16,23 +16,28 @@ class GeminiService
         $this->apiKey = env('GEMINI_API_KEY');
     }
 
-    public function ask($message)
+    /**
+     * The new primary method for handling stateful conversations.
+     *
+     * @param string $newMessage The new message from the user.
+     * @param array $history The existing conversation history.
+     * @return string The AI's reply.
+     */
+    public function askWithHistory(string $newMessage, array $history): string
     {
         if (!$this->apiKey) {
             Log::error('Gemini API key is not set.');
-            return 'AI service is not configured. Please add GEMINI_API_KEY to your .env file.';
+            return 'AI service is not configured.';
         }
 
-        // --- START: EXPERT-LEVEL SEQUENTIAL CONVERSATION PROMPT ---
-
-        $systemPrompt = <<<PROMPT
+        $systemInstruction = <<<PROMPT
 ## Core Directive: Sequential Conversational Flow ##
-Your only goal is to follow a precise, multi-step conversation flow. You have no memory of past turns, so you must analyze the user's CURRENT message to determine which step you are on. Follow these steps in order of priority.
+Your only goal is to follow a precise, multi-step conversation flow. Follow these steps in order of priority. You are a male.
 
 **STEP 1: INITIAL CONTACT & LANGUAGE SELECTION**
 - **Priority:** 1 (Highest)
 - **Trigger:** Execute this step ONLY if the user's message is a simple greeting (e.g., "hi", "hello"), a general inquiry (e.g., "what do you do?", "what services do you offer?"), or any message that is clearly the start of a new conversation.
-- **Action:** Your response MUST be ONLY this, exactly as written. This is the ONLY time you will introduce yourself.
+- **Action:** Your response MUST be firstly this, exactly as written. This is the ONLY time you will introduce yourself with a line break and if user reply hindi or english you will talk in that language and move to step 2.
   "Hello! I'm Zquare, the AI assistant for Adzquare. To serve you better, please let me know which language you are comfortable with:
   1. Hindi
   2. English"
@@ -52,6 +57,7 @@ Your only goal is to follow a precise, multi-step conversation flow. You have no
     3. Location
     4. Service you are looking for?"
   - Do NOT answer any other questions or add any other text in this step.
+
 
 **STEP 3: ACKNOWLEDGE DETAILS & TRANSITION TO Q&A**
 - **Priority:** 3
@@ -92,63 +98,52 @@ Your only goal is to follow a precise, multi-step conversation flow. You have no
 - **Handling Unknown Questions:** If a question cannot be answered from this knowledge base, respond with: "I don't have information on that specific topic. For more details, please contact our team at hello@adzquare.in."
 PROMPT;
 
-        // --- END: EXPERT-LEVEL SEQUENTIAL CONVERSATION PROMPT ---
+        $contents = [];
 
+        // Add the system instructions. This will be combined with the first user turn.
+        if (empty($history)) {
+             $contents[] = [
+                'role' => 'user',
+                'parts' => [['text' => $systemInstruction . "\n\nUSER'S QUESTION: " . $newMessage]]
+             ];
+        } else {
+            // Format the existing history for the API
+            foreach ($history as $turn) {
+                $contents[] = [
+                    'role' => ($turn['sender'] === 'user') ? 'user' : 'model',
+                    'parts' => [['text' => $turn['message']]]
+                ];
+            }
+            // Add the user's new message at the end
+            $contents[] = [
+                'role' => 'user',
+                'parts' => [['text' => $newMessage]]
+            ];
+        }
 
         try {
             $data = [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $systemPrompt],
-                            ['text' => "Customer Query: " . $message],
-                        ]
-                    ]
-                ],
-                'generationConfig' => [
-                    // A lower temperature forces the AI to stick to the script more reliably.
-                    'temperature' => 0.2,
-                    'topK' => 1,
-                    'topP' => 1,
-                    'maxOutputTokens' => 2048,
-                    'stopSequences' => [],
-                ],
+                'contents' => $contents,
+                'generationConfig' => ['temperature' => 0.7, 'maxOutputTokens' => 2048],
                 'safetySettings' => [
-                    ['category' => 'HARM_CATEGORY_HARASSMENT', 'threshold' => 'BLOCK_ONLY_HIGH'],
-                    ['category' => 'HARM_CATEGORY_HATE_SPEECH', 'threshold' => 'BLOCK_ONLY_HIGH'],
-                    ['category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT', 'threshold' => 'BLOCK_ONLY_HIGH'],
-                    ['category' => 'HARM_CATEGORY_DANGEROUS_CONTENT', 'threshold' => 'BLOCK_ONLY_HIGH'],
+                    ['category' => 'HARM_CATEGORY_HARASSMENT', 'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'],
+                    ['category' => 'HARM_CATEGORY_HATE_SPEECH', 'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'],
                 ],
             ];
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("{$this->apiEndpoint}?key={$this->apiKey}", $data);
-
+            $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                            ->post("{$this->apiEndpoint}?key={$this->apiKey}", $data);
             $response->throw();
 
             $json = $response->json();
-            Log::info('Gemini API response:', $json);
-
             $text = $json['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
-            if ($text) {
-                return $text;
-            }
-
-            if (isset($json['candidates'][0]['finishReason']) && $json['candidates'][0]['finishReason'] === 'SAFETY') {
-                Log::warning('Gemini response was blocked due to safety reasons.', ['response' => $json]);
-                return 'My response was blocked by safety filters. Please rephrase your question.';
-            }
+            if ($text) { return $text; }
 
             return 'I couldn’t generate a proper reply.';
-
         } catch (RequestException $e) {
-            Log::error('Gemini API HTTP error', [
-                'status' => $e->response->status(),
-                'body' => $e->response->body(),
-            ]);
-            return 'The AI service is currently unavailable. Please try again later.';
+            Log::error('Gemini API HTTP error', ['status' => $e->response->status(), 'body' => $e->response->body()]);
+            return 'The AI service is currently unavailable.';
         } catch (\Exception $e) {
             Log::error('GeminiService Exception: ' . $e->getMessage());
             return 'A system error occurred while contacting the AI service.';

@@ -10,23 +10,16 @@ class ChatController extends Controller
 {
     protected $geminiService;
 
-    /**
-     * Use dependency injection to get the GeminiService instance.
-     * Laravel's service container handles this automatically.
-     */
     public function __construct(GeminiService $geminiService)
     {
         $this->geminiService = $geminiService;
     }
 
-    /**
-     * Handle the incoming chat message from the frontend.
-     */
     public function handle(Request $request)
     {
-        // Use Laravel's validator for robust input checking.
         $validator = Validator::make($request->all(), [
             'message' => 'required|string|max:1000',
+            'history' => 'sometimes|array' // History is optional but must be an array
         ]);
 
         if ($validator->fails()) {
@@ -34,9 +27,10 @@ class ChatController extends Controller
         }
 
         $message = $request->input('message');
+        $history = $request->input('history', []); // Default to empty array if not provided
 
-        // Call the 'ask' method on the injected service instance.
-        $reply = $this->geminiService->ask($message);
+        // Call the new stateful method in your service
+        $reply = $this->geminiService->askWithHistory($message, $history);
 
         return response()->json(['reply' => $reply]);
     }
