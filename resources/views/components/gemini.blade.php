@@ -128,6 +128,27 @@
         transition: background-color 0.2s;
     }
     .gemini-send-button:hover { background-color: #eb4000; }
+
+        /* Add this to your existing <style> block */
+
+    .gemini-mic-button.listening svg {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.7;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.7;
+        }
+    }
 </style>
 
 <script>
@@ -140,137 +161,138 @@
         const chatFooter = document.querySelector('.gemini-chat-footer');
         const micButton = document.getElementById('gemini-mic-button');
 
-        // --- START: EXPIRATION LOGIC ---
-
+        // --- All previous logic (Expiration, History) remains the same ---
         const EXPIRATION_MINUTES = 20;
         const EXPIRATION_MS = EXPIRATION_MINUTES * 60 * 1000;
-
-        let userId = localStorage.getItem('geminiChatUserId');
-        if (!userId) {
-            userId = 'user_' + Date.now() + Math.random().toString(36).substring(2, 9);
-            localStorage.setItem('geminiChatUserId', userId);
-        }
-
-        // We now store an object containing the history and a timestamp
+        let userId = localStorage.getItem('geminiChatUserId') || `user_${Date.now()}${Math.random().toString(36).substring(2, 9)}`;
+        localStorage.setItem('geminiChatUserId', userId);
         let chatData = JSON.parse(localStorage.getItem('geminiChatData_' + userId)) || { timestamp: Date.now(), history: [] };
         let chatHistory = chatData.history;
-
-        // Function to save both history and the current timestamp
         const saveChatData = () => {
-            const dataToSave = {
-                timestamp: Date.now(), // Update timestamp with every save
-                history: chatHistory
-            };
-            localStorage.setItem('geminiChatData_' + userId, JSON.stringify(dataToSave));
+            localStorage.setItem('geminiChatData_' + userId, JSON.stringify({ timestamp: Date.now(), history: chatHistory }));
         };
-
-        // Function to check for expiration and display the chat
         const loadAndDisplayHistory = () => {
             const now = Date.now();
-            const lastSavedTime = chatData.timestamp || 0;
-
-            // Check if the time difference is greater than our expiration limit
-            if (now - lastSavedTime > EXPIRATION_MS) {
-                // If expired, clear the history and the UI
+            if (now - (chatData.timestamp || 0) > EXPIRATION_MS) {
                 chatHistory = [];
-                chatData = { timestamp: now, history: [] };
-                saveChatData(); // Save the cleared state
-                // Display the initial greeting message
+                saveChatData();
                 chatBody.innerHTML = `<div class="gemini-chat-message ai-message">Hello! How can I assist you today?</div>`;
-            } else {
-                // If not expired, load the history as usual
-                if (chatHistory.length > 0) {
-                    chatBody.innerHTML = '';
-                    chatHistory.forEach(item => {
-                        appendMessage(item.sender, item.message, false);
-                    });
-                }
+            } else if (chatHistory.length > 0) {
+                chatBody.innerHTML = '';
+                chatHistory.forEach(item => appendMessage(item.sender, item.message, false));
             }
         };
 
-        // --- END: EXPIRATION LOGIC ---
+        // --- START: VOICE INPUT IMPLEMENTATION ---
+
+        // 1. Check for browser support (with vendor prefixes)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        let isListening = false;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false; // Stop listening after user stops speaking
+            recognition.lang = 'en-US';     // You can change this language code
+
+            // 4. Handle the transcribed result
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                chatInput.value = transcript;
+                // Manually trigger the 'input' event to show the send button
+                chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+            };
+
+            // 5. Handle errors (e.g., no speech detected, permission denied)
+            recognition.onerror = (event) => {
+                console.error("Speech recognition error:", event.error);
+                micButton.classList.remove('listening');
+            };
+
+            // 6. Clean up after recognition ends
+            recognition.onend = () => {
+                isListening = false;
+                micButton.classList.remove('listening');
+            };
+
+            // 2. Add a click listener to the microphone button
+            micButton.addEventListener('click', () => {
+                if (isListening) {
+                    recognition.stop();
+                    return;
+                }
+                // Request microphone access and start listening
+                recognition.start();
+                isListening = true;
+                // 3. Provide visual feedback
+                micButton.classList.add('listening');
+            });
+
+        } else {
+            // If the browser doesn't support the API, hide the mic button
+            console.warn("Speech Recognition not supported in this browser.");
+            if (micButton) micButton.style.display = 'none';
+        }
+
+        // --- END: VOICE INPUT IMPLEMENTATION ---
 
 
+        // (The rest of the code is the same as before)
         chatButton.addEventListener('click', () => {
             const isHidden = chatWindow.style.display === 'none' || chatWindow.style.display === '';
             chatWindow.style.display = isHidden ? 'flex' : 'none';
-            if (isHidden) {
-                loadAndDisplayHistory(); // Check for expiration every time the chat is opened
-            }
+            if (isHidden) { loadAndDisplayHistory(); }
         });
-
-        // (The rest of the UI code is largely the same)
-
         const sendButton = document.createElement('button');
         sendButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
         sendButton.className = 'gemini-send-button';
-
         chatInput.addEventListener('input', () => {
             if (chatInput.value.trim().length > 0) {
-                if (micButton) micButton.style.display = 'none';
+                if (micButton && !isListening) micButton.style.display = 'none';
                 if (!chatFooter.contains(sendButton)) { chatFooter.appendChild(sendButton); }
             } else {
                 if (micButton) micButton.style.display = 'block';
                 if (chatFooter.contains(sendButton)) { chatFooter.removeChild(sendButton); }
             }
         });
-
         function appendMessage(sender, message, shouldSave = true) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('gemini-chat-message', `${sender}-message`);
             msgDiv.textContent = message;
             chatBody.appendChild(msgDiv);
             chatBody.scrollTop = chatBody.scrollHeight;
-
             if (shouldSave) {
                 chatHistory.push({ sender, message });
-                saveChatData(); // Use the new save function
+                saveChatData();
             }
             return msgDiv;
         }
-
         const sendMessage = async () => {
             const userMessage = chatInput.value.trim();
             if (userMessage === '') return;
-
             appendMessage('user', userMessage);
             chatInput.value = '';
             chatInput.dispatchEvent(new Event('input'));
-
             const thinkingIndicator = appendMessage('ai', 'Thinking...', false);
-
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        history: chatHistory.slice(0, -1)
-                    })
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ message: userMessage, history: chatHistory.slice(0, -1) })
                 });
-
                 if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
-
                 const data = await response.json();
                 thinkingIndicator.remove();
-                appendMessage('ai', data.reply || 'Sorry, I had trouble getting a response.');
-
+                appendMessage('ai', data.reply || 'Sorry, had trouble getting a response.');
             } catch (error) {
                 console.error('Gemini Chat Error:', error);
                 thinkingIndicator.remove();
                 appendMessage('ai', 'An error occurred while connecting.', false);
             }
         };
-
         sendButton.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                sendMessage();
-            }
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); sendMessage(); }
         });
     });
 })();
