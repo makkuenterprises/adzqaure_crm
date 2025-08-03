@@ -95,7 +95,7 @@ function convertNumberToWordsForIndia($number) { /* ... full function code ... *
                         <p style="font-size: 9px; margin-top: 5px;">Powered by Makku Enterprises Pvt. Ltd.</p>
                         <br><br>
                         <p style="font-size: 14px; font-weight: bold;">{{ \Carbon\Carbon::parse($quotation->created_at)->format('F d, Y') }}</p>
-                        <p>Quotation Number: #Q{{ str_pad($quotation->id, 4, '0', STR_PAD_LEFT) }}</p>
+                        <p>Quotation No.: #Q{{ str_pad($quotation->id, 4, '0', STR_PAD_LEFT) }}</p>
                     </td>
                 </tr>
             </table>
@@ -132,7 +132,8 @@ function convertNumberToWordsForIndia($number) { /* ... full function code ... *
         <div style="margin-top: 1cm; line-height: 1.6;">
             {!! $quotation->content !!}
         </div>
-        <p>Amount in Words: Total: ₹{{ number_format($quotation->quotation_amount, 2) }}</p>
+        <br>
+        <strong><p>Amount in Words: Total: ₹{{ number_format($quotation->quotation_amount, 2) }}</p></strong>
 
     </div>
 
