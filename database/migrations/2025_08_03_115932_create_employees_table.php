@@ -6,13 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
+        // Create the 'employees' table
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id')->from(100001);
             $table->string('employee_id')->unique()->nullable();
@@ -23,14 +19,15 @@ return new class extends Migration
             $table->string('email_official')->nullable();
             $table->string('phone')->unique();
             $table->string('phone_alternate')->nullable();
-            $table->string('role');
+
+            // Removed 'role' column as per second migration
 
             $table->string('home')->nullable();
             $table->string('street')->nullable();
             $table->string('city')->nullable();
             $table->string('pincode')->nullable();
-            $table->string('state')->nullable();;
-            $table->string('country')->nullable();;
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
@@ -40,15 +37,18 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // Create the pivot table for employees and roles
+        Schema::create('employee_role', function (Blueprint $table) {
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->primary(['employee_id', 'role_id']);
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
+        Schema::dropIfExists('employee_role');
         Schema::dropIfExists('employees');
     }
 };
