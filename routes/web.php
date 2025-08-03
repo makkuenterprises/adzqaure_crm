@@ -68,6 +68,12 @@ Route::get('clear', function () {
     dd('Application Cache Cleared');
 });
 
+Route::get('/refresh-migrate', function () {
+    \Artisan::call('migrate:fresh --seed');
+    return 'Database migrated and seeded successfully!';
+});
+
+
 
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
