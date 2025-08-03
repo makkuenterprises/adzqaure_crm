@@ -419,16 +419,20 @@ class AdminUpdateController extends Controller implements AdminUpdate
         $role = Role::findOrFail($id);
 
         $request->validate([
-            // Ensure the name is unique, but ignore the current role's name
-            'name' => 'required|string|max:191|unique:roles,name,' . $role->id,
-            'slug' => 'required|string|max:191|unique:roles,slug,' . $role->slug,
+            'name' => 'required|string|max:255',
+            'permissions' => 'array',
+            'permissions.*' => 'exists:permissions,id'
         ]);
 
-        $role->update($request->only('name', 'slug'));
+        // Update the role's name
+        $role->name = $request->name;
+        $role->save();
 
-        return redirect()->route('admin.view.role.list')->with('success', 'Role updated successfully.');
+        // Sync the permissions
+        $role->permissions()->sync($request->input('permissions', []));
+
+        return redirect()->route('admin.view.role.list')->with('success', 'Role and permissions updated successfully.');
     }
-
 
     /*
     |--------------------------------------------------------------------------

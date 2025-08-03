@@ -26,7 +26,7 @@ use App\Models\DomainHosting;
 use App\Models\ServiceCategory;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
@@ -84,6 +84,7 @@ class AdminCreateController extends Controller implements AdminCreate
     */
     public function handleEmployeeCreate(Request $request)
     {
+        // 1. UPDATED VALIDATION RULES
         $validation = Validator::make($request->all(), [
             'firstname' => ['required', 'string', 'min:1', 'max:250'],
             'lastname' => ['required', 'string', 'min:1', 'max:250'],
@@ -91,7 +92,7 @@ class AdminCreateController extends Controller implements AdminCreate
             'email_official' => ['nullable', 'string', 'min:1', 'max:250'],
             'phone' => ['required', 'numeric', 'digits_between:10,20', 'unique:employees'],
             'phone_alternate' => ['nullable', 'numeric', 'digits_between:10,20'],
-            'role' => ['required', 'string'],
+            'role_id' => ['required', 'exists:roles,id'], // <-- CHANGED from 'role' to 'role_id' and added exists check
             'home' => ['nullable', 'string'],
             'street' => ['nullable', 'string'],
             'city' => ['nullable', 'string'],
@@ -113,7 +114,7 @@ class AdminCreateController extends Controller implements AdminCreate
             $employee->email_official = $request->input('email_official');
             $employee->phone = $request->input('phone');
             $employee->phone_alternate = $request->input('phone_alternate');
-            $employee->role = $request->input('role');
+            // $employee->role = $request->input('role'); // <-- REMOVED THIS LINE
             $employee->home = $request->input('home');
             $employee->street = $request->input('street');
             $employee->city = $request->input('city');
@@ -124,21 +125,26 @@ class AdminCreateController extends Controller implements AdminCreate
             $result = $employee->save();
 
             if ($result) {
+                // 2. NEW: ATTACH THE ROLE TO THE EMPLOYEE
+                // This creates the record in your 'employee_role' pivot table
+                if ($request->has('role_id')) {
+                    $employee->roles()->attach($request->role_id);
+                }
+
                 return redirect()->back()->with('message', [
                     'status' => 'success',
                     'title' => 'Team member created',
-                    'description' => 'Team member is successfully created.'
+                    'description' => 'Team member is successfully created and role has been assigned.' // Updated message
                 ]);
             } else {
                 return redirect()->back()->with('message', [
                     'status' => 'error',
-                    'title' => 'An error occcured',
-                    'description' => 'There is an internal server issue please try again.'
+                    'title' => 'An error occurred',
+                    'description' => 'There was an internal server issue. Please try again.'
                 ]);
             }
         }
     }
-
     /*
     |--------------------------------------------------------------------------
     | Handle Leads Create

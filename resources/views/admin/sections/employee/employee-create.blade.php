@@ -92,13 +92,21 @@
                                                 <span class="input-error">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        {{-- This is the NEW, CORRECT code block --}}
                                         <div class="mb-3 col-md-6">
-                                            <label class="form-label">Role<span class="text-danger">*</span></label>
-                                            <input type="text" name="role" value="{{ old('role') }}"
-                                                class="form-control @error('role') input-invalid @enderror"
-                                                placeholder="Enter Role" minlength="1" maxlength="25">
-                                            @error('role')
-                                                <span class="input-error">{{ $message }}</span>
+                                            <label class="form-label" for="role-select">Assign Role<span class="text-danger">*</span></label>
+                                            {{-- Using your template's specific classes for the select dropdown --}}
+                                            <select class="default-select form-control wide @error('role_id') is-invalid @enderror" name="role_id" id="role-select" required>
+                                                <option value="" selected>Select a Role</option>
+                                                {{-- Loop through the roles passed from the controller --}}
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
+                                                        {{ $role->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('role_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="mb-3 col-md-6">

@@ -39,7 +39,8 @@
                                                 <th>Roles</th>
                                                 <th>Slug</th>
                                                 <th>Created at</th>
-                                               
+                                                <th>Action</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -51,8 +52,24 @@
                                                     <td>{{ $role->created_at->format('Y-m-d H:i') }}</td>
 
 
+                                                    <td class="text-nowrap">
+
+
+                                                        <a href="{{ route('admin.view.role.update', ['id' => $role->id]) }}"
+                                                            class="btn btn-success btn-sm content-icon">
+                                                            <i class="fa fa-window-maximize"></i>
+                                                        </a>
+
+
+                                                        {{-- <a href="javascript:handleDelete({{ $bill->id }});"
+                                                            class="btn btn-danger btn-sm content-icon">
+                                                            <i class="fa fa-times"></i>
+                                                        </a> --}}
+                                                    </td>
+
 
                                                 </tr>
+
 
                                             @endforeach
                                         </tbody>

@@ -54,10 +54,10 @@
                                                     <span class="input-error">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <label for="status-select" class="form-label">Select Status <span class="text-danger">*</span></label>
+                                            <label for="status-select" class="form-label">Select Lead Type <span class="text-danger">*</span></label>
                                             <div class="basic-form">
                                                 <select class="default-select form-control wide mb-3" name="status" id="status-select">
-                                                    <option value="" selected>Select Status</option>
+                                                    <option value="" selected>Select Type</option>
                                                     @foreach ($status as $status_value)
                                                         <option value="{{ $status_value }}" {{ old('status') == $status_value ? 'selected' : '' }}>
                                                             {{ $status_value }}

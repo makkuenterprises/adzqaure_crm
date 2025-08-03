@@ -63,4 +63,21 @@ class Employee extends Authenticatable
                 ->update(['employee_id' => $employeeId]);
         });
     }
+
+    public function roles()
+    {
+        // Make sure your User/Admin model has this relationship
+        return $this->belongsToMany(Role::class);
+    }
+
+    // This is the magic function to check permissions
+    public function hasPermissionTo($permissionSlug)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->permissions->contains('slug', $permissionSlug)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

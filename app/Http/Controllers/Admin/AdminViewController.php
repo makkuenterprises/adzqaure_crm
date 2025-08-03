@@ -25,6 +25,7 @@ use App\Models\DomainHosting;
 use App\Models\MailCredential;
 use App\Models\PaymentSetting;
 use App\Models\Role;
+use App\Models\Permission;
 use App\Models\LeadsManager;
 use App\Models\ServiceCategory;
 use App\Models\PaymentHistory;
@@ -197,7 +198,11 @@ class AdminViewController extends Controller implements AdminView
     /** View Employeee Create **/
     public function viewEmployeeCreate()
     {
-        return view('admin.sections.employee.employee-create');
+        // 1. Fetch all roles from the database
+        $roles = Role::all();
+
+        // 2. Pass the roles to the view
+        return view('admin.sections.employee.employee-create', compact('roles'));
     }
 
     /** View Employee Update **/
@@ -442,9 +447,20 @@ class AdminViewController extends Controller implements AdminView
 
     public function viewRoleUpdate($id)
     {
-        $data['role'] = Role::findOrFail($id);
-        return view('admin.sections.role.role-update', $data);
+        // Find the role being edited
+        $role = Role::findOrFail($id);
+
+        // Get all available permissions
+        $permissions = Permission::all();
+
+        // Get the IDs of permissions currently assigned to this role
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+
+        // The new, correct line pointing to your file
+        return view('admin.sections.role.role-update', compact('role', 'permissions', 'rolePermissions'));
     }
+
 
 
 
