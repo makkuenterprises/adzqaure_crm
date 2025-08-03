@@ -27878,4 +27878,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 [data-theme-version="dark"] .sidebar-right .bootstrap-select .btn {
   border-color: #d1d1d1 !important; }
 
+
+/* Custom Button for Facebook/Meta Blue */
+.btn-facebook {
+    color: #fff; /* White text */
+    background-color: #1877F2; /* Facebook Blue */
+    border-color: #1877F2;
+}
+
+/* Style for when you hover over the button */
+.btn-facebook:hover {
+    color: #fff;
+    background-color: #166fe5; /* A slightly darker shade for hover */
+    border-color: #1567d1;
+}
+
+
 /*# sourceMappingURL=style.css.map */
+

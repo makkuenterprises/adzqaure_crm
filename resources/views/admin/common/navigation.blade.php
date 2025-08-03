@@ -40,7 +40,7 @@
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-briefcase"></i>
-                    <span class="nav-text">WhatsApp Campaign</span>
+                    <span class="nav-text">WA Campaigns</span>
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('campaigns.index') }}">View Campaigns</a></li>

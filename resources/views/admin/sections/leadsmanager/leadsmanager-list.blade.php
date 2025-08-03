@@ -44,6 +44,22 @@
                             <!-- FIX: The campaign form now starts here, wrapping ONLY the buttons and the table -->
                             <form action="{{ route('campaigns.create') }}" method="GET" id="create-campaign-form">
                                 <div class="d-flex justify-content-end mb-3">
+
+                                    <!-- =============================================================== -->
+                                    <!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
+                                    <!-- =============================================================== -->
+
+                                    @if(auth()->user()->is_whatsapp_connected)
+                                        <!-- If user IS connected, show a disabled status badge -->
+                                        <span class="btn btn-facebook me-2 disabled">
+                                            <i class="fab fa-whatsapp me-1"></i> Connected
+                                        </span>
+                                    @else
+                                        <!-- If user IS NOT connected, show the connect button -->
+                                        <a href="{{ route('meta.connect') }}" class="btn btn-facebook me-2">
+                                            <i class="fab fa-whatsapp me-1"></i> Connect to WhatsApp
+                                        </a>
+                                    @endif
                                     <button type="submit" class="btn btn-info me-2">
                                         <i class="fab fa-whatsapp me-1"></i> Create Campaign
                                     </button>
@@ -89,7 +105,7 @@
                                                         <a href="mailto:{{$lead->email}}" class="btn btn-success btn-sm content-icon"><i class="fa fa-envelope"></i></a>
                                                         <a href="{{ route('admin.lead.manager.remarks', ['lead' => $lead->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Remarks History"><i class="fa fa-history"></i></a>
                                                         <a href="{{ route('admin.view.lead.manager.update', ['id' => $lead->id]) }}" class="btn btn-warning btn-sm content-icon"><i class="fa fa-edit"></i></a>
-                                                        
+
                                                         <a href="javascript:handleDelete({{ $lead->id }});" class="btn btn-danger btn-sm content-icon"><i class="fa fa-times"></i></a>
                                                     </td>
                                                 </tr>
