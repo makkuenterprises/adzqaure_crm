@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
         "doctrine/dbal": "^3.3",
+        "facebook/graph-sdk": "*",
         "gemini-api-php/laravel": "^0.3.0",
         "google/cloud": "^0.296.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -16,6 +17,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.1",
         "maatwebsite/excel": "^3.1",
+        "netflie/whatsapp-cloud-api": "^2.2",
         "opis/closure": "3.6"
     },
     "require-dev": {

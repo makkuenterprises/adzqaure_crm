@@ -40,4 +40,10 @@ class LeadsManager extends Model
 {
     return $this->hasMany(Remark::class, 'leads_manager_id');
 }
+
+// Add this relationship to your existing Lead model
+public function campaignLeads()
+{
+    return $this->hasMany(CampaignLead::class);
+}
 }

@@ -100,6 +100,8 @@ class AdminCreateController extends Controller implements AdminCreate
             'state' => ['nullable', 'string'],
             'country' => ['nullable', 'string'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'designation' => ['nullable', 'string', 'max:255'],
+            'date_of_joining' => ['nullable', 'date'],
         ]);
 
         if ($validation->fails()) {
@@ -122,6 +124,9 @@ class AdminCreateController extends Controller implements AdminCreate
             $employee->state = $request->input('state');
             $employee->country = $request->input('country');
             $employee->password = Hash::make($request->input('password'));
+
+            $employee->designation = $request->input('designation');
+            $employee->date_of_joining = $request->input('date_of_joining');
             $result = $employee->save();
 
             if ($result) {

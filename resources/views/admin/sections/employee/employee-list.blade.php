@@ -52,8 +52,12 @@
                                                 <th>Email</th>
                                                 <th>Phone</th>
                                                 <th>Role</th>
-                                                <th>Status</th>
+
+                                                <th>Designation</th>
+                                                <th>Date of Joining</th>
+                                                 <th>Status</th>
                                                 <th>Actions</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -65,6 +69,9 @@
                                                     <td>{{ $employee->email }}</td>
                                                     <td>{{ $employee->phone }}</td>
                                                     <td>{{ $employee->role }}</td>
+                                                    <td>{{ $employee->designation }}</td>
+                                                    <td>{{ $employee->date_of_joining }}</td>
+
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             @if ($employee->status == 1)

@@ -73,6 +73,11 @@ Route::get('/refresh-migrate', function () {
     return 'Database migrated and seeded successfully!';
 });
 
+// Route to initiate the connection
+Route::get('/meta/connect', [MetaIntegrationController::class, 'redirectToMeta'])->name('meta.connect');
+
+// Route to handle the callback from Meta
+Route::get('/meta/callback', [MetaIntegrationController::class, 'handleMetaCallback']);
 
 
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');

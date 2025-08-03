@@ -28,7 +28,8 @@ return new class extends Migration
             $table->string('pincode')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
-
+            $table->string('designation')->nullable();
+            $table->date('date_of_joining')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');

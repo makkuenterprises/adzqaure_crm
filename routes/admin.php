@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminAPIController;
 use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\PaymentHistoryController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\QuotationController;
 
 Route::middleware(['guest:admin'])->group(function () {
@@ -195,28 +196,44 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleLeadManagerDelete'])->name('admin.handle.lead.manager.delete');
         Route::get('/update/{id}', [AdminViewController::class, 'viewLeadManagerUpdate'])->name('admin.view.lead.manager.update');
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleLeadsManagerUpdate'])->name('admin.handle.lead.manager.update');
+        Route::post('/{lead}/send-whatsapp', [LeadRemarkController::class, 'sendMessage'])->name('admin.lead.manager.sendWhatsapp');
         Route::get('{lead}/remarks', [LeadRemarkController::class, 'showRemarks'])->name('admin.lead.manager.remarks');
         Route::post('{lead}/remarks', action: [LeadRemarkController::class, 'storeRemark'])->name('admin.lead.manager.remarks.store');
     });
 
-    Route::prefix('campaign')->group(function () {
-        Route::get('/list', [AdminViewController::class, 'viewCampaignList'])->name('admin.view.campaign.list');
-        Route::get('/create', [AdminViewController::class, 'viewCampaignCreate'])->name('admin.view.campaign.create');
-        Route::post('/create', [AdminCreateController::class, 'handleCampaignCreate'])->name('admin.handle.campaign.create');
-        Route::get('/preview/{id}', [AdminViewController::class, 'viewCampaignPreview'])->name('admin.view.campaign.preview');
-        Route::get('/update/{id}', [AdminViewController::class, 'viewCampaignUpdate'])->name('admin.view.campaign.update');
-        Route::post('/update/{id}', [AdminUpdateController::class, 'handleCampaignUpdate'])->name('admin.handle.campaign.update');
-        Route::get('/delete/{id}', [AdminDeleteController::class, 'handleCampaignDelete'])->name('admin.handle.campaign.delete');
+    // In your routes/web.php or routes/admin.php file
+
+    Route::prefix('campaigns')->group(function () {
+
+        // GET /campaigns
+        // Shows the list of all campaigns. Changed path from '/campaigns' to '/'.
+        Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
+
+        // GET /campaigns/create
+        // Shows the form to create a new campaign.
+        Route::get('/create', [CampaignController::class, 'create'])->name('campaigns.create');
+
+        // POST /campaigns/templates/sync
+        // The new route to handle the "Sync Templates" button.
+        Route::post('/templates/sync', [CampaignController::class, 'syncTemplates'])->name('campaigns.templates.sync');
+
+        // POST /campaigns
+        // Stores the new campaign in the database.
+        Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
+
+        // GET /campaigns/{campaign_id}
+        // Shows the details/status of a single campaign. This wildcard route comes last.
+        Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
     });
 
-    Route::prefix('plan')->group(function () {
-        Route::get('/list', [AdminViewController::class, 'viewPlanList'])->name('admin.view.plan.list');
-        Route::get('/create', [AdminViewController::class, 'viewPlanCreate'])->name('admin.view.plan.create');
-        Route::post('/create', [AdminCreateController::class, 'handlePlanCreate'])->name('admin.handle.plan.create');
-        Route::get('/update/{id}', [AdminViewController::class, 'viewPlanUpdate'])->name('admin.view.plan.update');
-        Route::post('/update/{id}', [AdminUpdateController::class, 'handlePlanUpdate'])->name('admin.handle.plan.update');
-        Route::get('/delete/{id}', [AdminDeleteController::class, 'handlePlanDelete'])->name('admin.handle.plan.delete');
-    });
+    // Route::prefix('plan')->group(function () {
+    //     Route::get('/list', [AdminViewController::class, 'viewPlanList'])->name('admin.view.plan.list');
+    //     Route::get('/create', [AdminViewController::class, 'viewPlanCreate'])->name('admin.view.plan.create');
+    //     Route::post('/create', [AdminCreateController::class, 'handlePlanCreate'])->name('admin.handle.plan.create');
+    //     Route::get('/update/{id}', [AdminViewController::class, 'viewPlanUpdate'])->name('admin.view.plan.update');
+    //     Route::post('/update/{id}', [AdminUpdateController::class, 'handlePlanUpdate'])->name('admin.handle.plan.update');
+    //     Route::get('/delete/{id}', [AdminDeleteController::class, 'handlePlanDelete'])->name('admin.handle.plan.delete');
+    // });
 
     //company_payment_accounts
     Route::prefix('company-payment')->group(function () {

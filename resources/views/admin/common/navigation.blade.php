@@ -38,15 +38,15 @@
                     <span class="nav-text">Quotation</span>
                 </a>
             </li>
-            {{-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-solid fa-briefcase"></i>
-                    <span class="nav-text">Work</span>
+                    <span class="nav-text">WhatsApp Campaign</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.plan.list') }}">Plan</a></li>
-                    <li><a href="{{ route('admin.view.package.list') }}">Package</a></li>
+                    <li><a href="{{ route('campaigns.index') }}">View Campaigns</a></li>
+                    {{-- <li><a href="{{ route('admin.view.package.list') }}">Package</a></li> --}}
                 </ul>
-            </li> --}}
+            </li>
 
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-heart"></i>

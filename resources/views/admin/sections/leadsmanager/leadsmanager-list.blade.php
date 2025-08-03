@@ -21,6 +21,7 @@
                     </div>
                     <div class="cm-content-body form excerpt">
                         <div class="card-body pb-4">
+                            <!-- Filter Form is now self-contained -->
                             <form method="GET" action="{{ route('admin.view.lead.manager.list') }}">
                                 <div class="row mb-3">
                                     <div class="col-md-3">
@@ -38,66 +39,79 @@
                                         <a href="{{ route('admin.view.lead.manager.list') }}" class="btn btn-danger">Reset</a>
                                     </div>
                                 </div>
-                            </form>
-                            <div class="d-flex justify-content-end mb-3">
-                                <a href="{{ route('global.export.excel', [
-                                    'model' => 'App\Models\LeadsManager',
-                                    'fields' => 'id,name,email,phone,status,created_at',
-                                    'from_date' => request('from_date'),
-                                    'to_date' => request('to_date'),
-                                ]) }}" class="btn btn-success" target="_blank">
-                                    <i class="fa fa-file-excel me-1"></i> Export to Excel
-                                </a>
-                            </div>
+                            </form> <!-- FIX: The filter form now ends here, before the campaign form begins -->
 
+                            <!-- FIX: The campaign form now starts here, wrapping ONLY the buttons and the table -->
+                            <form action="{{ route('campaigns.create') }}" method="GET" id="create-campaign-form">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <button type="submit" class="btn btn-info me-2">
+                                        <i class="fab fa-whatsapp me-1"></i> Create Campaign
+                                    </button>
 
-
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Mobile</th>
-                                            <th>Address</th>
-                                            <th>Status</th>
-                                            <th>Created at</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($leads_manager as $lead)
-                                            <tr>
-                                                <td>{{ $lead->id }}</td>
-                                                <td>{{ $lead->name }}</td>
-                                                <td>{{ $lead->email }}</td>
-                                                <td>{{ $lead->phone }}</td>
-                                                <td>{{ $lead->address }}</td>
-                                                <td>{{ $lead->status }}</td>
-                                                <td>{{ $lead->created_at->format('M d, Y') }}</td>
-                                                <td class="text-nowrap">
-                                                    <a href="tel:{{$lead->phone}}" class="btn btn-success btn-sm content-icon"><i class="fa fa-phone"></i></a>
-                                                    <a href="mailto:{{$lead->email}}" class="btn btn-success btn-sm content-icon"><i class="fa fa-envelope"></i></a>
-                                                    <a href="{{ route('admin.lead.manager.remarks', ['lead' => $lead->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Remarks History"><i class="fa fa-history"></i></a>
-                                                    <a href="{{ route('admin.view.lead.manager.update', ['id' => $lead->id]) }}" class="btn btn-warning btn-sm content-icon"><i class="fa fa-edit"></i></a>
-                                                    <a href="javascript:handleDelete({{ $lead->id }});" class="btn btn-danger btn-sm content-icon"><i class="fa fa-times"></i></a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                                <!-- Pagination -->
-                                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                                    <p class="mb-2 me-3">
-                                        Showing {{ $leads_manager->firstItem() }} to {{ $leads_manager->lastItem() }} of {{ $leads_manager->total() }} records
-                                    </p>
-                                    <nav aria-label="Page navigation example mb-2">
-                                        {{ $leads_manager->links('pagination::bootstrap-4') }}
-                                    </nav>
+                                    <a href="{{ route('global.export.excel', [
+                                        'model' => 'App\Models\LeadsManager',
+                                        'fields' => 'id,name,email,phone,status,created_at',
+                                        'from_date' => request('from_date'),
+                                        'to_date' => request('to_date'),
+                                    ]) }}" class="btn btn-success" target="_blank">
+                                        <i class="fa fa-file-excel me-1"></i> Export to Excel
+                                    </a>
                                 </div>
-                            </div>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="select-all-leads"></th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Mobile</th>
+                                                <th>Address</th>
+                                                <th>Status</th>
+                                                <th>Created at</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($leads_manager as $lead)
+                                                <tr>
+                                                    <td><input type="checkbox" class="lead-checkbox" name="lead_ids[]" value="{{ $lead->id }}"></td>
+                                                    <td>{{ $lead->id }}</td>
+                                                    <td>{{ $lead->name }}</td>
+                                                    <td>{{ $lead->email }}</td>
+                                                    <td>{{ $lead->phone }}</td>
+                                                    <td>{{ $lead->address }}</td>
+                                                    <td>{{ $lead->status }}</td>
+                                                    <td>{{ $lead->created_at->format('M d, Y') }}</td>
+                                                    <td class="text-nowrap">
+                                                        <a href="tel:{{$lead->phone}}" class="btn btn-success btn-sm content-icon"><i class="fa fa-phone"></i></a>
+                                                        <a href="mailto:{{$lead->email}}" class="btn btn-success btn-sm content-icon"><i class="fa fa-envelope"></i></a>
+                                                        <a href="{{ route('admin.lead.manager.remarks', ['lead' => $lead->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Remarks History"><i class="fa fa-history"></i></a>
+                                                        <a href="{{ route('admin.view.lead.manager.update', ['id' => $lead->id]) }}" class="btn btn-warning btn-sm content-icon"><i class="fa fa-edit"></i></a>
+                                                        
+                                                        <a href="javascript:handleDelete({{ $lead->id }});" class="btn btn-danger btn-sm content-icon"><i class="fa fa-times"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="10" class="text-center">No leads found.</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+
+                                    <!-- Pagination -->
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                        <p class="mb-2 me-3">
+                                            Showing {{ $leads_manager->firstItem() }} to {{ $leads_manager->lastItem() }} of {{ $leads_manager->total() }} records
+                                        </p>
+                                        <nav aria-label="Page navigation example mb-2">
+                                            {{ $leads_manager->links('pagination::bootstrap-4') }}
+                                        </nav>
+                                    </div>
+                                </div>
+                            </form> <!-- FIX: The campaign form ends here -->
                         </div>
                     </div>
                 </div>
@@ -108,6 +122,7 @@
 @endsection
 
 @section('js')
+    {{-- This JavaScript section remains the same and is correct --}}
 <script>
     $.ajaxSetup({
         headers: {
@@ -128,5 +143,33 @@
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('select-all-leads');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('click', function(event) {
+                let checkboxes = document.querySelectorAll('.lead-checkbox');
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = event.target.checked;
+                }
+            });
+        }
+
+        const campaignForm = document.getElementById('create-campaign-form');
+        if (campaignForm) {
+            campaignForm.addEventListener('submit', function(event) {
+                let checkedCount = document.querySelectorAll('.lead-checkbox:checked').length;
+                if (checkedCount === 0) {
+                    event.preventDefault();
+                    swal({
+                        title: "No Leads Selected",
+                        text: "Please select at least one lead to create a campaign.",
+                        icon: "warning",
+                        button: "Okay",
+                    });
+                }
+            });
+        }
+    });
 </script>
 @endsection

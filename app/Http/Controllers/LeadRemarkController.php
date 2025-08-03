@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Remark;
 use App\Models\LeadsManager;
+use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
+use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Illuminate\Http\Request;
 
 class LeadRemarkController extends Controller
@@ -50,5 +52,51 @@ class LeadRemarkController extends Controller
 
     return redirect()->back()->with('success', 'Remark added successfully!');
 }
+
+public function sendMessage(Request $request, Lead $lead)
+    {
+        $request->validate([
+            'template_name' => 'required|string',
+            // Add validation for your template's dynamic content
+        ]);
+
+        // Initialize the API with credentials from your .env file
+        $whatsapp_cloud_api = new WhatsAppCloudApi([
+            'from_phone_number_id' => config('whatsapp-cloud-api.from_phone_number_id'),
+            'access_token' => config('whatsapp-cloud-api.access_token'),
+        ]);
+
+        // Example of sending a template with a dynamic name
+        // 'hello_world' is the template name from your Meta Business Manager
+        // 'en_US' is the language code
+        $component_header = []; // No header in this example
+        $component_body = [
+            [
+                'type' => 'text',
+                'text' => $lead->name, // Dynamic content for placeholder {{1}}
+            ],
+        ];
+        $component_buttons = []; // No buttons in this example
+
+        $components = new Component($component_header, $component_body, $component_buttons);
+
+        try {
+            $whatsapp_cloud_api->sendTemplate(
+                $lead->phone_number, // The recipient's phone number
+                $request->template_name,
+                'en_US', // The language of the template
+                $components
+            );
+
+            // Add logic to log the message in your CRM
+            // e.g., $lead->messages()->create([...]);
+
+            return back()->with('success', 'Message sent successfully!');
+
+        } catch (\Exception $e) {
+            // Handle exceptions, e.g., API errors
+            return back()->with('error', 'Failed to send message: ' . $e->getMessage());
+        }
+    }
 
 }

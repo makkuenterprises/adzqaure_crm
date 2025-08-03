@@ -110,6 +110,24 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3 col-md-6">
+                                            <label class="form-label">Designation</label>
+                                            <input type="text" name="designation" value="{{ old('designation') }}"
+                                                class="form-control @error('designation') input-invalid @enderror"
+                                                placeholder="Enter Designation" maxlength="255">
+                                            @error('designation')
+                                                <span class="input-error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3 col-md-6">
+                                            <label class="form-label">Date of Joining</label>
+                                            <input type="date" name="date_of_joining" value="{{ old('date_of_joining') }}"
+                                                class="form-control @error('date_of_joining') input-invalid @enderror">
+                                            @error('date_of_joining')
+                                                <span class="input-error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3 col-md-6">
                                             <label class="form-label">Home / Flat/ Building</label>
                                             <input type="text" name="home" value="{{ old('home') }}"
                                                 class="form-control @error('home') input-invalid @enderror"
