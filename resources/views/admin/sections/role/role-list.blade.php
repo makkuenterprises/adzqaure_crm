@@ -17,7 +17,7 @@
                 <div class="col-xl-12">
                     <div>
                         <a href="{{ route('admin.view.role.create') }}" type="button"
-                            class="btn btn-sm btn-primary mb-4 open btn-loader">Create New Role</a>
+                            class="btn btn-sm btn-primary mb-4 open btn-loader">Create New Employee Role</a>
                     </div>
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">
@@ -57,7 +57,7 @@
 
                                                         <a href="{{ route('admin.view.role.update', ['id' => $role->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
-                                                            <i class="fa fa-window-maximize"></i>
+                                                            <i class="fa fa-plus-circle"></i>
                                                         </a>
 
 

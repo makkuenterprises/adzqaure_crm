@@ -72,7 +72,7 @@
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
                     <li><a href="#">Manage Trusted Partners</a></li>
                     <li><a href="#">Manage Service Providers</a></li>
-                    <li><a href="{{ route('admin.view.role.list') }}">Manage Roles</a></li>
+                    <li><a href="{{ route('admin.view.role.list') }}">Manage Employee Roles</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -82,6 +82,15 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.view.employee.list') }}">Manage Employees</a></li>
                     <li><a href="uc-nestable.html">Task Manager</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span class="nav-text">HR & Payroll</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('admin.view.service.list') }}">Services</a></li>
+                    <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
                 </ul>
             </li>
             <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">
