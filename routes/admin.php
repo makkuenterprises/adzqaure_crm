@@ -261,6 +261,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/sync', [WhatsappTemplateController::class, 'sync'])->name('sync');
     });
 
+
     Route::prefix('package')->group(function () {
         Route::get('/list', [AdminViewController::class, 'viewPackageList'])->name('admin.view.package.list');
         Route::get('/create', [AdminViewController::class, 'viewPackageCreate'])->name('admin.view.package.create');

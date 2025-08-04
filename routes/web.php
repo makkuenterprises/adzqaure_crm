@@ -49,6 +49,11 @@ Route::get('setup', function () {
     dd('Application Setup Completed');
 });
 
+Route::get('generate-key', function () {
+    Artisan::call('key:generate');
+    dd('Application Key Generated Successfully');
+});
+
 Route::get('setup/new', function () {
     Artisan::call('migrate');
     dd('Application Setup Completed');
@@ -78,7 +83,8 @@ Route::get('/refresh-migrate', function () {
 Route::get('/meta/connect', [MetaIntegrationController::class, 'redirectToMeta'])->name('meta.connect');
 
 // Route to handle the callback from Meta
-Route::get('/meta/callback', [MetaIntegrationController::class, 'handleMetaCallback']);
+Route::get('/meta/callback', [MetaIntegrationController::class, 'handleMetaCallback'])->name('meta.callback');
+
 
 
 
@@ -146,3 +152,37 @@ Route::middleware(['auth', 'type:partner'])->get('partner/dashboard', function (
     // return view('partner.dashboard');
     return "Partner dashboard";
 })->name('partner.dashboard');
+
+
+Route::get('/super-secret-token-fix/{secretKey}', function ($secretKey) {
+
+    // 1. Define a SIMPLE, plain text secret key.
+    // ** CHANGE THIS to something simple you can remember and type. **
+    $correctSecretKey = 'FixMyTokenNow123';
+
+    if ($secretKey != $correctSecretKey) {
+        return response('Unauthorized. The secret key in the URL is wrong.', 403);
+    }
+
+    // 2. Paste your PLAIN TEXT permanent System User token here.
+    // ** THIS MUST BE THE TOKEN FROM META, STARTING WITH EAA... **
+    //https://adzquare.in/super-secret-token-fix/FixMyTokenNow123
+    $permanentToken = 'EAALLH1hfXSUBPFZAZCFaIj9K1uWIegbfACZCLCHourZBBXvVUSt9tccZBFMAIgdC1jFtOZC3U7JbezLj3roN1Qt4nPEyxt4aHabToc0EgVE5WluZAdeutFMZBhpyFRpSpkEsJDZAfepM5WeFoRr5wCPPT5abPkwdta5QXRo413tVeeW1uy3xgbPGB28SZBbG57Cwt77QZDZD';
+
+    // 3. Define the admin ID.
+    $adminId = 100001;
+
+    try {
+        $admin = Admin::findOrFail($adminId);
+
+        // 4. Encrypt the PLAIN TEXT token and save it.
+        $admin->whatsapp_access_token = encrypt($permanentToken);
+        $admin->save();
+
+        // 5. Return a success message.
+        return response('SUCCESS: The PLAIN TEXT token has been correctly encrypted and saved for Admin ID: ' . $adminId);
+
+    } catch (\Exception $e) {
+        return response('An error occurred: ' . $e->getMessage(), 500);
+    }
+});

@@ -21,6 +21,12 @@ class Admin extends Authenticatable
         'name',
         'email',
         'password',
+
+        // ADD THESE NEW COLUMNS HERE TO ALLOW SAVING
+        'whatsapp_business_account_id',
+        'whatsapp_phone_number_id',
+        'whatsapp_access_token',
+        'is_whatsapp_active',
     ];
 
     /**

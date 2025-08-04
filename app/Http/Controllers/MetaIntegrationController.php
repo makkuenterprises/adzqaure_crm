@@ -44,12 +44,11 @@ class MetaIntegrationController extends Controller
     // First, check for errors.
     if ($request->has('error')) {
         Log::error('Meta Callback Error: ' . $request->input('error_description', 'User cancelled the request.'));
-        return redirect()->route('admin.view.lead.manager.list')
-            ->with('error', 'Connection cancelled or an error occurred with Meta.');
+        return redirect()->route('admin.view.lead.manager.list')->with('error', 'Connection cancelled or an error occurred with Meta.');
     }
 
     try {
-        // --- Steps 1, 2, 3: Exchange code for token and get IDs (This part is correct) ---
+        // --- Step 1: Exchange code for token ---
         $response = Http::get('https://graph.facebook.com/v20.0/oauth/access_token', [
             'client_id' => config('services.meta.app_id'),
             'client_secret' => config('services.meta.app_secret'),
@@ -57,42 +56,55 @@ class MetaIntegrationController extends Controller
             'code' => $request->input('code'),
         ]);
         $response->throw();
-        $accessTokenData = $response->json();
-        $userAccessToken = $accessTokenData['access_token'];
+        $userAccessToken = data_get($response->json(), 'access_token');
+        if (!$userAccessToken) { throw new \Exception('Access Token was not found in the Meta response.'); }
 
+        // --- Step 2: Get the User's primary Business ID ---
         $businessResponse = Http::get('https://graph.facebook.com/v20.0/me/businesses', ['access_token' => $userAccessToken]);
         $businessResponse->throw();
-        $wabaId = $businessResponse->json()['data'][0]['id'];
+        $businessId = data_get($businessResponse->json(), 'data.0.id');
+        if (!$businessId) { throw new \Exception('The primary Meta Business ID was not found.'); }
 
-        $phoneNumbersResponse = Http::get("https://graph.facebook.com/v20.0/{$wabaId}/phone_numbers", ['access_token' => $userAccessToken]);
+        // =========================================================================
+        //  START: NEW CORRECTED LOGIC TO GET THE WABA ID
+        // =========================================================================
+
+        // --- Step 3: Use the Business ID to get the WhatsApp Business Account (WABA) ID ---
+        $wabaResponse = Http::get("https://graph.facebook.com/v20.0/{$businessId}/whatsapp_business_accounts", [
+            'access_token' => $userAccessToken
+        ]);
+        $wabaResponse->throw();
+        $wabaId = data_get($wabaResponse->json(), 'data.0.id');
+        if (!$wabaId) { throw new \Exception('The WhatsApp Business Account ID (WABA ID) linked to your business was not found.'); }
+
+        // =========================================================================
+        //  END: NEW CORRECTED LOGIC
+        // =========================================================================
+
+        // --- Step 4: Use the WABA ID to get the Phone Number ID ---
+        $phoneNumbersResponse = Http::get("https://graph.facebook.com/v20.0/{$wabaId}/phone_numbers", [
+            'access_token' => $userAccessToken
+        ]);
         $phoneNumbersResponse->throw();
-        $phoneNumberId = $phoneNumbersResponse->json()['data'][0]['id'];
+        $phoneNumberId = data_get($phoneNumbersResponse->json(), 'data.0.id');
+        if (!$phoneNumberId) { throw new \Exception('Phone Number ID was not found for the connected WABA.'); }
 
-        // --- Step 4: Save credentials and set the new active connection ---
-
-        // Deactivate any other existing active connection.
-        // The update() method on the Query Builder finds and saves in one step.
-        // It does NOT require a ->save() call. This is the corrected line.
+        // --- Step 5: Save credentials and set active connection ---
         Admin::where('is_whatsapp_active', true)->update(['is_whatsapp_active' => false]);
-
-        // Now, get the current admin model instance to update it.
         $admin = auth()->guard('admin')->user();
         $admin->whatsapp_business_account_id = $wabaId;
         $admin->whatsapp_phone_number_id = $phoneNumberId;
         $admin->whatsapp_access_token = encrypt($userAccessToken);
         $admin->is_whatsapp_active = true;
-
-        // Because $admin is an Eloquent Model INSTANCE, we use save() here.
         $admin->save();
 
-        // Redirect back with a success message
         return redirect()->route('admin.view.lead.manager.list')
             ->with('success', 'Successfully connected to WhatsApp! This is now the active connection for the CRM.');
 
     } catch (\Exception $e) {
         Log::error('Meta Integration Failed: ' . $e->getMessage());
         return redirect()->route('admin.view.lead.manager.list')
-            ->with('error', 'An unexpected error occurred while connecting your account. Please try again.');
+            ->with('error', 'An unexpected error occurred. Please check the system logs for details.');
     }
 }
 }

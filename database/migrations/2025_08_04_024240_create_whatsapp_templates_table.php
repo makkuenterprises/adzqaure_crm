@@ -12,16 +12,18 @@ return new class extends Migration
      * @return void
      */
     public function up()
-{
-    Schema::create('whatsapp_templates', function (Blueprint $table) {
-        $table->id();
-        $table->string('name')->unique(); // The exact name from Meta, e.g., 'promo_offer_v2'
-        $table->string('display_name'); // User-friendly name, e.g., 'Promotional Offer'
-        $table->text('body_text')->nullable(); // The template text with {{1}}, {{2}}
-        $table->json('placeholders')->nullable(); // e.g., {"1": "Lead Name", "2": "Offer Code"}
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('whatsapp_templates', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique(); // The exact name from Meta, e.g., 'promo_offer_v2'
+            $table->string('display_name')->nullable(); // User-friendly name, e.g., 'Promotional Offer'
+            $table->string('category')->nullable(); // E.g., MARKETING, UTILITY, AUTHENTICATION
+            $table->string('status')->nullable(); // E.g., APPROVED, PENDING, REJECTED
+            $table->text('body_text')->nullable(); // The template text with {{1}}, {{2}}
+            $table->json('placeholders')->nullable(); // e.g., {"1": "Lead Name", "2": "Offer Code"}
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
