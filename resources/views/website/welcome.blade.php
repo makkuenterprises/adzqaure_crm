@@ -53,6 +53,44 @@
             --animation-duration: 0.7s;
         }
 
+        /* --- Page Preloader Styles --- */
+    #loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color); /* Uses your theme's background color */
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.75s, visibility 0.75s;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .loader {
+        width: 60px;
+        height: 60px;
+        border: 5px solid rgba(255, 122, 0, 0.2); /* Light orange track */
+        border-top-color: var(--primary-accent); /* Main theme orange for the spinner */
+        border-radius: 50%;
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Class to hide the loader */
+    #loader-wrapper.loaded {
+        opacity: 0;
+        visibility: hidden;
+    }
+
         /* Basic Reset & Defaults */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; font-size: 12px; }
@@ -537,6 +575,13 @@
 
 
 <body>
+
+    <!-- ===== LOADER START ===== -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+    <!-- ===== LOADER END ===== -->
+
     <!-- Animated Backgrounds: Bubbles and Particles -->
     <div class="bg-animation-container"> <!-- For particle effects --> </div>
     <div class="bubbles"> <!-- For bubble effects --> </div>
@@ -884,6 +929,29 @@ Adzquare bridges this gap. We build your digital infrastructure (website, apps, 
     @extends('website.layouts.footer')
 
 
+<!-- ===== JAVASCRIPT FOR LOADER ===== -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
 
+        // --- Preloader Logic ---
+        const loader = document.getElementById('loader-wrapper');
+
+        // Fallback to hide loader after a few seconds if 'load' event fails
+        const fallback = setTimeout(() => {
+             if(loader) {
+                loader.classList.add('loaded');
+            }
+        }, 5000); // 5 seconds
+
+        // Hide the loader once the page and all its content (images, scripts) are fully loaded
+        window.addEventListener('load', function() {
+            clearTimeout(fallback); // Clear the fallback timer
+            if(loader) {
+                loader.classList.add('loaded');
+            }
+        });
+
+    });
+</script>
 </body>
 </html>
