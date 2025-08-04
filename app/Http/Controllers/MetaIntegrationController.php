@@ -12,8 +12,11 @@ class MetaIntegrationController extends Controller
     /**
      * Build the Meta authorization URL and redirect the user to it.
      */
+
+
     public function redirectToMeta()
     {
+
         // Fetch your App ID from the config/services.php file
         $appId = config('services.meta.app_id');
 
@@ -41,6 +44,7 @@ class MetaIntegrationController extends Controller
      */
     public function handleMetaCallback(Request $request)
 {
+   
     // First, check for errors.
     if ($request->has('error')) {
         Log::error('Meta Callback Error: ' . $request->input('error_description', 'User cancelled the request.'));
