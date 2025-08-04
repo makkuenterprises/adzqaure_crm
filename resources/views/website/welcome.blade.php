@@ -126,7 +126,7 @@
                             <li>Building Cross-Border Link Ecosystems & Digital PR</li>
                             <li>Conversion Rate Optimization (CRO) for Search Traffic</li>
                         </ul>
-                        <a href="#" class="add-to-cart-btn">View Details</a>
+                        <a href="/seo-sem" class="add-to-cart-btn">View Details</a>
                     </div>
                 </div>
                  <div class="specific-service-card animate-on-scroll fade-in-right">
@@ -141,7 +141,7 @@
                             <li>Worldwide Influencer Marketing & Collaboration</li>
                             <li>Social Listening & Brand Reputation Management</li>
                         </ul>
-                        <a href="#" class="add-to-cart-btn">View Details</a>
+                        <a href="/smm" class="add-to-cart-btn">View Details</a>
                     </div>
                 </div>
                  <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -156,7 +156,7 @@
                             <li>Advanced Audience Segmentation & Retargeting Strategies</li>
                             <li>Programmatic Advertising & Display Network Management</li>
                         </ul>
-                        <a href="#" class="add-to-cart-btn">View Details</a>
+                        <a href="/ppc" class="add-to-cart-btn">View Details</a>
                     </div>
 
                 </div>
@@ -172,7 +172,7 @@
                            <li>High-Converting Global Landing Page Design & Optimization</li>
                            <li>CRM Integration & Automated Lead Nurturing Sequences</li>
                        </ul>
-                       <a href="#" class="add-to-cart-btn">View Details</a>
+                       <a href="/lead-generation" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
                <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -187,7 +187,7 @@
                            <li>Custom Web & Mobile Application Development</li>
                            <li>DevOps & IT Automation Consulting</li>
                        </ul>
-                       <a href="#" class="add-to-cart-btn">View Details</a>
+                       <a href="/it-solutions" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
             </div>

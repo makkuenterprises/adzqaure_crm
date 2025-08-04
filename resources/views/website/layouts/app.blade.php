@@ -88,6 +88,10 @@
             visibility: hidden;
         }
 
+
+        .txt_white{
+            color: white;
+        }
             /* Basic Reset & Defaults */
             * { margin: 0; padding: 0; box-sizing: border-box; }
             html { scroll-behavior: smooth; font-size: 12px; }

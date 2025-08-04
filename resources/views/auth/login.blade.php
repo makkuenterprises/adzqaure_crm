@@ -16,11 +16,8 @@
                 <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center p-4">
 
                            <img src="https://i.ibb.co/b58D3N04/Pngtree-a-colorful-3d-infographic-featuring-20547594.png"
-                                alt="Image"
-                                class="w-100"
-                            >
-
-
+                        alt="Image"
+                        style="width: 70%;">
                 </div>
                 <div class="col-lg-5 col-md-6">
                     <div class="card mb-0 h-auto">

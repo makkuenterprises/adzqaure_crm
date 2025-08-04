@@ -24,8 +24,8 @@
                 <div class="footer-column animate-on-scroll fade-in-left" style="animation-delay:0.3s;">
                     <h4>Connect With Our Global Team</h4>
                     <p><strong>Global Headquarters:</strong><br>123 Innovation Drive, Tech City, Silicon Valley, Global</p>
-                    <p><strong>Phone:</strong> <a href="tel:+919304878684" title="Call Adzquare International">+91 9304878684</a></p>
-                    <p><strong>General Inquiries:</strong> <a href="mailto:hello@adzquare.in" title="Email Adzquare Global Inquiries">hello@adzquare.in</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+919304878684" class="txt_white" title="Call Adzquare International">+91 9304878684</a></p>
+                    <p><strong>General Inquiries:</strong> <a href="mailto:hello@adzquare.in" class="txt_white" title="Email Adzquare Global Inquiries">hello@adzquare.in</a></p>
                     <p><em>(Regional offices in India, US, UK, Australia - Contact us for local details)</em></p>
                     <div class="footer-social-icons">
                         <a href="#" aria-label="Adzquare on Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -42,6 +42,6 @@
         </div>
     </footer>
 
-    
+
 
 

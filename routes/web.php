@@ -40,6 +40,27 @@ Route::get('terms-of-service', function () {
     return view('website.terms-of-service');
 })->name('terms-of-service');
 
+// AFTER (Working)
+Route::get('/seo-sem', function () {
+    return view('website.services.seo-sem');
+})->name('seo-sem');
+
+Route::get('/global-social-engagement', function () {
+        return view('website.services.smm');
+    })->name('smm');
+
+Route::get('/precision-paid-advertising', function () {
+        return view('website.services.ppc');
+    })->name('ppc');
+
+Route::get('/direct-engagement-lead-generation', function () {
+        return view('website.services.lead-generation');
+    })->name('lead-generation');
+
+ Route::get('/it-solutions-cloud', function () {
+        return view('website.services.it-solutions');
+    })->name('it-solutions');
+
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);
 
