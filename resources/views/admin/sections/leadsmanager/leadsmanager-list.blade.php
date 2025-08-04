@@ -49,17 +49,22 @@
                                     <!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
                                     <!-- =============================================================== -->
 
-                                    @if(auth()->user()->is_whatsapp_connected)
-                                        <!-- If user IS connected, show a disabled status badge -->
-                                        <span class="btn btn-facebook me-2 disabled">
+                                    <!-- =============================================================== -->
+<!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
+<!-- =============================================================== -->
+
+                                    @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->is_whatsapp_connected)
+                                        <!-- If admin IS connected, show a disabled status badge -->
+                                        <span class="btn btn-success me-2 disabled">
                                             <i class="fab fa-whatsapp me-1"></i> Connected
                                         </span>
                                     @else
-                                        <!-- If user IS NOT connected, show the connect button -->
+                                        <!-- If admin IS NOT connected, show the connect button -->
                                         <a href="{{ route('meta.connect') }}" class="btn btn-facebook me-2">
                                             <i class="fab fa-whatsapp me-1"></i> Connect to WhatsApp
                                         </a>
                                     @endif
+
                                     <button type="submit" class="btn btn-info me-2">
                                         <i class="fab fa-whatsapp me-1"></i> Create Campaign
                                     </button>

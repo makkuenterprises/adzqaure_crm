@@ -35,18 +35,19 @@
             </li>
             <li><a href="{{ route('admin.view.quotation.list') }}" aria-expanded="false">
                     <i class="fa fa-book"></i>
-                    <span class="nav-text">Quotation</span>
+                    <span class="nav-text">Quote Client</span>
                 </a>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fa-solid fa-briefcase"></i>
+                    <i class="fa-brands fa-whatsapp"></i>
                     <span class="nav-text">WA Campaigns</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('campaigns.index') }}">View Campaigns</a></li>
-                    {{-- <li><a href="{{ route('admin.view.package.list') }}">Package</a></li> --}}
+                    <li><a href="{{ route('campaigns.index') }}">WA View Campaigns</a></li>
+                    <li><a href="{{ route('admin.whatsapp-templates.index') }}">WA Templates</a></li>
                 </ul>
             </li>
+
 
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-heart"></i>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Admin\AdminAPIController;
+use App\Http\Controllers\Admin\WhatsappTemplateController;
 use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\PaymentHistoryController;
@@ -243,6 +244,21 @@ Route::middleware(['auth:admin'])->group(function () {
         // Route::get('/update/{id}', [AdminViewController::class, 'viewPlanUpdate'])->name('admin.view.plan.update');
         // Route::post('/update/{id}', [AdminUpdateController::class, 'handlePlanUpdate'])->name('admin.handle.plan.update');
         // Route::get('/delete/{id}', [AdminDeleteController::class, 'handlePlanDelete'])->name('admin.handle.plan.delete');
+    });
+
+    // Group for WhatsApp Template Management
+    Route::prefix('whatsapp-templates')->name('admin.whatsapp-templates.')->group(function () {
+        // Page to list all synced templates
+        Route::get('/', [WhatsappTemplateController::class, 'index'])->name('index');
+
+        // Page to show the 'create new template' form
+        Route::get('/create', [WhatsappTemplateController::class, 'create'])->name('create');
+
+        // Route to handle the form submission for the new template
+        Route::post('/', [WhatsappTemplateController::class, 'store'])->name('store');
+
+        // A dedicated route to trigger the sync command from the UI
+        Route::get('/sync', [WhatsappTemplateController::class, 'sync'])->name('sync');
     });
 
     Route::prefix('package')->group(function () {

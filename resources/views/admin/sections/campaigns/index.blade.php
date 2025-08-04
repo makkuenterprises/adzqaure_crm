@@ -15,6 +15,9 @@
 
         <div class="row">
             <div class="col-12">
+
+                @include('components.alert-messages')
+
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">All WhatsApp Campaigns</h4>
@@ -24,12 +27,12 @@
                         <!-- ====================================================== -->
                         <div class="d-flex align-items-center">
                             {{-- This form submits a POST request to the sync route --}}
-                            <form action="{{ route('campaigns.templates.sync') }}" method="POST" class="me-2">
+                            {{-- <form action="{{ route('campaigns.templates.sync') }}" method="POST" class="me-2">
                                 @csrf
                                 <button type="submit" class="btn btn-secondary">
                                     <i class="fas fa-sync-alt me-1"></i> Sync Templates from Meta
                                 </button>
-                            </form>
+                            </form> --}}
 
                             {{-- This button correctly links to the leads manager to start a campaign --}}
                             <a href="{{ route('admin.view.lead.manager.list') }}" class="btn btn-primary">

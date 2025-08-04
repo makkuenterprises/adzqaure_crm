@@ -81,6 +81,7 @@ Route::get('/meta/connect', [MetaIntegrationController::class, 'redirectToMeta']
 Route::get('/meta/callback', [MetaIntegrationController::class, 'handleMetaCallback']);
 
 
+
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
 Route::get('login', [CommonAuthController::class, 'showLoginForm'])->name('login');
