@@ -40,65 +40,59 @@ class MetaIntegrationController extends Controller
      * Handle the callback from Meta after user authorization.
      */
     public function handleMetaCallback(Request $request)
-    {
-        // First, check for errors. If the user clicked "Cancel", Meta sends an error.
-        if ($request->has('error')) {
-            Log::error('Meta Callback Error: ' . $request->input('error_description', 'User cancelled the request.'));
-            return redirect()->route('admin.view.lead.manager.list') // Redirect back to the leads page
-                ->with('error', 'Connection cancelled or an error occurred with Meta.');
-        }
-
-        // Use a try-catch block for robust error handling during the API calls
-        try {
-            // --- Step 1: Exchange the temporary code for a long-lived access token ---
-            $response = Http::get('https://graph.facebook.com/v20.0/oauth/access_token', [
-                'client_id' => config('services.meta.app_id'),
-                'client_secret' => config('services.meta.app_secret'),
-                'redirect_uri' => route('meta.callback'),
-                'code' => $request->input('code'),
-            ]);
-
-            // If the request for the token fails, throw an exception
-            $response->throw();
-
-            $accessTokenData = $response->json();
-            $userAccessToken = $accessTokenData['access_token'];
-
-            // --- Step 2: Get the user's WhatsApp Business Account ID (WABA ID) ---
-            $businessResponse = Http::get('https://graph.facebook.com/v20.0/me/businesses', [
-                'access_token' => $userAccessToken,
-            ]);
-            $businessResponse->throw();
-            // Assuming the user connects their first business account found
-            $wabaId = $businessResponse->json()['data'][0]['id'];
-
-            // --- Step 3: Get the Phone Number ID associated with that WABA ID ---
-            $phoneNumbersResponse = Http::get("https://graph.facebook.com/v20.0/{$wabaId}/phone_numbers", [
-                'fields' => 'id,display_phone_number', // Get ID and the number itself for logging/display
-                'access_token' => $userAccessToken,
-            ]);
-            $phoneNumbersResponse->throw();
-            // Assuming the first phone number found is the one to be used
-            $phoneNumberId = $phoneNumbersResponse->json()['data'][0]['id'];
-
-            // --- Step 4: Save the credentials securely to the logged-in admin's record ---
-            $admin = auth()->guard('admin')->user();
-
-            $admin->whatsapp_business_account_id = $wabaId;
-            $admin->whatsapp_phone_number_id = $phoneNumberId;
-            $admin->whatsapp_access_token = encrypt($userAccessToken); // <-- ALWAYS encrypt tokens before saving
-            $admin->save();
-
-            // Redirect back with a success message
-            return redirect()->route('admin.view.lead.manager.list')
-                ->with('success', 'Successfully connected to WhatsApp!');
-
-        } catch (\Exception $e) {
-            // Log the detailed error for debugging
-            Log::error('Meta Integration Failed: ' . $e->getMessage());
-            // Redirect back with a generic error message for the user
-            return redirect()->route('admin.view.lead.manager.list')
-                ->with('error', 'An unexpected error occurred while connecting your account. Please try again.');
-        }
+{
+    // First, check for errors.
+    if ($request->has('error')) {
+        Log::error('Meta Callback Error: ' . $request->input('error_description', 'User cancelled the request.'));
+        return redirect()->route('admin.view.lead.manager.list')
+            ->with('error', 'Connection cancelled or an error occurred with Meta.');
     }
+
+    try {
+        // --- Steps 1, 2, 3: Exchange code for token and get IDs (This part is correct) ---
+        $response = Http::get('https://graph.facebook.com/v20.0/oauth/access_token', [
+            'client_id' => config('services.meta.app_id'),
+            'client_secret' => config('services.meta.app_secret'),
+            'redirect_uri' => route('meta.callback'),
+            'code' => $request->input('code'),
+        ]);
+        $response->throw();
+        $accessTokenData = $response->json();
+        $userAccessToken = $accessTokenData['access_token'];
+
+        $businessResponse = Http::get('https://graph.facebook.com/v20.0/me/businesses', ['access_token' => $userAccessToken]);
+        $businessResponse->throw();
+        $wabaId = $businessResponse->json()['data'][0]['id'];
+
+        $phoneNumbersResponse = Http::get("https://graph.facebook.com/v20.0/{$wabaId}/phone_numbers", ['access_token' => $userAccessToken]);
+        $phoneNumbersResponse->throw();
+        $phoneNumberId = $phoneNumbersResponse->json()['data'][0]['id'];
+
+        // --- Step 4: Save credentials and set the new active connection ---
+
+        // Deactivate any other existing active connection.
+        // The update() method on the Query Builder finds and saves in one step.
+        // It does NOT require a ->save() call. This is the corrected line.
+        Admin::where('is_whatsapp_active', true)->update(['is_whatsapp_active' => false]);
+
+        // Now, get the current admin model instance to update it.
+        $admin = auth()->guard('admin')->user();
+        $admin->whatsapp_business_account_id = $wabaId;
+        $admin->whatsapp_phone_number_id = $phoneNumberId;
+        $admin->whatsapp_access_token = encrypt($userAccessToken);
+        $admin->is_whatsapp_active = true;
+
+        // Because $admin is an Eloquent Model INSTANCE, we use save() here.
+        $admin->save();
+
+        // Redirect back with a success message
+        return redirect()->route('admin.view.lead.manager.list')
+            ->with('success', 'Successfully connected to WhatsApp! This is now the active connection for the CRM.');
+
+    } catch (\Exception $e) {
+        Log::error('Meta Integration Failed: ' . $e->getMessage());
+        return redirect()->route('admin.view.lead.manager.list')
+            ->with('error', 'An unexpected error occurred while connecting your account. Please try again.');
+    }
+}
 }
