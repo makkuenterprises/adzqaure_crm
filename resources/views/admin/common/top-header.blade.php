@@ -31,7 +31,7 @@
                                         <div class="timeline-panel">
                                             <div class="media me-2">
                                                 <img alt="image" width="50"
-                                                    src="{{ asset('admin_new/images/avatar/1.jpg') }}">
+                                                    src="{{ asset('admin_new/images/avatar/1.png') }}">
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -65,7 +65,7 @@
                                         <div class="timeline-panel">
                                             <div class="media me-2">
                                                 <img alt="image" width="50"
-                                                    src="{{ asset('admin_new/images/avatar/1.jpg') }}">
+                                                    src="{{ asset('admin_new/images/avatar/1.png') }}">
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Dr sultads Send you Photo</h6>

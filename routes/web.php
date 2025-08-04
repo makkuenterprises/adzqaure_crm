@@ -7,6 +7,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\MetaIntegrationController;
 use App\Http\Controllers\Auth\CommonAuthController;
 use App\Exports\GlobalExport;
+use App\Models\Admin;
 use Maatwebsite\Excel\Facades\Excel;
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +76,7 @@ Route::get('clear', function () {
 });
 
 Route::get('/refresh-migrate', function () {
-    \Artisan::call('migrate:fresh --seed');
+    Artisan::call('migrate:fresh --seed');
     return 'Database migrated and seeded successfully!';
 });
 

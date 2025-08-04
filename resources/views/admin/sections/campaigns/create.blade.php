@@ -64,8 +64,12 @@
                                         <select class="default-select form-control wide @error('whatsapp_template_id') input-invalid @enderror" name="whatsapp_template_id" id="whatsapp_template_id" required>
                                             <option value="" selected>Select a Template</option>
                                             @foreach ($templates as $template)
-                                                <option value="{{ $template->id }}" {{ old('whatsapp_template_id') == $template->id ? 'selected' : '' }}>
-                                                    {{ $template->display_name }}
+                                                {{-- ADD THESE DATA-* ATTRIBUTES --}}
+                                                <option value="{{ $template->id }}"
+                                                        data-body="{{ $template->body_text }}"
+                                                        data-placeholders="{{ $template->placeholders }}"
+                                                        {{ old('whatsapp_template_id') == $template->id ? 'selected' : '' }}>
+                                                    {{ $template->display_name }} ({{$template->name}})
                                                 </option>
                                             @endforeach
                                         </select>
