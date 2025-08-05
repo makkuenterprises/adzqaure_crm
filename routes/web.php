@@ -45,21 +45,21 @@ Route::get('/seo-sem', function () {
     return view('website.services.seo-sem');
 })->name('seo-sem');
 
-Route::get('/global-social-engagement', function () {
+Route::get('/social-media-marketing', function () {
         return view('website.services.smm');
-    })->name('smm');
+    })->name('social-media-marketing');
 
 Route::get('/precision-paid-advertising', function () {
         return view('website.services.ppc');
-    })->name('ppc');
+    })->name('precision-paid-advertising');
 
 Route::get('/direct-engagement-lead-generation', function () {
         return view('website.services.lead-generation');
-    })->name('lead-generation');
+    })->name('direct-engagement-lead-generation');
 
  Route::get('/it-solutions-cloud', function () {
         return view('website.services.it-solutions');
-    })->name('it-solutions');
+    })->name('it-solutions-cloud');
 
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);

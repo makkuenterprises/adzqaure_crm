@@ -3,7 +3,6 @@
 
 @extends('website.layouts.app')
 
-
 <body>
 
     <!-- ===== LOADER START ===== -->
@@ -141,7 +140,7 @@
                             <li>Worldwide Influencer Marketing & Collaboration</li>
                             <li>Social Listening & Brand Reputation Management</li>
                         </ul>
-                        <a href="/smm" class="add-to-cart-btn">View Details</a>
+                        <a href="/social-media-marketing" class="add-to-cart-btn">View Details</a>
                     </div>
                 </div>
                  <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -156,7 +155,7 @@
                             <li>Advanced Audience Segmentation & Retargeting Strategies</li>
                             <li>Programmatic Advertising & Display Network Management</li>
                         </ul>
-                        <a href="/ppc" class="add-to-cart-btn">View Details</a>
+                        <a href="/precision-paid-advertising" class="add-to-cart-btn">View Details</a>
                     </div>
 
                 </div>
@@ -172,7 +171,7 @@
                            <li>High-Converting Global Landing Page Design & Optimization</li>
                            <li>CRM Integration & Automated Lead Nurturing Sequences</li>
                        </ul>
-                       <a href="/lead-generation" class="add-to-cart-btn">View Details</a>
+                       <a href="/direct-engagement-lead-generation" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
                <div class="specific-service-card animate-on-scroll fade-in-left">
@@ -187,7 +186,7 @@
                            <li>Custom Web & Mobile Application Development</li>
                            <li>DevOps & IT Automation Consulting</li>
                        </ul>
-                       <a href="/it-solutions" class="add-to-cart-btn">View Details</a>
+                       <a href="/it-solutions-cloud" class="add-to-cart-btn">View Details</a>
                    </div>
                </div>
             </div>
