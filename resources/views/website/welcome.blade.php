@@ -64,11 +64,13 @@
                 </p>
                 <div class="services-overview-grid">
                     <!-- Card 1: Digital Marketing -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.2s;">
-                        <div class="icon-placeholder">🌌</div> <!-- Icon: Galaxy/Strategy -->
-                        <h3>Digital Marketing</h3>
-                        <p>Crafting comprehensive, data-driven strategies to navigate the digital landscape and achieve your core business objectives.</p>
-                    </div>
+                    <a href="/digital-marketing" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="icon-placeholder">🌌</div> <!-- Icon: Galaxy/Strategy -->
+                            <h3>Digital Marketing</h3>
+                            <p>Crafting comprehensive, data-driven strategies to navigate the digital landscape and achieve your core business objectives.</p>
+                        </div>
+                    </a>
                     <!-- Card 2: SEO -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.3s;">
                         <div class="icon-placeholder">📈</div> <!-- Icon: Growth Chart -->
@@ -82,11 +84,13 @@
                         <p>Utilizing paid search strategies to place your brand in front of motivated customers and maximize return on investment.</p>
                     </div>
                     <!-- Card 4: Web & Mobile App Development -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.5s;">
-                        <div class="icon-placeholder">💻</div> <!-- Icon: Laptop/Code -->
-                        <h3>Web & Mobile App Development</h3>
-                        <p>Building responsive websites and intuitive mobile applications that provide a seamless, high-performance user experience.</p>
-                    </div>
+                    <a href="/web-mobile-app-development" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.5s;">
+                            <div class="icon-placeholder">💻</div> <!-- Icon: Laptop/Code -->
+                            <h3>Web & Mobile App Development</h3>
+                            <p>Building responsive websites and intuitive mobile applications that provide a seamless, high-performance user experience.</p>
+                        </div>
+                    </a>
                     <!-- Card 5: Content Creation -->
                     <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.6s;">
                         <div class="icon-placeholder">✍️</div> <!-- Icon: Writing Hand -->
@@ -341,7 +345,7 @@ Adzquare bridges this gap. We build your digital infrastructure (website, apps, 
                 </p>
                 <div class="hero-form animate-on-scroll scale-up" style="animation-delay:0.2s; max-width:750px; margin:auto; background: linear-gradient(145deg, var(--surface-color), var(--card-bg));">
                      <h3>Send Us Your Project Brief or Inquiry</h3>
-                     <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
+                    <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
                         @csrf
                         <input type="text" name="name" placeholder="Your Full Name" required>
                         <input type="email" name="email" placeholder="Your Business Email Address" required>

@@ -61,6 +61,14 @@ Route::get('/direct-engagement-lead-generation', function () {
         return view('website.services.it-solutions');
     })->name('it-solutions-cloud');
 
+ Route::get('/digital-marketing', function () {
+        return view('website.services.digital-marketing');
+    })->name('digital-marketing');
+
+Route::get('/web-mobile-app-development', function () {
+        return view('website.services.digital-marketing');
+    })->name('web-mobile-app-development');
+
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);
 

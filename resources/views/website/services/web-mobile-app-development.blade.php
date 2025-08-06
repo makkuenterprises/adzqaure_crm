@@ -1,76 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- SEO for Web & Mobile Development Page -->
+    <title>Web & Mobile App Development | Adzquare - Engineering Digital Experiences</title>
+    <meta name="description" content="Adzquare architects and develops high-performance, scalable websites and mobile apps. Our focus on UI/UX, robust backends, and security empowers global businesses.">
+    <meta name="keywords" content="web development, mobile app development, custom software, UI/UX design, e-commerce development, iOS developer, Android developer, scalable websites">
+    <meta name="author" content="Adzquare">
 
-    <meta name="description" content="Achieve top global search rankings with Adzquare's expert SEO and SEM strategies. We specialize in driving organic traffic and maximizing ad spend for businesses in the USA, UK, India, and Australia.">
+    <!-- This should point to your single, unified stylesheet -->
+    <link rel="stylesheet" href="/css/sub_style.css">
 
-    <link rel="shortcut icon" type="image/png" href="admin_new/images/favicon.png">
+    <!-- (Include other head elements like fonts, Font Awesome, etc.) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/sub_style.css">
 </head>
-
 <body>
 
     @include('website.layouts.header')
 
     <main>
+        <!-- =========================== -->
+        <!--      HERO SECTION           -->
+        <!-- =========================== -->
         <section class="service-hero">
             <div class="container">
-                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>SEO & SEM</span></div>
-                <h1>Search Engine <span class="highlight">Supremacy</span></h1>
-                <p class="subtitle">Achieve top global search rankings. We craft advanced SEO & SEM strategies, fine-tuned for diverse international markets like the US, UK, India, and Australia.</p>
-                <a href="#service-cta" class="cta-button">Start Your Ascent</a>
+                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>Web & Mobile Development</span></div>
+                <h1>Architecting Digital <span class="highlight">Experiences</span></h1>
+                <p class="subtitle">We don't just build websites and apps; we engineer robust, scalable, and secure digital platforms that deliver seamless user experiences and drive business results.</p>
+                <a href="#service-cta" class="cta-button">Build Your Vision</a>
             </div>
         </section>
 
+        <!-- =========================== -->
+        <!--  PROBLEM/SOLUTION SECTION   -->
+        <!-- =========================== -->
         <section id="service-content" class="section">
             <div class="container">
                 <div class="content-layout">
                     <div class="content-block">
-                        <h2>The Core Challenge: Navigating the Digital Noise</h2>
-                        <p>In today's hyper-competitive digital landscape, simply having a website isn't enough. If you're not on the first page of search results, you are virtually invisible. The challenge is cutting through the noise and outranking global and local competitors to capture the attention of high-intent users.</p>
+                        <h2>The Core Challenge: A Failing Digital Foundation</h2>
+                        <p>An off-the-shelf solution or a poorly coded application can cripple a business. Slow load times, security vulnerabilities, frustrating user interfaces, and an inability to scale are symptoms of a weak digital foundation. These issues lead to lost customers, damaged brand reputation, and significant future costs to fix or rebuild.</p>
                     </div>
                     <div class="content-block">
-                        <h2>Our Strategic Solution: A Unified Approach to Visibility</h2>
-                        <p>Our "Search Engine Supremacy" service is an integrated ecosystem where SEO and SEM work in perfect harmony. We build a powerful organic foundation through technical excellence (SEO) while deploying precision-targeted paid campaigns (SEM) to capture immediate traffic. This dual approach ensures both long-term growth and short-term results.</p>
+                        <h2>Our Strategic Solution: Engineering for Performance & Growth</h2>
+                        <p>Our development philosophy is built on three pillars: performance, scalability, and security. We build custom solutions from the ground up with clean, efficient code and future-proof architecture. We treat your digital platform not as an expense, but as a critical, revenue-generating asset designed for long-term success and adaptability.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- =========================== -->
+        <!--    CORE SERVICES SECTION    -->
+        <!-- =========================== -->
         <section id="key-accelerators" class="section">
             <div class="container">
-                <h2 class="section-title">Core <span>Service Accelerators</span></h2>
-                <p class="section-subtitle">The essential components we deploy to dominate search engine results pages.</p>
+                <h2 class="section-title">Core <span>Development Services</span></h2>
+                <p class="section-subtitle">The essential services we provide to build and maintain your world-class digital platform.</p>
                 <div class="accelerators-grid">
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-globe"></i></div><h3>Multilingual Keyword Intelligence</h3><p>We uncover high-intent keywords specific to the cultural and linguistic nuances of each target market.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-wrench"></i></div><h3>Advanced Technical SEO Audits</h3><p>Our audits ensure your site is perfectly optimized for speed, mobile-friendliness, and crawlability worldwide.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-bullseye"></i></div><h3>Global & Localized PPC Campaigns</h3><p>We manage hyper-targeted Google & Bing Ads campaigns with localized ad copy that resonates and converts.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-project-diagram"></i></div><h3>Cross-Border Link Ecosystems</h3><p>We build your site's authority by acquiring high-quality, relevant backlinks from reputable sources in your target countries.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>Conversion Rate Optimization (CRO)</h3><p>We analyze user behavior from search to continuously optimize your landing pages, ensuring visitors convert into leads.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-file-alt"></i></div><h3>Transparent Performance Reporting</h3><p>You receive clear, concise reports showing the direct impact of our efforts on your traffic, leads, and ROI.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-laptop-code"></i></div><h3>Custom Web Development</h3><p>We build bespoke, high-performance websites and web applications tailored to your exact business processes and goals, from corporate sites to complex portals.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-mobile-alt"></i></div><h3>Native & Hybrid Mobile Apps</h3><p>Engage your users on the go with beautifully designed, intuitive mobile apps for both iOS and Android, optimized for performance and user experience.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-drafting-compass"></i></div><h3>UI/UX Design & Prototyping</h3><p>Our design process focuses on creating intuitive, user-centric interfaces that are not only visually stunning but also drive engagement and conversions.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-shopping-cart"></i></div><h3>E-commerce & Platform Integration</h3><p>We build powerful online stores and integrate complex systems like payment gateways, CRMs, and ERPs to create a seamless operational workflow.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-cogs"></i></div><h3>Scalable Backend & API Development</h3><p>The invisible engine behind your application. We build secure, robust, and scalable backends and APIs capable of handling high traffic and complex logic.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-shield-alt"></i></div><h3>Ongoing Maintenance & Support</h3><p>Your project doesn't end at launch. We offer dedicated support and maintenance plans to ensure your digital asset remains secure, updated, and optimized.</p></div>
                 </div>
             </div>
         </section>
 
+        <!-- =========================== -->
+        <!--  FINAL CALL-TO-ACTION       -->
+        <!-- =========================== -->
         <section id="service-cta" class="section">
             <div class="container">
-                <h2 class="section-title">Ready to Dominate <span>Search?</span></h2>
-                <p class="section-subtitle">Let's build your strategy for global visibility. Fill out the form below to connect with one of our specialists.</p>
+                <h2 class="section-title">Ready to Build Your <span>Next Big Thing?</span></h2>
+                <p class="section-subtitle">Let's discuss your project vision. Connect with our architects and engineers for a free, in-depth consultation.</p>
                 <div class="cta-form">
-                    <h3>Send Us Your Project Brief or Inquiry</h3>
-                    <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
-                        @csrf
+                    <h3>Start Your Project Inquiry</h3>
+                    <form action="#" method="POST">
                         <input type="text" name="name" placeholder="Your Full Name" required>
                         <input type="email" name="email" placeholder="Your Business Email Address" required>
-                        <input type="tel" name="phone" placeholder="Your Phone Number (with country code)">
-                        <textarea name="message" rows="5" placeholder="Briefly describe your project, requirements, or inquiry..." required style="width:100%; padding:14px; margin-bottom:18px; border-radius:8px; border:1px solid var(--border-color); background-color:rgba(10,10,15,0.5); color:var(--text-color); font-family:var(--font-body); font-size:0.95rem;"></textarea>
-                        <button type="submit" class="cta-button">Submit Global Inquiry Now</button>
+                        <input type="tel" name="phone" placeholder="Your Phone Number">
+                        <textarea name="message" rows="4" placeholder="Briefly describe your project, requirements, or idea..."></textarea>
+                        <button type="submit" class="cta-button">Request My Free Consultation</button>
                     </form>
                 </div>
             </div>
