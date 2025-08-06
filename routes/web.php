@@ -66,7 +66,7 @@ Route::get('/direct-engagement-lead-generation', function () {
     })->name('digital-marketing');
 
 Route::get('/web-mobile-app-development', function () {
-        return view('website.services.digital-marketing');
+        return view('website.services.web-mobile-app-development');
     })->name('web-mobile-app-development');
 
 Route::redirect('/login', '/');
