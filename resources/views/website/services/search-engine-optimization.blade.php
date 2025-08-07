@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO for Digital Marketing Service Page -->
-    <title>360° Digital Marketing Services | Adzquare - Integrated Strategies</title>
-
-    <meta name="description" content="Adzquare architects comprehensive 360° digital marketing strategies, integrating SEO, PPC, SMM, and Content Marketing to drive global growth and maximize ROI.">
-    <meta name="keywords" content="digital marketing services, 360 digital marketing, integrated marketing, SMM, content marketing, digital strategy, online marketing agency">
+    <!-- SEO for SEO Service Page -->
+    <title>SEO Services | Adzquare - Search Engine Supremacy</title>
+    <meta name="description" content="Achieve top global search rankings with Adzquare's expert SEO strategies. We drive organic traffic and build lasting authority for businesses in the USA, UK, India, and Australia.">
+    <meta name="keywords" content="SEO services, search engine optimization, technical SEO, on-page SEO, link building, keyword research, organic traffic, local SEO agency">
     <meta name="author" content="Adzquare">
 
-    <!-- This should point to your single, unified stylesheet -->
+   <!-- This should point to your single, unified stylesheet -->
     <link rel="stylesheet" href="/css/sub_style.css">
 
     <!-- (Include other head elements like fonts, Font Awesome, etc.) -->
-    <link rel="shortcut icon" type="image/png" href="admin_new/images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-
-
 </head>
 <body>
 
@@ -31,10 +27,10 @@
         <!-- =========================== -->
         <section class="service-hero">
             <div class="container">
-                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>360° Digital Marketing</span></div>
-                <h1>Integrated Digital <span class="highlight">Ecosystems</span></h1>
-                <p class="subtitle">We move beyond isolated tactics to build powerful, unified digital marketing engines where every channel works in concert to achieve your global business objectives.</p>
-                <a href="#service-cta" class="cta-button">Build Your Strategy</a>
+                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>Search Engine Optimization</span></div>
+                <h1>Search Engine <span class="highlight">Supremacy</span></h1>
+                <p class="subtitle">We engineer long-term organic growth, moving your brand from invisible to invincible in global search rankings and driving a sustainable flow of high-intent customers.</p>
+                <a href="#service-cta" class="cta-button">Start Your Ascent</a>
             </div>
         </section>
 
@@ -45,12 +41,12 @@
             <div class="container">
                 <div class="content-layout">
                     <div class="content-block">
-                        <h2>The Core Challenge: The Cost of Disconnected Marketing</h2>
-                        <p>Many businesses operate their marketing in silos—social media is separate from SEO, and paid ads don't inform the content strategy. This fragmentation leads to inconsistent brand messaging, wasted ad spend, and a confusing customer journey. The result is a digital presence that is less than the sum of its parts, failing to achieve its full potential.</p>
+                        <h2>The Core Challenge: The Invisibility Problem</h2>
+                        <p>In today's digital economy, if you're not on the first page of Google, you are virtually invisible to 95% of your potential customers. Many businesses struggle with low rankings, unable to outmaneuver competitors or understand the complex, ever-changing algorithms. This digital invisibility directly translates to lost traffic, leads, and revenue.</p>
                     </div>
                     <div class="content-block">
-                        <h2>Our Strategic Solution: A Unified, 360° Approach</h2>
-                        <p>Adzquare solves this by architecting a fully integrated digital ecosystem. We ensure insights from your SEO keyword research fuel your content creation. Data from your PPC campaigns informs your social media targeting. Every action is part of a cohesive strategy, creating a powerful feedback loop that drives continuous improvement and magnifies your ROI.</p>
+                        <h2>Our Strategic Solution: Building Lasting Digital Authority</h2>
+                        <p>Unlike quick-fix tactics that fade away, Adzquare's SEO strategy is about building a powerful, lasting digital asset. We focus on three core pillars: flawless technical performance, high-value content that users and search engines love, and building a credible backlink profile. This creates sustainable authority that withstands algorithm updates and delivers compounding returns over time.</p>
                     </div>
                 </div>
             </div>
@@ -61,15 +57,15 @@
         <!-- =========================== -->
         <section id="key-accelerators" class="section">
             <div class="container">
-                <h2 class="section-title">Core <span>Marketing Accelerators</span></h2>
-                <p class="section-subtitle">The essential components we integrate to build your comprehensive digital strategy.</p>
+                <h2 class="section-title">Core <span>SEO Accelerators</span></h2>
+                <p class="section-subtitle">The essential components we deploy to dominate search engine results pages.</p>
                 <div class="accelerators-grid">
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>Search Engine Supremacy (SEO/SEM)</h3><p>We build your organic authority through technical and content SEO while running precision SEM campaigns for immediate, targeted traffic.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-users"></i></div><h3>Global Social Engagement (SMM)</h3><p>We build and manage vibrant communities on platforms like Instagram, Facebook, and LinkedIn with culturally-resonant content that engages global audiences.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-pen-nib"></i></div><h3>Authority Content Marketing</h3><p>From insightful blogs to compelling videos, we create high-value content that establishes you as a thought leader and fuels every other marketing channel.</p></div>
-                    <div class="accelerator-card"><i class="fa-brands fa-searchengin"></i><div class="icon"><i class="fas fa-search-dollar"></i></div><h3>Precision Paid Advertising</h3><p>We maximize your ROI with meticulously managed Google, Meta, and LinkedIn Ad campaigns designed to capture high-intent leads and sales.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-envelope-open-text"></i></div><h3>Direct Engagement & Nurturing</h3><p>We implement sophisticated Email and WhatsApp marketing automation to convert prospects into loyal customers and brand advocates.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-project-diagram"></i></div><h3>Data & Analytics Integration</h3><p>We connect data points from all channels to provide a clear, holistic view of your marketing performance and its direct impact on your bottom line.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-sitemap"></i></div><h3>Technical SEO Foundation</h3><p>We conduct deep audits to optimize your site's speed, mobile-friendliness, crawlability, and overall health, ensuring search engines can index you perfectly.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-key"></i></div><h3>Multilingual Keyword Intelligence</h3><p>We uncover the high-intent keywords and phrases your target customers are using in each specific region, from the USA to India.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-file-alt"></i></div><h3>On-Page & Content Optimization</h3><p>We meticulously align your website's content, titles, meta descriptions, and structure with your target keywords to signal relevance to search engines.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-project-diagram"></i></div><h3>Authority Building & Link Ecosystems</h3><p>We build your site's authority by acquiring high-quality, relevant backlinks from reputable sources through outreach and digital PR in your target countries.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-map-marked-alt"></i></div><h3>Local & International SEO</h3><p>We optimize your presence for both "near me" searches in local markets and broad queries across international territories to capture all relevant traffic.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-chart-bar"></i></div><h3>Transparent Performance Analytics</h3><p>You receive clear, concise reports tracking your keyword rankings, organic traffic growth, and conversions, proving the direct ROI of our SEO efforts.</p></div>
                 </div>
             </div>
         </section>
@@ -79,10 +75,10 @@
         <!-- =========================== -->
         <section id="service-cta" class="section">
             <div class="container">
-                <h2 class="section-title">Ready to Unify Your <span>Marketing?</span></h2>
-                <p class="section-subtitle">Let's build a powerful, integrated digital ecosystem that drives real business results. Connect with our strategy experts today.</p>
+                <h2 class="section-title">Ready to Be <span class="highlight">Discovered?</span></h2>
+                <p class="section-subtitle">Let's craft your roadmap to the top of the search results. Connect with our analysts for a free, no-obligation website audit and strategy session.</p>
                 <div class="cta-form">
-                    <h3>Start Your Strategy Inquiry</h3>
+                    <h3>Request Your Free SEO Audit</h3>
                     <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
                         @csrf
                         <input type="text" name="name" placeholder="Your Full Name" required>
@@ -97,7 +93,7 @@
         </section>
     </main>
 
-    @extends('website.layouts.footer')
+   @extends('website.layouts.footer')
 
    <!-- ===== JAVASCRIPT FOR LOADER ===== -->
     <script>

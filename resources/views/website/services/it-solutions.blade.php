@@ -92,12 +92,14 @@
                 <p class="section-subtitle">Let's discuss how we can build a secure, scalable, and efficient IT foundation for your business. Contact us for a complimentary infrastructure assessment.</p>
                 <div class="cta-form">
                     <h3>Start Your Project Inquiry</h3>
-                    <form action="#" method="POST">
+                    <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
+                        @csrf
                         <input type="text" name="name" placeholder="Your Full Name" required>
                         <input type="email" name="email" placeholder="Your Business Email Address" required>
-                        <input type="tel" name="phone" placeholder="Your Phone Number">
-                        <textarea name="message" rows="4" placeholder="Briefly describe your current IT infrastructure and goals..."></textarea>
-                        <button type="submit" class="cta-button">Schedule My IT Assessment</button>
+                        <input type="tel" name="phone" placeholder="Your Phone Number (with country code)">
+                        <input type="text" name="company" placeholder="State & Country of Operation" required>
+                        <textarea name="message" rows="5" placeholder="Briefly describe your project, requirements, or inquiry..." required style="width:100%; padding:14px; margin-bottom:18px; border-radius:8px; border:1px solid var(--border-color); background-color:rgba(10,10,15,0.5); color:var(--text-color); font-family:var(--font-body); font-size:0.95rem;"></textarea>
+                        <button type="submit" class="cta-button">Submit Global Inquiry Now</button>
                     </form>
                 </div>
             </div>

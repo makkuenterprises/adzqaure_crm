@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO for Digital Marketing Service Page -->
-    <title>360° Digital Marketing Services | Adzquare - Integrated Strategies</title>
-
-    <meta name="description" content="Adzquare architects comprehensive 360° digital marketing strategies, integrating SEO, PPC, SMM, and Content Marketing to drive global growth and maximize ROI.">
-    <meta name="keywords" content="digital marketing services, 360 digital marketing, integrated marketing, SMM, content marketing, digital strategy, online marketing agency">
+    <!-- SEO for Meta & Google Ads Service Page -->
+    <title>Meta & Google Ads Management | Adzquare - Paid Social & Search Experts</title>
+    <meta name="description" content="Harness the world's largest ad platforms with Adzquare. We manage ROI-driven Meta (Facebook/Instagram) & Google Ads campaigns to capture intent and create demand.">
+    <meta name="keywords" content="Meta ads management, Google Ads agency, Facebook advertising, PPC services, social media ads, search ads, ROAS, cross-platform advertising">
     <meta name="author" content="Adzquare">
 
     <!-- This should point to your single, unified stylesheet -->
     <link rel="stylesheet" href="/css/sub_style.css">
 
     <!-- (Include other head elements like fonts, Font Awesome, etc.) -->
-    <link rel="shortcut icon" type="image/png" href="admin_new/images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-
-
 </head>
 <body>
 
@@ -31,10 +27,10 @@
         <!-- =========================== -->
         <section class="service-hero">
             <div class="container">
-                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>360° Digital Marketing</span></div>
-                <h1>Integrated Digital <span class="highlight">Ecosystems</span></h1>
-                <p class="subtitle">We move beyond isolated tactics to build powerful, unified digital marketing engines where every channel works in concert to achieve your global business objectives.</p>
-                <a href="#service-cta" class="cta-button">Build Your Strategy</a>
+                <div class="breadcrumb"><a href="index.html">Home</a> > <a href="#">Services</a> > <span>Meta & Google Ads</span></div>
+                <h1>Capture Intent. <span class="highlight">Create Demand.</span></h1>
+                <p class="subtitle">We synchronize the power of Google's search intent with Meta's audience discovery to create a full-funnel advertising strategy that dominates every stage of the customer journey.</p>
+                <a href="#service-cta" class="cta-button">Dominate Your Market</a>
             </div>
         </section>
 
@@ -45,12 +41,12 @@
             <div class="container">
                 <div class="content-layout">
                     <div class="content-block">
-                        <h2>The Core Challenge: The Cost of Disconnected Marketing</h2>
-                        <p>Many businesses operate their marketing in silos—social media is separate from SEO, and paid ads don't inform the content strategy. This fragmentation leads to inconsistent brand messaging, wasted ad spend, and a confusing customer journey. The result is a digital presence that is less than the sum of its parts, failing to achieve its full potential.</p>
+                        <h2>The Core Challenge: The Platform Puzzle</h2>
+                        <p>Managing Google and Meta ads as separate entities is a recipe for wasted budget and missed opportunities. Without a unified strategy, you create a disjointed customer experience, fail to share valuable audience data between platforms, and can't see the true ROI of your efforts. The complexity of each platform often leads to costly guesswork, burning ad spend with little to show for it.</p>
                     </div>
                     <div class="content-block">
-                        <h2>Our Strategic Solution: A Unified, 360° Approach</h2>
-                        <p>Adzquare solves this by architecting a fully integrated digital ecosystem. We ensure insights from your SEO keyword research fuel your content creation. Data from your PPC campaigns informs your social media targeting. Every action is part of a cohesive strategy, creating a powerful feedback loop that drives continuous improvement and magnifies your ROI.</p>
+                        <h2>Our Strategic Solution: A Synchronized Advertising Machine</h2>
+                        <p>Adzquare architects a single, powerful advertising machine. We use Google Ads to capture high-intent users actively searching for your solution. Simultaneously, we use Meta Ads (Facebook & Instagram) to build brand awareness and create new demand within your ideal customer profile. Data flows between both, allowing for powerful retargeting strategies that convert prospects at a much higher rate.</p>
                     </div>
                 </div>
             </div>
@@ -61,15 +57,15 @@
         <!-- =========================== -->
         <section id="key-accelerators" class="section">
             <div class="container">
-                <h2 class="section-title">Core <span>Marketing Accelerators</span></h2>
-                <p class="section-subtitle">The essential components we integrate to build your comprehensive digital strategy.</p>
+                <h2 class="section-title">Core <span>Campaign Accelerators</span></h2>
+                <p class="section-subtitle">The essential components we deploy for profitable, high-performance ad campaigns on both platforms.</p>
                 <div class="accelerators-grid">
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>Search Engine Supremacy (SEO/SEM)</h3><p>We build your organic authority through technical and content SEO while running precision SEM campaigns for immediate, targeted traffic.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-users"></i></div><h3>Global Social Engagement (SMM)</h3><p>We build and manage vibrant communities on platforms like Instagram, Facebook, and LinkedIn with culturally-resonant content that engages global audiences.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-pen-nib"></i></div><h3>Authority Content Marketing</h3><p>From insightful blogs to compelling videos, we create high-value content that establishes you as a thought leader and fuels every other marketing channel.</p></div>
-                    <div class="accelerator-card"><i class="fa-brands fa-searchengin"></i><div class="icon"><i class="fas fa-search-dollar"></i></div><h3>Precision Paid Advertising</h3><p>We maximize your ROI with meticulously managed Google, Meta, and LinkedIn Ad campaigns designed to capture high-intent leads and sales.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-envelope-open-text"></i></div><h3>Direct Engagement & Nurturing</h3><p>We implement sophisticated Email and WhatsApp marketing automation to convert prospects into loyal customers and brand advocates.</p></div>
-                    <div class="accelerator-card"><div class="icon"><i class="fas fa-project-diagram"></i></div><h3>Data & Analytics Integration</h3><p>We connect data points from all channels to provide a clear, holistic view of your marketing performance and its direct impact on your bottom line.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fab fa-google"></i></div><h3>Google Ads Campaign Mastery</h3><p>We build and manage high-performance search, display, and shopping campaigns that place your brand in front of customers at the exact moment of decision.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fab fa-meta"></i></div><h3>Meta Ads Audience Architecture</h3><p>We leverage the full power of Meta's data to build custom audiences, lookalikes, and interest-based targeting to find your next customers on Facebook & Instagram.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-sync-alt"></i></div><h3>Cross-Platform Retargeting</h3><p>Our key advantage. We re-engage users who visited from a Google search with compelling visual ads on Instagram, dramatically increasing conversion rates.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-palette"></i></div><h3>Scroll-Stopping Ad Creative</h3><p>We design high-impact visuals and write persuasive, platform-specific ad copy that cuts through the noise and compels users to take action.</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-balance-scale-right"></i></div><h3>Relentless A/B Testing & Optimization</h3><p>We constantly test ad creatives, audiences, and landing pages to identify winners and dynamically allocate your budget for maximum Return On Ad Spend (ROAS).</p></div>
+                    <div class="accelerator-card"><div class="icon"><i class="fas fa-chart-pie"></i></div><h3>Unified ROI Reporting</h3><p>You receive one clear, consolidated report showing how both platforms work together to contribute to your bottom line, with no confusing jargon.</p></div>
                 </div>
             </div>
         </section>
@@ -79,10 +75,10 @@
         <!-- =========================== -->
         <section id="service-cta" class="section">
             <div class="container">
-                <h2 class="section-title">Ready to Unify Your <span>Marketing?</span></h2>
-                <p class="section-subtitle">Let's build a powerful, integrated digital ecosystem that drives real business results. Connect with our strategy experts today.</p>
+                <h2 class="section-title">Ready to Activate Your <span class="highlight">Growth Engine?</span></h2>
+                <p class="section-subtitle">Stop treating Google and Meta as separate channels. Let's build a unified advertising machine that delivers unparalleled results.</p>
                 <div class="cta-form">
-                    <h3>Start Your Strategy Inquiry</h3>
+                    <h3>Get a Free Cross-Platform Ad Analysis</h3>
                     <form action="{{ route('inquiry.store') }}" method="POST"> <!-- Remember to set up form backend -->
                         @csrf
                         <input type="text" name="name" placeholder="Your Full Name" required>

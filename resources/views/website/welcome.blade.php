@@ -72,17 +72,22 @@
                         </div>
                     </a>
                     <!-- Card 2: SEO -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="icon-placeholder">📈</div> <!-- Icon: Growth Chart -->
-                        <h3>Search Engine Optimization</h3>
-                        <p>Enhancing your website's visibility on search engines to drive sustained organic traffic and achieve top rankings.</p>
-                    </div>
+                    <a href="/search-engine-optimization" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.3s;">
+                            <div class="icon-placeholder">📈</div> <!-- Icon: Growth Chart -->
+                            <h3>Search Engine Optimization</h3>
+                            <p>Enhancing your website's visibility on search engines to drive sustained organic traffic and achieve top rankings.</p>
+                        </div>
+                    </a>
                     <!-- Card 3: SEM -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.4s;">
-                        <div class="icon-placeholder">🎯</div> <!-- Icon: Target -->
-                        <h3>Search Engine Marketing</h3>
-                        <p>Utilizing paid search strategies to place your brand in front of motivated customers and maximize return on investment.</p>
-                    </div>
+                    <a href="/search-engine-marketing" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.4s;">
+                            <div class="icon-placeholder">🎯</div> <!-- Icon: Target -->
+                            <h3>Search Engine Marketing</h3>
+                            <p>Utilizing paid search strategies to place your brand in front of motivated customers and maximize return on investment.</p>
+                        </div>
+                    </a>
+
                     <!-- Card 4: Web & Mobile App Development -->
                     <a href="/web-mobile-app-development" style="text-decoration: none; color: inherit;">
                         <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.5s;">
@@ -92,17 +97,21 @@
                         </div>
                     </a>
                     <!-- Card 5: Content Creation -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.6s;">
-                        <div class="icon-placeholder">✍️</div> <!-- Icon: Writing Hand -->
-                        <h3>Content Creation</h3>
-                        <p>Developing engaging and valuable content that resonates with your target audience and builds lasting brand authority.</p>
-                    </div>
+                    <a href="/content-creation" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.6s;">
+                            <div class="icon-placeholder">✍️</div> <!-- Icon: Writing Hand -->
+                            <h3>Content Creation & Digital Strategy</h3>
+                            <p>Developing engaging and valuable content that resonates with your target audience and builds lasting brand authority to grab genuine customer.</p>
+                        </div>
+                    </a>
                     <!-- Card 6: Meta & Google Ads -->
-                    <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.7s;">
-                        <div class="icon-placeholder">📢</div> <!-- Icon: Megaphone/Ads -->
-                        <h3>Meta & Google Ads</h3>
-                        <p>Running hyper-targeted ad campaigns on the world's largest platforms to reach specific demographics and drive conversions.</p>
-                    </div>
+                    <a href="/meta-google-ads" style="text-decoration: none; color: inherit;">
+                        <div class="overview-item animate-on-scroll fade-in-up" style="animation-delay: 0.7s;">
+                            <div class="icon-placeholder">📢</div> <!-- Icon: Megaphone/Ads -->
+                            <h3>Meta (FB Ads) & <br> Google Ads</h3>
+                            <p>Running hyper-targeted ad campaigns on the world's largest platforms to reach specific demographics and drive conversions.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -229,26 +238,52 @@
                     Adzquare proudly serves a diverse clientele, driving digital innovation and IT excellence across key international markets. We understand global trends and local nuances.
                 </p>
                 <div class="countries-grid">
+
+                    <!-- India -->
                     <div class="country-item animate-on-scroll scale-up" style="animation-delay:0.2s;">
-                        <div class="flag-icon">🇮🇳</div> <!-- Unicode Flag for India -->
+                        <div class="flag-icon">
+                            <!-- Iconify Tag for India -->
+                            <span class="iconify" data-icon="circle-flags:in" data-width="50"></span>
+                        </div>
                         <span>India</span>
                     </div>
+
+                    <!-- USA -->
                     <div class="country-item animate-on-scroll scale-up" style="animation-delay:0.3s;">
-                        <div class="flag-icon">🇺🇸</div> <!-- Unicode Flag for USA -->
+                        <div class="flag-icon">
+                            <!-- Iconify Tag for USA -->
+                            <span class="iconify" data-icon="circle-flags:us" data-width="50"></span>
+                        </div>
                         <span>USA</span>
                     </div>
+
+                    <!-- UK -->
                     <div class="country-item animate-on-scroll scale-up" style="animation-delay:0.4s;">
-                        <div class="flag-icon">🇬🇧</div> <!-- Unicode Flag for UK -->
+                        <div class="flag-icon">
+                            <!-- Iconify Tag for UK -->
+                            <span class="iconify" data-icon="circle-flags:gb" data-width="50"></span>
+                        </div>
                         <span>UK</span>
                     </div>
+
+                    <!-- Australia -->
                     <div class="country-item animate-on-scroll scale-up" style="animation-delay:0.5s;">
-                        <div class="flag-icon">🇦🇺</div> <!-- Unicode Flag for Australia -->
+                        <div class="flag-icon">
+                            <!-- Iconify Tag for Australia -->
+                            <span class="iconify" data-icon="circle-flags:au" data-width="50"></span>
+                        </div>
                         <span>Australia</span>
                     </div>
+
+                    <!-- And More -->
                     <div class="country-item animate-on-scroll scale-up" style="animation-delay:0.6s;">
-                        <div class="flag-icon">🌍</div> <!-- Unicode Globe Icon for More -->
+                        <div class="flag-icon">
+                            <!-- Iconify Tag for Globe -->
+                            <span class="iconify" data-icon="emojione:globe-showing-americas" data-width="50" style="color: var(--text-muted-color);"></span>
+                        </div>
                         <span>And More...</span>
                     </div>
+
                 </div>
             </div>
         </section>

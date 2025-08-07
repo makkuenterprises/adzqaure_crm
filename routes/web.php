@@ -69,6 +69,22 @@ Route::get('/web-mobile-app-development', function () {
         return view('website.services.web-mobile-app-development');
     })->name('web-mobile-app-development');
 
+Route::get('/search-engine-optimization', function () {
+        return view('website.services.search-engine-optimization');
+    })->name('search-engine-optimization');
+
+Route::get('/search-engine-marketing', function () {
+        return view('website.services.search-engine-marketing');
+    })->name('search-engine-marketing');
+
+Route::get('/content-creation', function () {
+        return view('website.services.content-creation');
+    })->name('content-creation');
+
+Route::get('/meta-google-ads', function () {
+        return view('website.services.meta-google-ads');
+    })->name('meta-google-ads');
+
 Route::redirect('/login', '/');
 Auth::routes(['login' => false, 'register' => false]);
 
