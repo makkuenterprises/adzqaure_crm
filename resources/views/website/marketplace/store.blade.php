@@ -7,70 +7,15 @@
     <meta name="description" content="Welcome to the Adzquare Digital Store. Browse our collection of premium digital assets, tools, and solutions.">
     <meta name="keywords" content="digital products, digital store, templates, software, plugins, Adzquare">
     <meta name="author" content="Adzquare">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- This should point to your single, unified stylesheet -->
+    <link rel="stylesheet" href="/css/sub_style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
         /* CSS Variables for Theming */
-        :root {
-            --bg-color: #0D0D0D;
-            --surface-color: #1A1A1A;
-            --card-bg: #1F1F1F;
-            --primary-accent: #FF7A00;
-            --secondary-accent: #E66A00;
-            --text-color: #EAEAEA;
-            --text-muted-color: #A0A0A0;
-            --border-color: #383838;
-            --glow-color: rgba(255, 122, 0, 0.3);
-            --gradient-primary: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
-            --gradient-text: linear-gradient(90deg, var(--primary-accent), #FFB800);
-            --font-heading: 'Orbitron', sans-serif;
-            --font-body: 'Poppins', sans-serif;
-        }
-
-        /* Basic Reset & Defaults */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; }
-        body {
-            font-family: var(--font-body);
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .container { width: 90%; max-width: 1400px; margin: auto; padding: 0 20px; }
-
-        /* Header & Navigation */
-        header {
-            background: rgba(13, 13, 13, 0.6); backdrop-filter: blur(15px);
-            padding: 1rem 0; border-bottom: 1px solid var(--border-color);
-            position: sticky; top: 0; z-index: 1000;
-        }
-        header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo {
-            font-family: var(--font-heading); font-size: 1.9rem; font-weight: 700;
-            text-decoration: none; letter-spacing: 1px;
-            background-image: var(--gradient-text);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-        }
-        .header-right-controls { display: flex; align-items: center; gap: 25px; }
-        .menu-toggle { display: flex; flex-direction: column; justify-content: space-around; width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 2001; }
-        .menu-toggle .bar { width: 100%; height: 3px; background-color: var(--text-color); border-radius: 10px; transition: all 0.3s ease-in-out; }
-        .menu-toggle.open .bar:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
-        .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
-        .menu-toggle.open .bar:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
-
-        /* General Section Styling */
-        .section { padding: 80px 0; position: relative; overflow: hidden; }
-        .section-title {
-            font-family: var(--font-heading); font-size: 2.6rem; font-weight: 700;
-            text-align: center; margin-bottom: 25px; position: relative;
-            color: var(--text-color);
-        }
-        .section-title span { background-image: var(--gradient-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .section-title::after { content: ''; display: block; width: 80px; height: 4px; background-image: var(--gradient-primary); margin: 15px auto 0; border-radius: 3px; box-shadow: 0 0 15px var(--glow-color); }
-        .section-subtitle { text-align: center; font-size: 1.15rem; color: var(--text-muted-color); max-width: 800px; margin: 0 auto 50px auto; line-height: 1.8; }
 
         /* CTA Button */
         .cta-button {
@@ -269,38 +214,7 @@
 <body>
     <div class="overlay" id="main-overlay"></div>
 
-    <header>
-        <div class="container">
-            <a href="#hero" class="logo">
-                <img src="{{ asset('web/images/logo-main.png') }}" alt="Adzquare Logo" style="height: 26px;">
-            </a>
-            <div class="header-right-controls">
-                <div class="cart-icon-wrapper" id="cart-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.49.402H3.31l-.485 2.42A.5.5 0 0 0 3 11.5h8.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.473L12.717 9l.7-3.5H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <span class="cart-count">0</span>
-                </div>
-                <button class="menu-toggle" id="menu-toggle-button" aria-label="Toggle navigation">
-                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Side Menu (Navigation) -->
-    <aside class="side-menu" id="side-menu">
-        <ul class="nav-links">
-             <li><a href="#">Home</a></li>
-             <li><a href="#">360° Solutions</a></li>
-             <li><a href="#">Services</a></li>
-             <li><a href="#">Partners</a></li>
-             <li><a href="#">Global Reach</a></li>
-             <li><a href="#">Testimonials</a></li>
-             <li><a href="#">FAQs</a></li>
-             <li><a href="#">Contact</a></li>
-        </ul>
-    </aside>
+    @include('website.layouts.header')
 
     <main>
         <section id="digital-store" class="section">
@@ -325,65 +239,7 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column animate-on-scroll fade-in-right" style="animation-delay:0.1s;">
-                    <h4>About Adzquare Global</h4>
-                    <p>Adzquare is a premier international IT and 360° Digital Marketing powerhouse. We are dedicated to architecting innovative, data-driven solutions that propel businesses across India, the USA, UK, Australia, and beyond to new heights of success and leadership in the dynamic digital age.</p>
-                </div>
-                <div class="footer-column animate-on-scroll fade-in-up" style="animation-delay:0.2s;">
-                    <h4>Explore Adzquare</h4>
-                    <ul>
-                        <li><a href="#hero" title="Adzquare Home">Home</a></li>
-                        <li><a href="#specific-services" title="Our IT & Digital Marketing Services">Our Services</a></li>
-                        <li><a href="#partners" title="Adzquare Technology Partners">Partners</a></li>
-                        <li><a href="#testimonials" title="Client Testimonials">Client Success</a></li>
-                        <li><a href="#faqs" title="Frequently Asked Questions">FAQs</a></li>
-                        <li><a href="#contact" title="Contact Adzquare">Contact Us</a></li>
-                        <li><a href="#" title="Adzquare Privacy Policy">Privacy Policy</a></li> <!-- Add link -->
-                        <li><a href="#" title="Adzquare Terms of Service">Terms of Service</a></li> <!-- Add link -->
-                        <li><a href="/team-member/login" title="Adzquare's Global Reach">Team Login</a> | <a href="/admin/login" title="Adzquare's Global Reach">Admin Login</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column animate-on-scroll fade-in-left" style="animation-delay:0.3s;">
-                    <h4>Connect With Our Global Team</h4>
-                    <p><strong>Global Headquarters (Example):</strong><br>123 Innovation Drive, Tech City, Silicon Valley, Global</p>
-                    <p><strong>International Phone:</strong> <a href="tel:+10000000000" title="Call Adzquare International">+1 (000) 000-0000</a></p>
-                    <p><strong>General Inquiries:</strong> <a href="mailto:global.inquiries@adzquare.com" title="Email Adzquare Global Inquiries">global.inquiries@adzquare.com</a></p>
-                    <p><em>(Regional offices in India, US, UK, Australia - Contact us for local details)</em></p>
-                    <div class="footer-social-icons">
-                        <a href="#" aria-label="Adzquare on Facebook" title="Adzquare on Facebook">FB</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on Twitter" title="Adzquare on Twitter">TW</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on LinkedIn" title="Adzquare on LinkedIn">IN</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on Instagram" title="Adzquare on Instagram">IG</a> <!-- Replace with SVG icon -->
-                        <a href="#" aria-label="Adzquare on YouTube" title="Adzquare on YouTube">YT</a> <!-- Replace with SVG icon -->
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom-text animate-on-scroll fade-in" style="animation-delay:0.4s;">
-                <p>&copy; <span id="currentYear"></span> Adzquare. All Rights Reserved. | Architecting Your Global Digital Future.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Side Cart HTML -->
-    <aside class="side-cart" id="side-cart">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-sidebar-btn" id="close-cart">&times;</button>
-        </div>
-        <div class="cart-body" id="cart-items-container">
-            <p class="cart-empty-message">Your cart is currently empty.</p>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-subtotal">
-                <span class="label">Subtotal</span>
-                <span class="amount">$0.00</span>
-            </div>
-            <a href="#" class="cta-button checkout-btn">Proceed to Checkout</a>
-        </div>
-    </aside>
+    @extends('website.layouts.footer')
 
     <!-- Product Modal HTML -->
     <div class="product-modal" id="product-modal">
@@ -575,5 +431,175 @@
         });
     });
     </script>
+
+    <!-- ===== JAVASCRIPT FOR LOADER ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Preloader Logic ---
+            const loader = document.getElementById('loader-wrapper');
+
+            // Fallback to hide loader after a few seconds if 'load' event fails
+            const fallback = setTimeout(() => {
+                if(loader) {
+                    loader.classList.add('loaded');
+                }
+            }, 5000); // 5 seconds
+
+            // Hide the loader once the page and all its content (images, scripts) are fully loaded
+            window.addEventListener('load', function() {
+                clearTimeout(fallback); // Clear the fallback timer
+                if(loader) {
+                    loader.classList.add('loaded');
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const navMenu = document.getElementById('nav-menu');
+            const menuToggleButton = document.getElementById('menu-toggle-button');
+            if (menuToggleButton && navMenu) {
+                menuToggleButton.addEventListener('click', () => {
+                    navMenu.classList.toggle('open');
+                    menuToggleButton.classList.toggle('open');
+                    menuToggleButton.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+                });
+            }
+            const navLinks = document.querySelectorAll('#nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('open')) {
+                        navMenu.classList.remove('open');
+                        menuToggleButton.classList.remove('open');
+                        menuToggleButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            // --- Current Year ---
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- Header Scroll Effect ---
+            const mainHeader = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    mainHeader.classList.add('scrolled');
+                } else {
+                    mainHeader.classList.remove('scrolled');
+                }
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const sections = document.querySelectorAll('section[id]');
+            function changeActiveLink() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - (mainHeader.offsetHeight + 70) ) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') && link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+                if (!current && navLinks.length > 0 && pageYOffset < sections[0].offsetTop - (mainHeader.offsetHeight + 70)) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const homeLink = document.querySelector('#nav-menu a[href="#hero"]');
+                    if (homeLink) homeLink.classList.add('active');
+                }
+            }
+            window.addEventListener('scroll', changeActiveLink);
+            changeActiveLink();
+
+            // --- Scroll Animations ---
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        // entry.target.classList.remove('is-visible'); // Optional: replay animation
+                    }
+                });
+            }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+
+            // --- FAQ Accordion ---
+            const detailsElements = document.querySelectorAll('.faq-item');
+            detailsElements.forEach(details => {
+                details.addEventListener('toggle', function() {
+                    if (this.open) {
+                        detailsElements.forEach(otherDetails => {
+                            if (otherDetails !== this && otherDetails.open) {
+                                otherDetails.open = false;
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            // --- Animated Backgrounds: Bubbles and Particles ---
+            const bubblesContainer = document.querySelector('.bubbles');
+            if (bubblesContainer) {
+                const numberOfBubbles = 15;
+                for (let i = 0; i < numberOfBubbles; i++) {
+                    const bubble = document.createElement('span');
+                    const size = Math.random() * 15 + 5;
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    bubble.style.animationDelay = `${Math.random() * 25}s`;
+                    bubble.style.animationDuration = `${Math.random() * 20 + 15}s`;
+                    bubble.style.opacity = `${Math.random() * 0.4 + 0.1}`;
+                    bubblesContainer.appendChild(bubble);
+                }
+            }
+
+            const particleContainer = document.querySelector('.bg-animation-container');
+            if (particleContainer) {
+                const numberOfParticles = 30;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('bg-particle');
+                    const size = Math.random() * 3 + 1;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                    particleContainer.appendChild(particle);
+                }
+            }
+        });
+
+    </script>
+
+    @if (session('success'))
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 5000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#28a745",
+                    close: true
+                }).showToast();
+            });
+        </script>
+    @endif
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </body>
 </html>

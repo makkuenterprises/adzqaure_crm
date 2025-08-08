@@ -18,6 +18,12 @@
                     <li><a href="/#contact">Contact</a></li>
                 </ul>
             </nav>
+
+            <!-- Cart Icon -->
+            <a href="/cart" class="cart-icon" style="margin-left: 15px; font-size: 20px; color: #000;">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+
             <button class="menu-toggle" id="menu-toggle-button" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </button>

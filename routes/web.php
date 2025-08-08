@@ -27,8 +27,13 @@ Route::get('/', function () {
 
 Route::get('store', function () {
 
-    return view('website.store');
+    return view('website.marketplace.store');
 })->name('store');
+
+Route::get('store/product-details', function () {
+
+    return view('website.marketplace.product-details');
+})->name('product-details');
 
 Route::get('privacy-policy', function () {
 
