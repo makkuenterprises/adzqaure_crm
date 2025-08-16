@@ -8,14 +8,22 @@
     <meta name="keywords" content="digital products, digital store, templates, software, plugins, Adzquare">
     <meta name="author" content="Adzquare">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- This should point to your single, unified stylesheet -->
     <link rel="stylesheet" href="/css/sub_style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS Variables for Theming */
+        .cart-icon {
+            color: white; /* Change to your desired color */
+            font-size: 1.2rem; /* Adjust the size as needed */
+            margin-left: 15px; /* Add some space between the navigation and the icon */
+            text-decoration: none;
+        }
+
+        .cart-icon:hover {
+            color: var(--primary-accent); /* Change to your desired hover color */
+        }
 
         /* CTA Button */
         .cta-button {

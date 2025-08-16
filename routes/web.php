@@ -35,6 +35,11 @@ Route::get('store/product-details', function () {
     return view('website.marketplace.product-details');
 })->name('product-details');
 
+Route::get('cart', function () {
+
+    return view('website.marketplace.cart');
+})->name('cart');
+
 Route::get('privacy-policy', function () {
 
     return view('website.privacy-policy');

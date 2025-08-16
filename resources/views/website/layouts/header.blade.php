@@ -10,7 +10,7 @@
                     <li><a href="/#hero" class="active">Home</a></li>
                     <li><a href="/#digital-360">360° Solutions</a></li>
                     <li><a href="/#specific-services">Services</a></li>
-                    {{-- <li><a href="store">Store</a></li> --}}
+                    <li><a href="store">Store</a></li>
                     <li><a href="/#partners">Partners</a></li>
                     <li><a href="/#international-presence">Global Reach</a></li>
                     <li><a href="/#testimonials">Testimonials</a></li>
@@ -19,13 +19,20 @@
                 </ul>
             </nav>
 
-            <!-- Cart Icon -->
-            <a href="/cart" class="cart-icon" style="margin-left: 15px; font-size: 20px; color: #000;">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
+            {{-- Add the cart icon here --}}
+        <a href="/cart" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
 
             <button class="menu-toggle" id="menu-toggle-button" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </button>
         </div>
     </header>
+
+    <Style>
+         .cart-icon{
+            color: white !important;
+        }
+    </Style>

@@ -9,12 +9,23 @@
     <!-- This should point to your single, unified stylesheet -->
     <link rel="stylesheet" href="/css/sub_style.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
 
+         .cart-icon {
+            color: white; /* Change to your desired color */
+            font-size: 1.2rem; /* Adjust the size as needed */
+            margin-left: 15px; /* Add some space between the navigation and the icon */
+            text-decoration: none;
+        }
+
+        .cart-icon:hover {
+            color: var(--primary-accent); /* Change to your desired hover color */
+        }
         /* ================================================= */
         /*  2. NEW CSS FOR PRODUCT DETAIL PAGE (MINIMAL)     */
         /* ================================================= */
