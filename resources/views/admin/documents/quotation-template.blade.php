@@ -129,8 +129,8 @@ function convertNumberToWordsForIndia($number) { /* ... full function code ... *
         <div>
             <p><b>Subject: Quotation for {{ $quotation->service?->service_name ?? 'Proposed Services' }}</b></p>
         </div>
-        <div style="margin-top: 1cm; line-height: 1.6;">
-            {!! $quotation->content !!}
+        <div class="quotation-description" style="margin-top: 1cm; line-height: 1.6;">
+            {!! \Parsedown::instance()->text($quotation->content) !!}
         </div>
         <br>
         <strong><p>Amount in Words: Total: ₹{{ number_format($quotation->quotation_amount, 2) }}</p></strong>

@@ -59,7 +59,7 @@
 
                                     <div class="col-md-12">
                                         <label for="content" class="form-label">Description</label>
-                                        <textarea name="content" id="rich-textarea" class="form-control rich-text" rows="6">{{ old('content') }}</textarea>
+                                        <textarea name="content" id="easy-mde-textarea" class="form-control" rows="6">{{ old('content') }}</textarea>
                                     </div>
 
                                     <div class="col-md-6">
@@ -79,7 +79,10 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<!-- EasyMDE CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css">
+<!-- EasyMDE JS -->
+<script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
 
 <script>
     const allServicesGrouped = @json($allServicesGrouped);
