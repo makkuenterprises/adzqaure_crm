@@ -110,6 +110,24 @@ class QuotationController extends Controller
         ]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Handle Bill Delete
+    |--------------------------------------------------------------------------
+    */
+    public function handleQuotationDelete($id)
+    {
+        $quotation = Quotation::find($id);
+        $quotation->delete();
+        return redirect()->back()->with('message', [
+            'status' => 'success',
+            'title' => 'Quotation Deleted',
+            'description' => 'The Quotation is successfully deleted'
+        ]);
+    }
+
+
     /** View Bill Invoice Download **/
        /**
      * Generate and download a PDF for a specific quotation.
