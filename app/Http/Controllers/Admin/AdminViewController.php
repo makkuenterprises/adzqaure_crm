@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use PDF;
+use Illuminate\Http\Request;
 use App\Models\Bill;
 use App\Models\Lead;
 use App\Models\Plan;
@@ -19,7 +20,6 @@ use App\Models\Employee;
 use App\Models\Password;
 use App\Models\CrmSetting;
 use App\Exports\ExportGroup;
-use Illuminate\Http\Request;
 use App\Models\CompanyDetail;
 use App\Models\DomainHosting;
 use App\Models\MailCredential;
@@ -187,14 +187,29 @@ class AdminViewController extends Controller implements AdminView
     }
 
     /** View Employee List **/
-    public function viewEmployeeList()
+    public function viewEmployeeList() // The signature is now compatible (no parameters)
     {
+        // Start with a base query
+        $query = Employee::query();
 
-        $employees = Employee::orderBy('created_at', 'desc')->paginate(10);
+        // Check for a search term using the global request() helper
+        if (request()->has('search') && request()->input('search') != '') {
+            $searchTerm = request()->input('search');
 
+            // Add a WHERE clause to search across the specified columns
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('employee_id', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        // Execute the final query with ordering and pagination
+        $employees = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        // This line remains the same
         return view('admin.sections.employee.employee-list', ['employees' => $employees]);
     }
-
     /** View Employeee Create **/
     public function viewEmployeeCreate()
     {
