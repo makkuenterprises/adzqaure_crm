@@ -117,7 +117,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/download/{id}', [QuotationController::class, 'handleQuotationDownload'])->name('admin.view.quotation.download');
         Route::post('/create', [QuotationController::class, 'handleQuotationCreate'])->name('admin.handle.quotation.create');
         Route::post('/update/{id}', [QuotationController::class, 'handleQuotationUpdate'])->name('admin.handle.quotation.update');
-        // Route::get('/delete/{id}', [AdminDeleteController::class, 'handleBillDelete'])->name('admin.handle.quotation.delete');
+        Route::get('/delete/{id}', [QuotationController::class, 'handleQuotationDelete'])->name('admin.handle.quotation.delete');
         Route::get('/quote/{id}', [QuotationController::class, 'handleQuotationDownload'])->name('admin.handle.quotation.invoice');
 
     });
