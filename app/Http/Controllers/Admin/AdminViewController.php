@@ -589,7 +589,10 @@ class AdminViewController extends Controller implements AdminView
         $bill = Bill::find($id);
         $customer = Customer::find($bill->customer_id);
         $company = CompanyDetail::query();
-        $bill_invoice = PDF::loadView('admin.documents.bill-template', ['bill' => $bill, 'customer' => $customer, 'company' => $company]);
+        
+        // Fetch all payment settings
+        $paymentSettings = PaymentSetting::all();
+        $bill_invoice = PDF::loadView('admin.documents.bill-template', ['bill' => $bill, 'customer' => $customer, 'company' => $company, 'paymentSettings' => $paymentSettings]);
         return $bill_invoice->download('Invoice-' . $bill->id . '-adzquare-' . str_replace(' ', '-', strtolower($customer->company_name)) . '.pdf');
         // return view('admin.documents.bill-template',['bill' => $bill, 'customer' => $customer, 'company' => $company]);
     }
