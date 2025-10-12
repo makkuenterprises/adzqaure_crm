@@ -550,7 +550,8 @@ class AdminViewController extends Controller implements AdminView
         $paymentHistory = PaymentHistory::all();
         $bills = Bill::with('paymentHistories')->latest()->paginate(10);
         $bills = Bill::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.sections.bill.bill-list', ['bills' => $bills, 'paymentHistory' => $paymentHistory]);
+        $paymentSettings = PaymentSetting::all();
+        return view('admin.sections.bill.bill-list', ['bills' => $bills, 'paymentHistory' => $paymentHistory, 'paymentSettings' => $paymentSettings]);
     }
 
     /** View Bill Create **/
