@@ -562,12 +562,14 @@ class AdminViewController extends Controller implements AdminView
         $allServices = Service::orderBy('service_name')->get();
         $allServicesGrouped = $allServices->groupBy('service_category_id');
         $allServicesForLookup = $allServices->keyBy('id');
+        $paymentSettings = PaymentSetting::all();
 
         return view('admin.sections.bill.bill-create', compact(
             'customers',
             'serviceCategories',
             'allServicesGrouped',
-            'allServicesForLookup'
+            'allServicesForLookup',
+            'paymentSettings'
         ));
     }
 
@@ -579,7 +581,8 @@ class AdminViewController extends Controller implements AdminView
         $customers = Customer::where('status', true)->get();
         $serviceCategories = ServiceCategory::all();
         $services = Service::all();
-        return view('admin.sections.bill.bill-update', compact('customers', 'serviceCategories', 'services'));
+        $paymentSettings = PaymentSetting::all();
+        return view('admin.sections.bill.bill-update', compact('customers', 'serviceCategories', 'services', 'paymentSettings'));
     }
 
 
