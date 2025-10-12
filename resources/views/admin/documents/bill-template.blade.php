@@ -345,11 +345,12 @@ function convertNumberToWordsForIndia($number)
                 <td class="billing-card payment-details" style="width: 50%;">
                      <p class="heading">Payment Details</p>
                      <table>
-                         <tr><th>Account No:</th><td>{{ DB::table('company_details')->first()->company_account_no ?? '' }}</td></tr>
-                         <tr><th>Account Holder:</th><td>{{ DB::table('company_details')->first()->company_account_holder ?? '' }}</td></tr>
-                         <tr><th>IFSC Code:</th><td>{{ DB::table('company_details')->first()->company_account_ifsc ?? '' }}</td></tr>
-                         <tr><th>Bank Branch:</th><td>{{ DB::table('company_details')->first()->company_account_branch ?? '' }}</td></tr>
-                         <tr><th>VPA (UPI):</th><td>{{ DB::table('company_details')->first()->company_account_vpa ?? '' }}</td></tr>
+                         <tr><th>Account No:</th><td>{{ DB::table('payment_settings')->first()->company_account_number_inr ?? '' }}</td></tr>
+                         <tr><th>Account Holder:</th><td>{{ DB::table('payment_settings')->first()->company_account_holder_inr ?? '' }}</td></tr>
+                         <tr><th>IFSC Code:</th><td>{{ DB::table('payment_settings')->first()->company_account_ifsc_inr ?? '' }}</td></tr>
+                         <tr><th>Bank Branch:</th><td>{{ DB::table('payment_settings')->first()->company_account_branch_inr ?? '' }}</td></tr>
+                         <tr><th>VPA (UPI):</th><td>{{ DB::table('payment_settings')->first()->upi_payment_inr ?? '' }}</td></tr>
+                         <tr><th>Payment Link:</th><td>{{ DB::table('payment_settings')->first()->payment_link_inr ?? '' }}</td></tr>
                      </table>
                 </td>
                 <!-- NEW: Authorized Signatory block -->
