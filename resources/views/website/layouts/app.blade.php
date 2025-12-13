@@ -22,7 +22,10 @@
         <meta property="twitter:image" content="https://www.adzquare.com/twitter-card-image.jpg"> <!-- Replace with an actual Twitter card image URL -->
 
 
-        <link rel="stylesheet" href="/css/main_style.css">
+        <style>html{opacity:0;transition:opacity 200ms ease-in-out}html.csr-ready{opacity:1}</style>
+        <noscript><style>html{opacity:1!important}</style></noscript>
+        <link rel="stylesheet" href="/css/main_style.css" onload="document.documentElement.classList.add('csr-ready')">
+        <script>setTimeout(function(){ if(!document.documentElement.classList.contains('csr-ready')) document.documentElement.classList.add('csr-ready'); }, 4500);</script>
 
         <!-- FAVICONS ICON -->
         <link rel="shortcut icon" type="image/png" href="{{ asset('admin_new/images/favicon.png') }}">

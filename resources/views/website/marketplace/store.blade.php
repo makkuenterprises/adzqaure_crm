@@ -10,7 +10,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- This should point to your single, unified stylesheet -->
-    <link rel="stylesheet" href="/css/sub_style.css">
+    <style>html{opacity:0;transition:opacity 200ms ease-in-out}html.csr-ready{opacity:1}</style>
+    <noscript><style>html{opacity:1!important}</style></noscript>
+    <link rel="stylesheet" href="/css/sub_style.css" onload="document.documentElement.classList.add('csr-ready')">
+    <script>setTimeout(function(){ if(!document.documentElement.classList.contains('csr-ready')) document.documentElement.classList.add('csr-ready'); }, 4500);</script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>

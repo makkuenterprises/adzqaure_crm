@@ -11,7 +11,10 @@
     <meta name="author" content="Adzquare">
 
    <!-- This should point to your single, unified stylesheet -->
-    <link rel="stylesheet" href="/css/sub_style.css">
+    <style>html{opacity:0;transition:opacity 200ms ease-in-out}html.csr-ready{opacity:1}</style>
+    <noscript><style>html{opacity:1!important}</style></noscript>
+    <link rel="stylesheet" href="/css/sub_style.css" onload="document.documentElement.classList.add('csr-ready')">
+    <script>setTimeout(function(){ if(!document.documentElement.classList.contains('csr-ready')) document.documentElement.classList.add('csr-ready'); }, 4500);</script>
 
     <!-- (Include other head elements like fonts, Font Awesome, etc.) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
