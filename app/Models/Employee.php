@@ -80,4 +80,9 @@ class Employee extends Authenticatable
         }
         return false;
     }
+
+    public function attendances()
+{
+    return $this->hasMany(Attendance::class);
+}
 }

@@ -6,8 +6,8 @@ use App\Http\Controllers\Admin\AdminUpdateController;
 use App\Http\Controllers\Admin\AdminCreateController;
 use App\Http\Controllers\Admin\AdminDeleteController;
 use App\Http\Controllers\Admin\AdminAPIController;
-use App\Http\Controllers\Admin\WhatsappTemplateController;
 use App\Http\Controllers\LeadRemarkController;
+use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\PaymentHistoryController;
 use App\Http\Controllers\CampaignController;
@@ -21,6 +21,16 @@ Route::middleware(['guest:admin'])->group(function () {
 Route::middleware(['auth:admin'])->group(function () {
 
     Route::get('dashboard', [AdminViewController::class, 'viewDashboard'])->name('admin.view.dashboard');
+
+
+    Route::prefix('payroll')->group(function () {
+        // Attendance management
+        Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.payroll.attendance');
+        Route::post('/attendance/store', [AttendanceController::class, 'store'])->name('admin.payroll.attendance.store');
+        // Inside routes/web.php or routes/admin.php (under the payroll prefix group)
+        Route::get('/attendance/report', [AttendanceController::class, 'report'])->name('admin.payroll.attendance.report');
+        Route::get('/attendance/report/pdf', [AttendanceController::class, 'downloadReportPdf'])->name('admin.payroll.attendance.report.pdf');
+    });
 
     Route::prefix('settings')->group(function () {
         Route::get('/', [AdminViewController::class, 'viewSetting'])->name('admin.view.setting');
@@ -204,28 +214,6 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // In your routes/web.php or routes/admin.php file
 
-    Route::prefix('campaigns')->group(function () {
-
-        // GET /campaigns
-        // Shows the list of all campaigns. Changed path from '/campaigns' to '/'.
-        Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
-
-        // GET /campaigns/create
-        // Shows the form to create a new campaign.
-        Route::get('/create', [CampaignController::class, 'create'])->name('campaigns.create');
-
-        // POST /campaigns/templates/sync
-        // The new route to handle the "Sync Templates" button.
-        Route::post('/templates/sync', [CampaignController::class, 'syncTemplates'])->name('campaigns.templates.sync');
-
-        // POST /campaigns
-        // Stores the new campaign in the database.
-        Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
-
-        // GET /campaigns/{campaign_id}
-        // Shows the details/status of a single campaign. This wildcard route comes last.
-        Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
-    });
 
     // Route::prefix('plan')->group(function () {
     //     Route::get('/list', [AdminViewController::class, 'viewPlanList'])->name('admin.view.plan.list');
@@ -244,21 +232,6 @@ Route::middleware(['auth:admin'])->group(function () {
         // Route::get('/update/{id}', [AdminViewController::class, 'viewPlanUpdate'])->name('admin.view.plan.update');
         // Route::post('/update/{id}', [AdminUpdateController::class, 'handlePlanUpdate'])->name('admin.handle.plan.update');
         // Route::get('/delete/{id}', [AdminDeleteController::class, 'handlePlanDelete'])->name('admin.handle.plan.delete');
-    });
-
-    // Group for WhatsApp Template Management
-    Route::prefix('whatsapp-templates')->name('admin.whatsapp-templates.')->group(function () {
-        // Page to list all synced templates
-        Route::get('/', [WhatsappTemplateController::class, 'index'])->name('index');
-
-        // Page to show the 'create new template' form
-        Route::get('/create', [WhatsappTemplateController::class, 'create'])->name('create');
-
-        // Route to handle the form submission for the new template
-        Route::post('/', [WhatsappTemplateController::class, 'store'])->name('store');
-
-        // A dedicated route to trigger the sync command from the UI
-        Route::get('/sync', [WhatsappTemplateController::class, 'sync'])->name('sync');
     });
 
 

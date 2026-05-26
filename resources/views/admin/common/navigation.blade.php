@@ -90,7 +90,8 @@
                     <span class="nav-text">HR & Payroll</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.service.list') }}">Attendance</a></li>
+                    <li><a href="{{ route('admin.payroll.attendance') }}">Attendance</a></li>
+                    <li><a href="{{ route('admin.payroll.attendance.report') }}">Attendance Report</a></li>
                     <li><a href="{{ route('admin.view.service-category.list') }}">Payroll</a></li>
                 </ul>
             </li>
