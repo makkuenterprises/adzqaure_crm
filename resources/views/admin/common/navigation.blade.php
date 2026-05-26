@@ -11,11 +11,11 @@
                 </a>
             </li>
 
-            <li><a href="{{ route('inquiries.index') }}" aria-expanded="false">
+            {{-- <li><a href="{{ route('inquiries.index') }}" aria-expanded="false">
                     <i class="fa fa-envelope"></i>
                     <span class="nav-text">Inquiries <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
-            </li>
+            </li> --}}
 
             <li><a href="{{ route('admin.view.lead.manager.list') }}" aria-expanded="false">
                     <i class="fa fa-hourglass"></i>
@@ -38,7 +38,7 @@
                     <span class="nav-text">Quote Client</span>
                 </a>
             </li>
-            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+            {{-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span class="nav-text">WA Campaigns</span>
                 </a>
@@ -46,7 +46,7 @@
                     <li><a href="{{ route('campaigns.index') }}">WA View Campaigns</a></li>
                     <li><a href="{{ route('admin.whatsapp-templates.index') }}">WA Templates</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
 
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -71,8 +71,8 @@
                     <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
                     {{-- <li><a href="{{ route('admin.view.payment.list') }}">Cashflow</a></li> --}}
                     <li><a href="{{ route('admin.view.admin.list') }}">Admin Access</a></li>
-                    <li><a href="#">Manage Trusted Partners</a></li>
-                    <li><a href="#">Manage Service Providers</a></li>
+                    {{-- <li><a href="#">Manage Trusted Partners</a></li>
+                    <li><a href="#">Manage Service Providers</a></li> --}}
                     <li><a href="{{ route('admin.view.role.list') }}">Manage Employee Roles</a></li>
                 </ul>
             </li>
@@ -82,7 +82,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.view.employee.list') }}">Manage Employees</a></li>
-                    <li><a href="uc-nestable.html">Task Manager</a></li>
+                    {{-- <li><a href="uc-nestable.html">Task Manager</a></li> --}}
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
@@ -90,8 +90,8 @@
                     <span class="nav-text">HR & Payroll</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.view.service.list') }}">Services</a></li>
-                    <li><a href="{{ route('admin.view.service-category.list') }}">Service Category</a></li>
+                    <li><a href="{{ route('admin.view.service.list') }}">Attendance</a></li>
+                    <li><a href="{{ route('admin.view.service-category.list') }}">Payroll</a></li>
                 </ul>
             </li>
             <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">
@@ -104,7 +104,7 @@
 
         <div class="copyright">
             <p>Makku Enterprises © {{ date('Y') }} All Rights Reserved</p>
-            <p class="fs-12">Made with <span class="heart"></span> by <a href="https://adzquare.com">Adzquare</a></p>
+            <p class="fs-12">Made with <span class="heart"></span> by <a href="https://adzquare.in">Adzquare</a></p>
         </div>
     </div>
 </div>

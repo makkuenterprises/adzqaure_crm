@@ -232,7 +232,7 @@ function convertNumberToWordsForIndia($number)
             <p style="font-size: 0.65rem; color: #a0a0a0; ">This is an electronically generated document. No signature is required.</p>
             <!-- IMPROVED: Single line contact details -->
             <p style="font-size: 9px; color: #6c757d; margin-top: 10px; white-space: nowrap;">
-                +91-9304878684 &nbsp; |&nbsp; +91-7004641340 &nbsp;|&nbsp; Patna | Delhi &nbsp;|&nbsp; hello@adzquare.com
+                +91-9304878684 &nbsp; |&nbsp; +91-7004641340 &nbsp;|&nbsp; Patna | Delhi &nbsp;|&nbsp; info@adzquare.in
             </p>
         </div>
         <img class="footer-bg" src="{{ public_path('admin_new/images/footer-bg.png') }}" alt="Footer Background">

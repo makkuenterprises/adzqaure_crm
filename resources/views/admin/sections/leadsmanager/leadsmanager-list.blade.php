@@ -53,21 +53,7 @@
 <!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
 <!-- =============================================================== -->
 
-                                    @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->is_whatsapp_connected)
-                                        <!-- If admin IS connected, show a disabled status badge -->
-                                        <span class="btn btn-success me-2 disabled">
-                                            <i class="fab fa-whatsapp me-1"></i> Connected
-                                        </span>
-                                    @else
-                                        <!-- If admin IS NOT connected, show the connect button -->
-                                        <a href="{{ route('meta.connect') }}" class="btn btn-facebook me-2">
-                                            <i class="fab fa-whatsapp me-1"></i> Connect to WhatsApp
-                                        </a>
-                                    @endif
 
-                                    <button type="submit" class="btn btn-info me-2">
-                                        <i class="fab fa-whatsapp me-1"></i> Create Campaign
-                                    </button>
 
                                     <a href="{{ route('global.export.excel', [
                                         'model' => 'App\Models\LeadsManager',
@@ -111,7 +97,7 @@
                                                         <a href="{{ route('admin.lead.manager.remarks', ['lead' => $lead->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Remarks History"><i class="fa fa-history"></i></a>
                                                         <a href="{{ route('admin.view.lead.manager.update', ['id' => $lead->id]) }}" class="btn btn-warning btn-sm content-icon"><i class="fa fa-edit"></i></a>
 
-                                                        <a href="javascript:handleDelete({{ $lead->id }});" class="btn btn-danger btn-sm content-icon"><i class="fa fa-times"></i></a>
+                                                        {{-- <a href="javascript:handleDelete({{ $lead->id }});" class="btn btn-danger btn-sm content-icon"><i class="fa fa-times"></i></a> --}}
                                                     </td>
                                                 </tr>
                                             @empty

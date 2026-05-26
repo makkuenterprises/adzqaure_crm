@@ -327,7 +327,7 @@
                         <span class="icon"></span> Patna | Delhi
                     </td>
                     <td style="width: 33.3%;">
-                        <span class="icon">✉</span> hello@adzquare.com
+                        <span class="icon">✉</span> info@adzquare.in
                     </td>
                 </tr>
             </table>
