@@ -85,4 +85,20 @@ class Employee extends Authenticatable
 {
     return $this->hasMany(Attendance::class);
 }
+
+/**
+     * Get the payroll setting associated with the employee.
+     */
+    public function payrollSetting()
+    {
+        return $this->hasOne(PayrollSetting::class);
+    }
+
+    /**
+     * Get the payslips associated with the employee.
+     */
+    public function payslips()
+    {
+        return $this->hasMany(Payslip::class);
+    }
 }

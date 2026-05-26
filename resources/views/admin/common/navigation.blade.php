@@ -92,7 +92,8 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.payroll.attendance') }}">Attendance</a></li>
                     <li><a href="{{ route('admin.payroll.attendance.report') }}">Attendance Report</a></li>
-                    <li><a href="{{ route('admin.view.service-category.list') }}">Payroll</a></li>
+                    <li><a href="{{ route('admin.payroll.salary-settings') }}">Salary Settings</a></li>
+                    <li><a href="{{ route('admin.payroll.payslips') }}">Payslips</a></li>
                 </ul>
             </li>
             <li><a href="{{ route('admin.view.setting') }}" aria-expanded="false">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminAPIController;
 use App\Http\Controllers\LeadRemarkController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\PayrollController;
 use App\Http\Controllers\PaymentHistoryController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\QuotationController;
@@ -30,6 +31,13 @@ Route::middleware(['auth:admin'])->group(function () {
         // Inside routes/web.php or routes/admin.php (under the payroll prefix group)
         Route::get('/attendance/report', [AttendanceController::class, 'report'])->name('admin.payroll.attendance.report');
         Route::get('/attendance/report/pdf', [AttendanceController::class, 'downloadReportPdf'])->name('admin.payroll.attendance.report.pdf');
+
+        Route::get('/salary-settings', [PayrollController::class, 'salarySettings'])->name('admin.payroll.salary-settings');
+Route::post('/salary-settings/{id}', [PayrollController::class, 'updateSalarySettings'])->name('admin.payroll.salary-settings.update');
+
+Route::get('/payslips', [PayrollController::class, 'payslips'])->name('admin.payroll.payslips');
+Route::post('/payslips/generate', [PayrollController::class, 'generate'])->name('admin.payroll.payslips.generate');
+Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPayslip'])->name('admin.payroll.payslips.download');
     });
 
     Route::prefix('settings')->group(function () {
