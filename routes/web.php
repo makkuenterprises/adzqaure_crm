@@ -22,81 +22,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
 
-    return view('website.welcome');
+    if (Auth::check()) {
+        return view('admin.sections.dashboard');
+    }
+
+    return redirect('/login');
+
 })->name('main');
 
-Route::get('store', function () {
-
-    return view('website.marketplace.store');
-})->name('store');
-
-Route::get('store/product-details', function () {
-
-    return view('website.marketplace.product-details');
-})->name('product-details');
-
-Route::get('cart', function () {
-
-    return view('website.marketplace.cart');
-})->name('cart');
-
-Route::get('privacy-policy', function () {
-
-    return view('website.privacy-policy');
-})->name('privacy-policy');
-
-Route::get('terms-of-service', function () {
-
-    return view('website.terms-of-service');
-})->name('terms-of-service');
-
-// AFTER (Working)
-Route::get('/seo-sem', function () {
-    return view('website.services.seo-sem');
-})->name('seo-sem');
-
-Route::get('/social-media-marketing', function () {
-        return view('website.services.smm');
-    })->name('social-media-marketing');
-
-Route::get('/precision-paid-advertising', function () {
-        return view('website.services.ppc');
-    })->name('precision-paid-advertising');
-
-Route::get('/direct-engagement-lead-generation', function () {
-        return view('website.services.lead-generation');
-    })->name('direct-engagement-lead-generation');
-
- Route::get('/it-solutions-cloud', function () {
-        return view('website.services.it-solutions');
-    })->name('it-solutions-cloud');
-
- Route::get('/digital-marketing', function () {
-        return view('website.services.digital-marketing');
-    })->name('digital-marketing');
-
-Route::get('/web-mobile-app-development', function () {
-        return view('website.services.web-mobile-app-development');
-    })->name('web-mobile-app-development');
-
-Route::get('/search-engine-optimization', function () {
-        return view('website.services.search-engine-optimization');
-    })->name('search-engine-optimization');
-
-Route::get('/search-engine-marketing', function () {
-        return view('website.services.search-engine-marketing');
-    })->name('search-engine-marketing');
-
-Route::get('/content-creation', function () {
-        return view('website.services.content-creation');
-    })->name('content-creation');
-
-Route::get('/meta-google-ads', function () {
-        return view('website.services.meta-google-ads');
-    })->name('meta-google-ads');
-
-Route::redirect('/login', '/');
-Auth::routes(['login' => false, 'register' => false]);
+Auth::routes([
+    'login' => false,
+    'register' => false
+]);
 
 Route::get('setup', function () {
     Artisan::call('migrate');
