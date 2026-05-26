@@ -45,16 +45,6 @@
                             <form action="{{ route('campaigns.create') }}" method="GET" id="create-campaign-form">
                                 <div class="d-flex justify-content-end mb-3">
 
-                                    <!-- =============================================================== -->
-                                    <!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
-                                    <!-- =============================================================== -->
-
-                                    <!-- =============================================================== -->
-<!--  SMART BUTTON: Shows 'Connect' or 'Connected' status           -->
-<!-- =============================================================== -->
-
-
-
                                     <a href="{{ route('global.export.excel', [
                                         'model' => 'App\Models\LeadsManager',
                                         'fields' => 'id,name,email,phone,status,created_at',

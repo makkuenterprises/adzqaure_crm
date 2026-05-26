@@ -58,6 +58,23 @@ Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPaysli
         Route::post('/crm-settings', [AdminUpdateController::class, 'handleCrmUpdate'])->name('admin.handle.crm.settings.update');
     });
 
+    Route::prefix('campaigns')->group(function () {
+        // GET /campaigns (List of all campaigns)
+        Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
+
+        // GET /campaigns/create (Form to create a new campaign)
+        Route::get('/create', [CampaignController::class, 'create'])->name('campaigns.create');
+
+        // POST /campaigns/templates/sync (Sync WA Templates button)
+        Route::post('/templates/sync', [CampaignController::class, 'syncTemplates'])->name('campaigns.templates.sync');
+
+        // POST /campaigns (Stores the new campaign in DB)
+        Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
+
+        // GET /campaigns/{campaign_id} (Campaign details/status)
+        Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+    });
+
     Route::prefix('inquiries')->group(function () {
         Route::get('/index', [InquiryController::class, 'index'])->name('inquiries.index');
     });
