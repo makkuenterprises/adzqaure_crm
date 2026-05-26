@@ -953,7 +953,7 @@ class AdminUpdateController extends Controller implements AdminUpdate
 
             $bill = Bill::find($id);
             $bill->customer_id = $request->input('customer_id');
-            $bill->items = json_encode($items);
+            $bill['items'] = json_encode($items);
             if ($request->apply_gst) {
                 $bill->tax = $request->input('tax');
             } else {

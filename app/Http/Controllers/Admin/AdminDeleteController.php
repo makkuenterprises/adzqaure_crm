@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Bill;
 use App\Models\Lead;
 use App\Models\Plan;

@@ -90,7 +90,7 @@ class CampaignController extends Controller
                 return redirect()->back()->with('error', 'Failed to sync templates. Please check the logs.');
             }
 
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             // Catch any unexpected exceptions
             return redirect()->back()->with('error', 'An error occurred while trying to run the sync process: ' . $e->getMessage());
         }

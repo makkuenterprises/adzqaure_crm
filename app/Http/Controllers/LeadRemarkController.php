@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Remark;
 use App\Models\LeadsManager;
+use App\Models\Lead;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class LeadRemarkController extends Controller
     return redirect()->back()->with('success', 'Remark added successfully!');
 }
 
-public function sendMessage(Request $request, Lead $lead)
+public function sendMessage(Request $request, LeadsManager $lead)
     {
         $request->validate([
             'template_name' => 'required|string',

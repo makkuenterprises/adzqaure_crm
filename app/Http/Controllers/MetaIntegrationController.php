@@ -44,7 +44,7 @@ class MetaIntegrationController extends Controller
      */
     public function handleMetaCallback(Request $request)
 {
-   
+
     // First, check for errors.
     if ($request->has('error')) {
         Log::error('Meta Callback Error: ' . $request->input('error_description', 'User cancelled the request.'));
@@ -95,6 +95,7 @@ class MetaIntegrationController extends Controller
 
         // --- Step 5: Save credentials and set active connection ---
         Admin::where('is_whatsapp_active', true)->update(['is_whatsapp_active' => false]);
+        /** @var \App\Models\Admin $admin */
         $admin = auth()->guard('admin')->user();
         $admin->whatsapp_business_account_id = $wabaId;
         $admin->whatsapp_phone_number_id = $phoneNumberId;

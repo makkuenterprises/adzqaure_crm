@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Bill;
 use App\Models\Lead;
@@ -577,13 +577,14 @@ class AdminViewController extends Controller implements AdminView
     /** View Bill Update **/
     public function viewBillUpdate($id)
     {
-
         $bill = Bill::find($id);
         $customers = Customer::where('status', true)->get();
         $serviceCategories = ServiceCategory::all();
         $services = Service::all();
         $paymentSettings = PaymentSetting::all();
-        return view('admin.sections.bill.bill-update', compact('customers', 'serviceCategories', 'services', 'paymentSettings'));
+
+        // Added 'bill' to the compact list below:
+        return view('admin.sections.bill.bill-update', compact('bill', 'customers', 'serviceCategories', 'services', 'paymentSettings'));
     }
 
 
@@ -593,7 +594,7 @@ class AdminViewController extends Controller implements AdminView
         $bill = Bill::find($id);
         $customer = Customer::find($bill->customer_id);
         $company = CompanyDetail::query();
-        
+
         // Fetch all payment settings
         $paymentSettings = PaymentSetting::all();
         $bill_invoice = PDF::loadView('admin.documents.bill-template', ['bill' => $bill, 'customer' => $customer, 'company' => $company, 'paymentSettings' => $paymentSettings]);
