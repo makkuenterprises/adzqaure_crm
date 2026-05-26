@@ -181,9 +181,10 @@ class AdminViewController extends Controller implements AdminView
     /** View Mail Credentials Setting **/
     public function viewMailCredentialsSetting()
     {
+        // Fetch all credentials as a Collection and key them by their 'name' column
+        $mail_credentials = MailCredential::all()->keyBy('name');
 
-        $mail_credentials = MailCredential::query();
-        return view('admin.sections.setting.mail-credentials', ['mail_credentials' => $mail_credentials]);
+        return view('admin.sections.setting.mail-credentials', compact('mail_credentials'));
     }
 
     /** View Employee List **/
