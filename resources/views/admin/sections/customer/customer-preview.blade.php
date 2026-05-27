@@ -191,7 +191,7 @@
                                                                 <span class="badge badge-warning">Pending</span>
                                                             @endif
                                                         </td>
-                                                        <td>{{ $project->created_at->format('d M Y') }}</td>
+                                                        <td>{{ $bill->created_at->format('d M Y') }}</td>
                                                         <td class="text-end text-nowrap">
                                                             <a href="{{ route('admin.view.bill.update', ['id' => $bill->id]) }}" class="btn btn-warning btn-xxs" title="Edit">
                                                                 <i class="fa fa-edit"></i>

@@ -102,30 +102,6 @@
 											<label class="form-label">Search</label>
 											<input type="text" class="form-control mb-xl-0 mb-3" id="exampleFormControlInput1" placeholder="Search...">
 										</div>
-										{{-- <div class="col-xl-3  col-sm-6 mb-3 mb-xl-0">
-											<label class="form-label">Status</label>
-											<select class="form-control default-select h-auto wide" aria-label="Default select example">
-												<option selected>Select Status</option>
-												<option value="1">Published</option>
-												<option value="2">Draft</option>
-												<option value="3">Trash</option>
-												<option value="4">Private</option>
-												<option value="5">Pending</option>
-											</select>
-										</div> --}}
-										{{-- <div class="col-xl-3 col-sm-6">
-											<label class="form-label">Date</label>
-											<div class="input-hasicon mb-sm-0 mb-3">
-												<input  name="datepicker" class="form-control bt-datepicker">
-												<div class="icon"><i class="far fa-calendar"></i></div>
-											</div>
-										</div> --}}
-										{{-- <div class="col-xl-3 col-sm-6 align-self-end">
-											<div>
-												<button class="btn btn-primary me-2" title="Click here to Search" type="button"><i class="fa fa-filter me-1"></i>Filter</button>
-												<button class="btn btn-danger light" title="Click here to remove filter" type="button">Remove Filter</button>
-											</div>
-										</div> --}}
 									</div>
 								</div>
 							</div>
@@ -170,7 +146,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($customers as $index => $customer)
-                                            
+
                                                 <tr>
                                                     <td>{{ $customers->firstItem() + $index }}</td>
                                                     <td><a
@@ -194,6 +170,10 @@
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        <!-- NEW: Reset Password trigger button -->
+                                                        <button type="button" class="btn btn-info btn-sm content-icon" data-bs-toggle="modal" data-bs-target="#resetCustomerPasswordModal{{ $customer->id }}">
+                                                            <i class="fa fa-key"></i>
+                                                        </button>
                                                         <a href="{{ route('admin.view.password.list', ['customer_id' => $customer->id]) }}"
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-lock"></i>
@@ -202,12 +182,41 @@
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
-                                                        <a href="javascript:handleDelete({{ $customer->id }});"
+                                                        {{-- <a href="javascript:handleDelete({{ $customer->id }});"
                                                             class="btn btn-danger btn-sm content-icon">
                                                             <i class="fa fa-times"></i>
-                                                        </a>
+                                                        </a> --}}
                                                     </td>
                                                 </tr>
+
+                                                <!-- Reset Password Modal -->
+                                                <div class="modal fade" id="resetCustomerPasswordModal{{ $customer->id }}" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Reset Password: {{ $customer->name }}</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <form action="{{ route('admin.customer.reset-password', ['id' => $customer->id]) }}" method="POST">
+                                                                @csrf
+                                                                <div class="modal-body text-start">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label font-w500">New Password <span class="text-danger">*</span></label>
+                                                                        <input type="password" name="password" class="form-control" placeholder="Enter New Password" required minlength="6">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label font-w500">Confirm Password <span class="text-danger">*</span></label>
+                                                                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm New Password" required minlength="6">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger btn-xs light" data-bs-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" class="btn btn-primary btn-xs">Reset Password</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -231,6 +240,26 @@
     <!--**********************************
                                                             Content body end
                                                         ***********************************-->
+@endsection
+
+@section('js')
+    <script>
+        function handleDelete(id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this customer!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location =
+                            `{{ url('admin/customer/delete') }}/${id}`;
+                    }
+                });
+        }
+    </script>
 @endsection
 
 @section('js')

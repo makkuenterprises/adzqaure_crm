@@ -86,10 +86,10 @@
                                                             <i class="fa fa-download"></i>
                                                         </a>
                                                 {{-- Your other action buttons --}}
-                                                <a href="javascript:void(0);" onclick="handleDelete({{ $quotation->id }})"
+                                                {{-- <a href="javascript:void(0);" onclick="handleDelete({{ $quotation->id }})"
                                                 class="btn btn-danger btn-sm" title="Delete">
                                                     <i class="fa fa-trash"></i>
-                                                </a>
+                                                </a> --}}
 
                                             </td>
                                         </tr>

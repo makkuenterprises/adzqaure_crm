@@ -366,12 +366,13 @@ class AdminCreateController extends Controller implements AdminCreate
     {
         $validation = Validator::make($request->all(), [
             'name' => ['required', 'string', 'min:1', 'max:250'],
-            'email' => ['nullable', 'string', 'min:1', 'max:250', 'unique:customers'],
-            'phone' => ['nullable', 'numeric', 'unique:customers'],
+            'email' => ['required', 'string', 'email', 'min:1', 'max:250', 'unique:customers'], // Email is now required and validated
+            'password' => ['required', 'string', 'min:6', 'confirmed'], // Password fields validation
+            'phone' => ['required', 'numeric', 'unique:customers'],
             'phone_alternate' => ['nullable', 'numeric'],
             'whatsapp' => ['nullable', 'numeric'],
-            'company_name' => ['nullable', 'string'],
-            'website' => ['nullable', 'string'],
+            'company_name' => ['required', 'string'],
+            'website' => ['required', 'string'],
             'street' => ['nullable', 'string'],
             'city' => ['nullable', 'string'],
             'pincode' => ['nullable', 'string'],
@@ -398,6 +399,9 @@ class AdminCreateController extends Controller implements AdminCreate
             $customer->state = $request->input('state');
             $customer->country = $request->input('country');
 
+            // Hash and save the password for standard Laravel Auth guard
+            $customer->password = Hash::make($request->input('password'));
+
             if ($request->other_name) {
                 $other = [];
                 for ($i = 0; $i < count($request->input('other_name')); $i++) {
@@ -410,19 +414,6 @@ class AdminCreateController extends Controller implements AdminCreate
             } else {
                 $customer->other = null;
             }
-
-            // Call Google Apps Script API to create space
-            // $scriptUrl = "https://script.google.com/macros/s/AKfycbzUBCEw9xXe60L1EHV-pwLPJyr6wfQFmQ9YEOiUIQyZOIY00PsYrb3ZmRgDsAcwg75AeA/exec";
-            // $response = Http::post($scriptUrl, ['customerName' => $customer->name]);
-
-            // if ($response->successful()) {
-            //     $spaceId = $response->json(); // Get space ID
-            //     $chatUrl = "https://mail.google.com/chat/#chat/space/" . $spaceId;
-
-            //     // Save the space URL in the database
-            //     $customer->google_chat_space_url = $chatUrl;
-            //     $customer->save();
-            // }
 
             if ($request->hasFile('profile')) {
                 $file = $request->file('profile');
@@ -438,8 +429,7 @@ class AdminCreateController extends Controller implements AdminCreate
                 return redirect()->route('admin.view.customer.list')->with('message', [
                     'status' => 'success',
                     'title' => 'Customer created',
-                    // 'chat_url' => $chatUrl,
-                    'description' => 'Customer is successfully created.'
+                    'description' => 'Customer is successfully created. They can now log in using their email and password.'
                 ]);
             } else {
                 return redirect()->back()->with('message', [

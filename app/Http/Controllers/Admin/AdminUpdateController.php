@@ -1442,4 +1442,30 @@ class AdminUpdateController extends Controller implements AdminUpdate
             ]);
         }
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Handle Customer Password Reset
+    |--------------------------------------------------------------------------
+    */
+    public function handleCustomerResetPassword(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        $customer = Customer::findOrFail($id);
+        $customer->password = Hash::make($request->input('password'));
+        $customer->save();
+
+        return redirect()->back()->with('message', [
+            'status' => 'success',
+            'title' => 'Password Reset Complete',
+            'description' => 'Password has been successfully updated for ' . $customer->name . '.'
+        ]);
+    }
 }

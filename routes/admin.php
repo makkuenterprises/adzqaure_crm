@@ -107,6 +107,7 @@ Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPaysli
         Route::post('/create', [AdminCreateController::class, 'handleCustomerCreate'])->name('admin.handle.customer.create');
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleCustomerUpdate'])->name('admin.handle.customer.update');
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleCustomerDelete'])->name('admin.handle.customer.delete');
+        Route::post('/reset-password/{id}', [AdminUpdateController::class, 'handleCustomerResetPassword'])->name('admin.customer.reset-password');
     });
 
     Route::prefix('project')->group(function () {
