@@ -88,13 +88,13 @@
                                                         </a>
 
                                                         {{-- IMPROVED: Delete action now uses a form --}}
-                                                        <form action="{{ route('admin.handle.employee.delete', ['id' => $employee->id]) }}" method="POST" class="d-inline" id="delete-form-{{ $employee->id }}">
+                                                        {{-- <form action="{{ route('admin.handle.employee.delete', ['id' => $employee->id]) }}" method="POST" class="d-inline" id="delete-form-{{ $employee->id }}">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="button" onclick="handleDelete({{ $employee->id }})" class="btn btn-danger btn-sm" title="Delete">
                                                                 <i class="fa fa-trash"></i>
                                                             </button>
-                                                        </form>
+                                                        </form> --}}
                                                     </td>
                                                 </tr>
                                             @empty

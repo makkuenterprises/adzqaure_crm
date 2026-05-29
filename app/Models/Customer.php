@@ -6,11 +6,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Authenticatable
 {
     // Add the Notifiable trait, which is standard for user models
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +61,7 @@ class Customer extends Authenticatable
         'phone_verified_at' => 'datetime',
         'other' => 'array',
         'status' => 'boolean',
-       
+
     ];
 
     // ====================================================================
