@@ -487,18 +487,20 @@ class AdminUpdateController extends Controller implements AdminUpdate
     {
         $validation = Validator::make($request->all(), [
             'name' => ['required', 'string', 'min:1', 'max:250'],
-            'email' => ['nullable', 'string', 'min:1', 'max:250', Rule::unique('customers')->ignore($id, 'id')],
-            'phone' => ['nullable', 'numeric', Rule::unique('customers')->ignore($id, 'id')],
+            'email' => ['required', 'string', 'email', 'min:1', 'max:250', Rule::unique('customers')->ignore($id, 'id')],
+            'phone' => ['required', 'numeric', Rule::unique('customers')->ignore($id, 'id')],
             'phone_alternate' => ['nullable', 'numeric'],
             'whatsapp' => ['nullable', 'numeric'],
-            'company_name' => ['nullable', 'string'],
-            'website' => ['nullable', 'string'],
+            'company_name' => ['required', 'string'],
+            'website' => ['required', 'string'],
             'street' => ['nullable', 'string'],
             'city' => ['nullable', 'string'],
             'pincode' => ['nullable', 'string'],
             'state' => ['nullable', 'string'],
             'country' => ['nullable', 'string'],
             'profile' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp'],
+            'onboarding_date' => ['nullable', 'date'],                     // Added Validation
+            'interested_services' => ['nullable', 'array'],                 // Added Validation
         ]);
 
         if ($validation->fails()) {
@@ -518,6 +520,14 @@ class AdminUpdateController extends Controller implements AdminUpdate
             $customer->pincode = $request->input('pincode');
             $customer->state = $request->input('state');
             $customer->country = $request->input('country');
+            $customer->onboarding_date = $request->input('onboarding_date'); // Added Save Logic
+
+            // Serialize multiselect array as a JSON string for database storage
+            if ($request->has('interested_services')) {
+                $customer->interested_services = json_encode($request->input('interested_services'));
+            } else {
+                $customer->interested_services = null;
+            }
 
             if ($request->other_name) {
                 $other = [];
@@ -543,7 +553,6 @@ class AdminUpdateController extends Controller implements AdminUpdate
             }
 
             $result = $customer->update();
-
 
             if ($result) {
                 return redirect()->back()->with('message', [

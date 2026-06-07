@@ -143,8 +143,13 @@ class AdminViewController extends Controller implements AdminView
     /** View Dashboard **/
     public function viewDashboard()
     {
+        // Fetch all pending bills whose due dates have passed today's date
+        $overdueBills = Bill::where('payment_status', 'Pending')
+            ->whereDate('due_date', '<', Carbon::today()->toDateString())
+            ->with('customer')
+            ->get();
 
-        return view('admin.sections.dashboard');
+        return view('admin.sections.dashboard', compact('overdueBills'));
     }
 
     /** View Setting **/
@@ -446,6 +451,48 @@ class AdminViewController extends Controller implements AdminView
         $domainHostings = $customer->domainHostings()->paginate(10, ['*'], 'dh_page');
         $passwords = $customer->passwords()->paginate(10, ['*'], 'passwords_page');
         return view('admin.sections.customer.customer-preview', ['customer' => $customer, 'projects' => $projects, 'bills' => $bills, 'domainHostings' => $domainHostings, 'passwords' => $passwords]);
+    }
+
+    /**
+     * 1. Compile and download the dynamic Service Contract PDF
+     */
+    public function downloadServiceContract($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $company = CompanyDetail::first();
+
+        $pdf = Pdf::loadView('admin.documents.service-contract', compact('customer', 'company'))->setPaper('a4', 'portrait');
+
+        $customerName = str_replace(' ', '-', strtolower($customer->name));
+        return $pdf->download("Service_Contract-Adzquare-{$customerName}.pdf");
+    }
+
+    /**
+     * 2. Compile and download the Welcome & PM Introduction Letter PDF
+     */
+    public function downloadWelcomeLetter($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $company = CompanyDetail::first();
+
+        $pdf = Pdf::loadView('admin.documents.welcome-letter', compact('customer', 'company'))->setPaper('a4', 'portrait');
+
+        $customerName = str_replace(' ', '-', strtolower($customer->name));
+        return $pdf->download("Welcome_Letter-Adzquare-{$customerName}.pdf");
+    }
+
+    /**
+     * 3. Compile and download the Next Steps & Timeline Roadmap PDF
+     */
+    public function downloadTimelineReport($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $company = CompanyDetail::first();
+
+        $pdf = Pdf::loadView('admin.documents.next-steps-timeline', compact('customer', 'company'))->setPaper('a4', 'portrait');
+
+        $customerName = str_replace(' ', '-', strtolower($customer->name));
+        return $pdf->download("Implementation_Roadmap-Adzquare-{$customerName}.pdf");
     }
 
     public function viewRoleList()

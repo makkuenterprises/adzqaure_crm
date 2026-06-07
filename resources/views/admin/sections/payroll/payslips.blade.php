@@ -75,10 +75,21 @@
                                                 <td>₹{{ number_format($slip->deductions, 2) }}</td>
                                                 <td class="text-success font-w600">₹{{ number_format($slip->net_salary, 2) }}</td>
                                                 <td><span class="badge badge-success">Processed</span></td>
-                                                <td class="text-end">
-                                                    <a href="{{ route('admin.payroll.payslips.download', ['id' => $slip->id]) }}" class="btn btn-danger btn-xs btn-loader" target="_blank">
+                                                <td class="text-end text-nowrap">
+                                                    <!-- PDF Download Link -->
+                                                    <a href="{{ route('admin.payroll.payslips.download', ['id' => $slip->id]) }}"
+                                                       class="btn btn-danger btn-xs btn-loader me-1" target="_blank">
                                                         <i class="fa fa-file-pdf me-1"></i> Payslip PDF
                                                     </a>
+
+                                                    <!-- Email Payslip Form (Utilizes your 'needs-loader' form spinner) -->
+                                                    <form action="{{ route('admin.payroll.payslips.email', ['id' => $slip->id]) }}"
+                                                          method="POST" class="d-inline needs-loader">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary btn-xs">
+                                                            <i class="fa fa-envelope me-1"></i> Email Payslip
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @empty

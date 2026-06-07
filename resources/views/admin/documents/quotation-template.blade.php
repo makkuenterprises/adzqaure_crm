@@ -1,46 +1,45 @@
 <?php
 // Dependency-free function to convert numbers to words for India.
-function convertNumberToWordsForIndia($number)
-{
-    $no = round($number);
-    $point = round($number - $no, 2) * 100;
-    $hundred = null;
-    $digits_1 = strlen($no);
-    $i = 0;
-    $str = array();
-    $words = array('0' => '', '1' => 'one', '2' => 'two',
-        '3' => 'three', '4' => 'four', '5' => 'five', '6' => 'six',
-        '7' => 'seven', '8' => 'eight', '9' => 'nine',
-        '10' => 'ten', '11' => 'eleven', '12' => 'twelve',
-        '13' => 'thirteen', '14' => 'fourteen',
-        '15' => 'fifteen', '16' => 'sixteen', '17' => 'seventeen',
-        '18' => 'eighteen', '19' =>'nineteen', '20' => 'twenty',
-        '30' => 'thirty', '40' => 'forty', '50' => 'fifty',
-        '60' => 'sixty', '70' => 'seventy',
-        '80' => 'eighty', '90' => 'ninety');
-    $digits = array('', 'hundred', 'thousand', 'lakh', 'crore');
-    while ($i < $digits_1) {
-        $divider = ($i == 2) ? 10 : 100;
-        $number = floor($no % $divider);
-        $no = floor($no / $divider);
-        $i += ($divider == 10) ? 1 : 2;
-        if ($number) {
-            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
-            $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
-            $str [] = ($number < 21) ? $words[$number] .
-                " " . $digits[$counter] . $plural . " " . $hundred
-                :
-                $words[floor($number / 10) * 10]
-                . " " . $words[$number % 10] . " "
-                . $digits[$counter] . $plural . " " . $hundred;
-        } else $str[] = null;
+if (!function_exists('convertNumberToWordsForIndia')) {
+    function convertNumberToWordsForIndia($number)
+    {
+        $no = round($number);
+        $point = round($number - $no, 2) * 100;
+        $hundred = null;
+        $digits_1 = strlen($no);
+        $i = 0;
+        $str = array();
+        $words = array('0' => '', '1' => 'one', '2' => 'two',
+            '3' => 'three', '4' => 'four', '5' => 'five', '6' => 'six',
+            '7' => 'seven', '8' => 'eight', '9' => 'nine',
+            '10' => 'ten', '11' => 'eleven', '12' => 'twelve',
+            '13' => 'thirteen', '14' => 'fourteen',
+            '15' => 'fifteen', '16' => 'sixteen', '17' => 'seventeen',
+            '18' => 'eighteen', '19' =>'nineteen', '20' => 'twenty',
+            '30' => 'thirty', '40' => 'forty', '50' => 'fifty',
+            '60' => 'sixty', '70' => 'seventy',
+            '80' => 'eighty', '90' => 'ninety');
+        $digits = array('', 'hundred', 'thousand', 'lakh', 'crore');
+        while ($i < $digits_1) {
+            $divider = ($i == 2) ? 10 : 100;
+            $number = floor($no % $divider);
+            $no = floor($no / $divider);
+            $i += ($divider == 10) ? 1 : 2;
+            if ($number) {
+                $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
+                $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
+                $str [] = ($number < 21) ? $words[$number] .
+                    " " . $digits[$counter] . $plural . " " . $hundred
+                    :
+                    $words[floor($number / 10) * 10]
+                    . " " . $words[$number % 10] . " "
+                    . $digits[$counter] . $plural . " " . $hundred;
+            } else $str[] = null;
+        }
+        $str = array_reverse($str);
+        $result = implode('', $str);
+        return "Rupees " . ucwords($result) . " Only";
     }
-    $str = array_reverse($str);
-    $result = implode('', $str);
-    $points = ($point) ?
-        "." . ($words[$point / 10] . " " .
-            $words[$point = $point % 10]) : '';
-    return "Rupees " . ucwords($result) . " Only";
 }
 ?>
 <!DOCTYPE html>
@@ -50,9 +49,9 @@ function convertNumberToWordsForIndia($number)
     <title>Quotation - #Q{{ str_pad($quotation->id, 4, '0', STR_PAD_LEFT) }}</title>
     <style>
         :root {
-            --brand-color: #007bff;
-            --light-gray: #f8f9fa;
-            --text-color: #343a40;
+            --brand-color: #f54f25; /* Swapped generic blue with Adzquare Neon-Orange */
+            --light-gray: #fcedea;
+            --text-color: #333333;
             --border-color: #dee2e6;
         }
 
@@ -61,9 +60,9 @@ function convertNumberToWordsForIndia($number)
         }
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.5;
             padding-top: 4.5cm;
             padding-bottom: 3.5cm;
             padding-left: 2cm;
@@ -83,7 +82,7 @@ function convertNumberToWordsForIndia($number)
             box-sizing: border-box;
         }
         .header-inner {
-            padding: 1.5cm 2cm -2 2cm;
+            padding: 1.5cm 2cm 0 2cm;
             text-align: right;
             position: relative;
             z-index: 1;
@@ -95,7 +94,6 @@ function convertNumberToWordsForIndia($number)
             box-sizing: border-box;
             font-size: 9px;
             color: #6c757d;
-            /* padding: 0.5cm 2cm 0 2cm; */
         }
 
         .watermark {
@@ -148,71 +146,99 @@ function convertNumberToWordsForIndia($number)
         b { font-weight: bold; }
 
         .section-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: var(--brand-color);
             border-bottom: 2px solid var(--brand-color);
             padding-bottom: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             margin-top: 15px;
         }
 
-        /* IMPROVED: Client Details Section */
+        .billing-card {
+            background-color: var(--light-gray);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .billing-card table th, .billing-card table td { padding: 1.2px 0; }
+
+        /* Client Details Section */
         .client-details p {
-            padding: 1px 0; /* Reduced padding for tighter lines */
+            padding: 1px 0;
             line-height: 1.4;
             font-size: 10px;
         }
 
-        .quotation-total-section {
+        /* Items Table Grid */
+        .items-table {
+            width: 100%;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            border-collapse: collapse;
+        }
+        .items-table thead {
+            background-color: var(--brand-color);
+            color: #fff;
+        }
+        .items-table th {
+            padding: 8px;
+            font-weight: bold;
+            text-align: left;
+        }
+        .items-table tbody {
             background-color: var(--light-gray);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            margin-top: 40px;
+        }
+        .items-table td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .items-table .right {
             text-align: right;
-            border-radius: 5px;
+        }
+
+        /* Totals Block styling */
+        .totals-section {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .totals-table {
+            width: 100%;
+        }
+        .totals-table td {
+            padding: 2px 5px;
+            text-align: right;
+        }
+        .totals-table tr.net-payable td {
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+            color: var(--brand-color);
+        }
+        .total-in-words {
+            font-size: 0.9rem;
+            vertical-align: bottom;
+            padding: 10px 0;
             width: 60%;
-            float: right;
-        }
-        .quotation-total-section p {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px; /* REDUCED SPACE */
-            font-size: 11px;
-            padding: 0;
-        }
-        .quotation-total-section .total-amount {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--brand-color);
-            margin-top: 10px; /* REDUCED SPACE */
-            border-top: 2px solid var(--brand-color);
-            padding-top: 8px; /* REDUCED SPACE */
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0;
-        }
-        .quotation-total-section .total-amount span:first-child {
-            font-size: 16px;
-            color: var(--text-color);
-        }
-        .quotation-total-section .total-amount span:last-child {
-            color: var(--brand-color);
-        }
-        .amount-in-words {
-            font-size: 10px;
-            font-weight: bold;
-            font-style: italic;
-            color: #555;
-            text-align: right;
-            margin-top: 5px; /* REDUCED SPACE */
         }
 
         .clear { clear: both; }
-
     </style>
 </head>
 <body>
+
+    @php
+        // Decodes multi-service items and runs pro-rata tax math backwards
+        $grandTotal = (float)($quotation->quotation_amount ?? 0);
+        $subtotal = $grandTotal / 1.18;
+        $totalTax = $grandTotal - $subtotal;
+        $halfTax = $totalTax / 2; // CGST 9% and SGST 9%
+
+        $quoteItems = json_decode($quotation->items, true) ?? [];
+        $companyDetails = DB::table('company_details')->first();
+    @endphp
 
     <img class="watermark" src="{{ public_path('admin_new/images/watermark.png') }}" alt="Watermark">
 
@@ -220,8 +246,8 @@ function convertNumberToWordsForIndia($number)
     <div class="header">
         <img class="header-bg" src="{{ public_path('admin_new/images/header-bg.png') }}" alt="Header Background">
         <div class="header-inner">
-            <img src="{{ public_path('admin_new/images/logo-full.png') }}" alt="Logo" style="max-height: 55px;">
-            <p style="font-size: 9px; margin-top: 2px; margin-bottom: 0;">Powered by Makku Enterprises Pvt. Ltd.</p>
+            <img src="{{ public_path('admin_new/images/logo-full.png') }}" alt="Logo" style="max-height: 45px;">
+            <p style="font-weight: bold; font-size: 0.6rem; margin-top: 3px; margin-bottom: 0;">CIN: U72900BR2021PTC054492</p>
         </div>
     </div>
 
@@ -230,9 +256,8 @@ function convertNumberToWordsForIndia($number)
         <div class="footer-text-container">
             <p style="font-size: 0.7rem; margin:0; color: #a0a0a0; ">Adzquare Powered by Makku Enterprises Pvt. Ltd.</p>
             <p style="font-size: 0.65rem; color: #a0a0a0; ">This is an electronically generated document. No signature is required.</p>
-            <!-- IMPROVED: Single line contact details -->
             <p style="font-size: 9px; color: #6c757d; margin-top: 10px; white-space: nowrap;">
-                +91-9304878684 &nbsp; |&nbsp; +91-7004641340 &nbsp;|&nbsp; Patna | Delhi &nbsp;|&nbsp; info@adzquare.in
+                {{ $companyDetails->company_phone ?? '+91-9304878684' }} &nbsp; |&nbsp; {{ $companyDetails->company_phone_alternate ?? '+91-7004641340' }} &nbsp;|&nbsp; Patna | Delhi &nbsp;|&nbsp; {{ $companyDetails->company_email ?? 'info@adzquare.in' }}
             </p>
         </div>
         <img class="footer-bg" src="{{ public_path('admin_new/images/footer-bg.png') }}" alt="Footer Background">
@@ -242,63 +267,132 @@ function convertNumberToWordsForIndia($number)
     <!-- Main Content -->
     <div class="main-content">
         <!-- First Page Only Section -->
-        <div style="text-align: right; margin-bottom: 30px;">
-            <h2 style="color: var(--brand-color); font-size: 20px; margin-bottom: 0;">QUOTATION</h2>
-            <p style="font-size: 12px; font-weight: bold; line-height: 1.2;">Date: {{ \Carbon\Carbon::parse($quotation->created_at)->format('F d, Y') }}</p>
-            <p style="font-size: 12px; font-weight: bold; line-height: 1.2;">Quotation No.: <span style="color: var(--brand-color);">#Q{{ str_pad($quotation->id, 4, '0', STR_PAD_LEFT) }}</span></p>
+        <div style="text-align: right; margin-bottom: 20px;">
+            <h2 style="color: var(--brand-color); font-size: 20px; margin-bottom: 0; font-weight: bold;">QUOTATION</h2>
+            <p style="font-size: 11px; font-weight: bold; line-height: 1.2;">Date: {{ \Carbon\Carbon::parse($quotation->created_at)->format('d F Y') }}</p>
+            <p style="font-size: 11px; font-weight: bold; line-height: 1.2;">Quotation No.: <span style="color: var(--brand-color);">#Q{{ str_pad($quotation->id, 4, '0', STR_PAD_LEFT) }}</span></p>
         </div>
 
+        <hr style="opacity: 0.2; border: 0.5px solid #ccc; margin: 10px 0;">
 
-        <!-- IMPROVED: "Prepared For" section -->
-        <div class="client-details" style="margin-bottom: 15px;">
-            <p style="font-weight: bold; color: var(--brand-color); margin-bottom: 4px;">Prepared For:</p>
-            <p><b>{{ $quotation->customer?->name }}</b></p>
-            @if($quotation->customer?->company_name)<p>{{ $quotation->customer->company_name }}</p>@endif
-            @if($quotation->customer?->street)<p>{{ $quotation->customer->street }}</p>@endif
-            <p>Patna - {{ $quotation->customer?->pincode }}</p>
-        </div>
+        <!-- Billed By vs Billed To Cards -->
+        <table style="width: 100%; border-spacing: 15px; border-collapse: separate; margin-left: -15px;">
+            <tr>
+                <td class="billing-card" style="width: 50%;">
+                    <div class="client-details">
+                        <p style="font-size: 1.15rem; font-weight: bold; padding-bottom: 2px; color: var(--brand-color);">Billed By</p>
+                        <p>
+                            <b>{{ $companyDetails->brand_name ?? 'Adzquare' }}</b><br>
+                            A Unit of <b>{{ $companyDetails->company_name ?? 'Makku Enterprises' }}</b><br>
+                            {{ $companyDetails->company_address_street ?? '' }}<br>
+                            {{ $companyDetails->company_address_city ?? '' }} - {{ $companyDetails->company_address_pincode ?? '' }}<br>
+                            {{ $companyDetails->company_address_state ?? '' }}, {{ $companyDetails->company_address_country ?? '' }}
+                        </p>
+                    </div>
+                </td>
+                <td class="billing-card" style="width: 50%;">
+                    <div class="client-details">
+                        <p style="font-size: 1.15rem; font-weight: bold; padding-bottom: 2px; color: var(--brand-color);">Prepared For</p>
+                        @php
+                            $addressParts = array_filter([$quotation->customer?->city, $quotation->customer?->pincode, $quotation->customer?->state, $quotation->customer?->country]);
+                            $addressString = implode(', ', $addressParts);
+                        @endphp
+                        <p>
+                            <b>{{ $quotation->customer?->name }}</b><br>
+                            <b>{{ $quotation->customer?->company_name }}</b><br>
+                            @if($quotation->customer?->street) {{ $quotation->customer->street }}<br> @endif
+                            {{ $addressString ?: 'No address details available.' }}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
-        <p style="font-weight: bold; margin-bottom: 5px;">Subject: Quotation for <span style="color: var(--brand-color);">{{ $quotation->service?->service_name ?? 'Proposed Services' }}</span></p>
+        <p style="font-weight: bold; margin-bottom: 5px; margin-top: 10px;">Subject: Quotation for <span style="color: var(--brand-color);">{{ $quotation->service?->service_name ?? 'Proposed Services' }}</span></p>
 
+        <!-- Proposals Description -->
         <div class="quotation-description">
             <div class="section-title">Proposal Details</div>
             {!! \Parsedown::instance()->text($quotation->content) !!}
         </div>
 
-        <div class="quotation-total-section">
-            @php
-                $subtotal = $quotation->quotation_amount - ($quotation->tax_amount ?? 0);
-                $taxAmount = $quotation->tax_amount ?? 0;
-                $taxPercentage = $quotation->tax_percentage ?? 0;
-            @endphp
-            <p><span>Subtotal:</span> <span>₹ {{ number_format($subtotal, 2) }}</span></p>
-            @if($taxAmount > 0)
-                <p><span>GST ({{ $taxPercentage }}%):</span> <span>₹ {{ number_format($taxAmount, 2) }}</span></p>
+        <!-- Render Itemized Grid only if multi-service items exist -->
+        @if (count($quoteItems) > 0)
+            <div class="section-title">Multi-Service Line Items</div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Sr No.</th>
+                        <th style="width: 45%;">Items</th>
+                        <th style="width: 10%;" class="right">Quantity</th>
+                        <th style="width: 15%;" class="right">Rate</th>
+                        <th style="width: 20%;" class="right">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($quoteItems as $key => $item)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $item['name'] ?? 'N/A' }}</td>
+                            <td class="right">{{ $item['quantity'] ?? 1 }}</td>
+                            <td class="right">Rs. {{ number_format($item['price'] ?? 0, 2) }}</td>
+                            <td class="right">Rs. {{ number_format($item['total'] ?? 0, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+
+        <!-- Totals & In-words block -->
+        <table class="totals-section">
+            <tr>
+                <td class="total-in-words">
+                    <b>Total in Words:</b> <span style="text-transform: uppercase;">{{ convertNumberToWordsForIndia((int) $grandTotal) }}</span>
+                </td>
+                <td style="width: 40%;">
+                    <table class="totals-table">
+                        <tr>
+                            <td>Subtotal:</td>
+                            <td>Rs. {{ number_format($subtotal, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>CGST (9%):</td>
+                            <td>Rs. {{ number_format($halfTax, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>SGST (9%):</td>
+                            <td>Rs. {{ number_format($halfTax, 2) }}</td>
+                        </tr>
+                        <tr class="net-payable">
+                            <td>Grand Total:</td>
+                            <td>Rs. {{ number_format($grandTotal, 2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Dynamic Terms & Conditions block -->
+        <div class="section-title" style="margin-top: 30px;">Terms & Conditions</div>
+        <div style="font-size: 9.5px; line-height: 1.5; text-align: left;">
+            @if (!empty($quotation->terms))
+                <!-- Converts newlines to linebreaks while preserving safe formatting -->
+                {!! nl2br(e($quotation->terms)) !!}
+            @else
+                <ol style="margin-top: 5px; padding-left: 20px;">
+                    <li>Prices are valid for 30 days from the quotation date.</li>
+                    <li>Payment terms: 50% upfront, 50% upon completion.</li>
+                    <li>Any additional services requested will be quoted separately.</li>
+                    <li>This quotation is subject to our standard terms of service.</li>
+                    <li>All intellectual property rights for custom-developed materials remain with Adzquare until full payment is received.</li>
+                </ol>
             @endif
-            <div class="total-amount">
-                <span>TOTAL AMOUNT:</span> <span>₹ {{ number_format($quotation->quotation_amount, 2) }}</span>
-            </div>
-            <div class="amount-in-words">
-                {{ convertNumberToWordsForIndia($quotation->quotation_amount) }}
-            </div>
-        </div>
-        <div class="clear"></div>
-
-        <div class="section-title" style="margin-top: 40px;">Terms & Conditions</div>
-        <div style="font-size: 9.5px; line-height: 1.5;">
-            <ol style="margin-top: 5px; padding-left: 20px;">
-                <li>Prices are valid for 30 days from the quotation date.</li>
-                <li>Payment terms: 50% upfront, 50% upon completion.</li>
-                <li>Any additional services requested will be quoted separately.</li>
-                <li>This quotation is subject to our standard terms of service.</li>
-                <li>All intellectual property rights for custom-developed materials remain with Adzquare until full payment is received.</li>
-            </ol>
         </div>
 
-        <div style="margin-top: 40px; text-align: left; font-size: 10px;">
+        <div style="margin-top: 35px; text-align: left; font-size: 10px;">
             <p>Thank you for considering our proposal.</p>
             <p style="margin-top: 10px;">Sincerely,</p>
-            <p style="font-weight: bold; margin-top: 5px;">The Adzquare Team</p>
+            <p style="font-weight: bold; margin-top: 5px; color: var(--brand-color);">The Adzquare Team</p>
         </div>
 
     </div>

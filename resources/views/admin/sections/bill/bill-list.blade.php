@@ -9,7 +9,6 @@
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="{{ route('admin.view.bill.list') }}">Payments & Bill</a></li>
-
                 </ol>
             </div>
             <!-- Row -->
@@ -30,13 +29,13 @@
                         </div>
                         <div class="cm-content-body form excerpt">
                             <div class="card-body pb-4">
-                                <div class="table-responsive">
-                                    <table class="table">
+                                <div class="table-responsive font-sans">
+                                    <table class="table align-middle">
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
-                                                {{-- <th>Invoice No.</th> --}}
                                                 <th>Customer Name</th>
+                                                <th>Payment For</th>
                                                 <th>Total Amount</th>
                                                 <th>GST</th>
                                                 <th>Discount</th>
@@ -45,32 +44,45 @@
                                                 <th>Bill Date</th>
                                                 <th>Due Date</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                <th class="text-end">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- {{ dd($bills) }} --}}
                                             @foreach ($bills as $index => $bill)
                                                 <tr>
                                                     <td>{{ $bills->firstItem() + $index }}</td>
-                                                    <td>{{ DB::table('customers')->find($bill->customer_id)?->name }}</td>
+                                                    <td><strong>{{ DB::table('customers')->find($bill->customer_id)?->name }}</strong></td>
+
+                                                   <td>
+                                                        <span class="badge
+                                                            @if($bill->payment_for == 'Package') badge-info
+                                                            @elseif($bill->payment_for == 'Domain Hosting') badge-secondary
+                                                            @else badge-primary light @endif">
+
+                                                            {{-- Fallback: If display attribute is empty, show 'Manual Invoice' --}}
+                                                            {{ $bill->payment_for_display_attribute ?: 'Manual Invoice' }}
+                                                        </span>
+                                                    </td>
+
                                                     <td>₹{{ number_format($bill->total, 2) }}</td>
                                                     <td>₹{{ number_format($bill->tax, 2) }}</td>
                                                     <td>₹{{ number_format($bill->discount_amount, 2) }}</td>
                                                     <td>₹{{ number_format($bill->net_payable, 2) }}</td>
-                                                    {{-- THIS IS THE CORRECT, EFFICIENT, AND CONSISTENT WAY --}}
-                                                    <td class="fw-bold {{ ($bill->net_payable - $bill->received_amount) > 0 ? 'text-danger' : 'text-success' }}">
-                                                        ₹{{ number_format($bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount, 2) }}
+
+                                                    @php
+                                                        // Calculate the actual outstanding due amount
+                                                        $dueAmount = $bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount;
+                                                    @endphp
+                                                    <td class="fw-bold {{ $dueAmount > 0 ? 'text-danger' : 'text-success' }}">
+                                                        ₹{{ number_format($dueAmount, 2) }}
                                                     </td>
 
-                                                    <td>{{ date('d-m-Y', strtotime($bill->bill_date)) }}</td>
+                                                    <td class="font-mono">{{ date('d-m-Y', strtotime($bill->bill_date)) }}</td>
                                                     <td>
-                                                        @if (\Carbon\Carbon::parse($bill->due_date) <= \Carbon\Carbon::now())
-                                                            <span
-                                                                class="badge badge-rounded badge-danger">{{ date('d-m-Y', strtotime($bill->due_date)) }}</span>
+                                                        @if (\Carbon\Carbon::parse($bill->due_date) <= \Carbon\Carbon::now() && $bill->payment_status != 'Paid')
+                                                            <span class="badge badge-rounded badge-danger font-mono">{{ date('d-m-Y', strtotime($bill->due_date)) }}</span>
                                                         @else
-                                                            <span
-                                                                class="badge badge-rounded badge-success">{{ date('d-m-Y', strtotime($bill->due_date)) }}</span>
+                                                            <span class="badge badge-rounded badge-success font-mono">{{ date('d-m-Y', strtotime($bill->due_date)) }}</span>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -84,33 +96,45 @@
                                                             @endif
                                                         </div>
                                                     </td>
-                                                    <td class="text-nowrap">
-                                                        @php
-                                                            // Calculate the due amount for a clean condition check
-                                                            $dueAmount = $bill->total + $bill->tax - $bill->received_amount - $bill->discount_amount;
-                                                        @endphp
-                                                        @if ($dueAmount > 0 && $bill->received_amount == 0)
-                                                        <a href="{{ route('admin.view.bill.update', ['id' => $bill->id]) }}"
-                                                            class="btn btn-warning btn-sm content-icon">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
+                                                    <td class="text-nowrap text-end">
 
+                                                        <!-- 1. Copy Payment Link Button (if generated) -->
+                                                        @if($bill->razorpay_payment_link)
+                                                            <button type="button" onclick="copyToClipboard('{{ $bill->razorpay_payment_link }}')" class="btn btn-primary btn-sm content-icon" title="Copy Razorpay Payment Link">
+                                                                <i class="fa fa-copy"></i>
+                                                            </button>
                                                         @endif
 
-                                                        <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History"><i class="fa fa-history"></i></a>
+                                                        <!-- 2. Send Razorpay Reminder Notification (if pending) -->
+                                                        @if($bill->razorpay_payment_link_id && $bill->payment_status != 'Paid' && $bill->payment_status != 'Settled')
+                                                            <form action="{{ route('admin.bill.reminder', ['id' => $bill->id]) }}" method="POST" class="d-inline needs-loader">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-warning btn-sm content-icon" title="Send Razorpay Reminder">
+                                                                    <i class="fa fa-bell"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+
+                                                        <!-- Edit Button (Only visible if unpaid) -->
+                                                        @if ($dueAmount > 0 && $bill->received_amount == 0)
+                                                            <a href="{{ route('admin.view.bill.update', ['id' => $bill->id]) }}"
+                                                                class="btn btn-warning btn-sm content-icon" title="Edit Bill">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        @endif
+
+                                                        <!-- Standard CRM Actions -->
+                                                        <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History">
+                                                            <i class="fa fa-history"></i>
+                                                        </a>
                                                         <a href="{{ route('admin.handle.bill.duplicate', ['id' => $bill->id]) }}"
-                                                            class="btn btn-success btn-sm content-icon">
+                                                            class="btn btn-success btn-sm content-icon" title="Duplicate Bill">
                                                             <i class="fa fa-window-maximize"></i>
                                                         </a>
                                                         <a href="{{ route('admin.handle.bill.invoice', ['id' => $bill->id]) }}"
-                                                            class="btn btn-success btn-sm content-icon download-invoice-btn">
+                                                            class="btn btn-success btn-sm content-icon download-invoice-btn" title="Download Invoice PDF">
                                                             <i class="fa fa-download"></i>
                                                         </a>
-
-                                                        {{-- <a href="javascript:handleDelete({{ $bill->id }});"
-                                                            class="btn btn-danger btn-sm content-icon">
-                                                            <i class="fa fa-times"></i>
-                                                        </a> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -139,11 +163,29 @@
 @endsection
 
 @section('js')
-    {{-- Make sure SweetAlert2 is included in your main layout (app.blade.php) --}}
-    If not, you can add it here: <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- Include SweetAlert2 if missing in app.blade.php --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Your existing delete function
+        // Reusable clipboard copy script with animated success toast
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Payment link copied to clipboard!'
+                });
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
         function handleDelete(id) {
             swal({
                     title: "Are you sure?",
@@ -160,26 +202,19 @@
                 });
         }
 
-        // --- NEW CODE FOR DOWNLOAD TOAST ---
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Find all buttons with the new class
             const downloadButtons = document.querySelectorAll('.download-invoice-btn');
 
-            // 2. Loop through each button and add a click event listener
             downloadButtons.forEach(button => {
                 button.addEventListener('click', function(event) {
-                    // 3. Prevent the link from navigating immediately
                     event.preventDefault();
-
-                    // 4. Get the download URL from the link's href
                     const downloadUrl = this.href;
 
-                    // 5. Configure and show the toast notification using SweetAlert2
                     const Toast = Swal.mixin({
                       toast: true,
                       position: 'top-end',
                       showConfirmButton: false,
-                      timer: 2000, // Toast will show for 2 seconds
+                      timer: 2000,
                       timerProgressBar: true,
                     });
 
@@ -188,10 +223,9 @@
                       title: 'Preparing your invoice for download...'
                     });
 
-                    // 6. After a short delay, proceed to the download URL
                     setTimeout(() => {
                         window.location.href = downloadUrl;
-                    }, 1500); // 1.5-second delay to allow user to see the toast
+                    }, 1500);
                 });
             });
         });

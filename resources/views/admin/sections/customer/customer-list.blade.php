@@ -2,23 +2,25 @@
 
 @section('main-content')
     <!--**********************************
-                                                            Content body start
-                                                        ***********************************-->
+            Content body start
+        ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
+            <!-- Breadcrumbs -->
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Customers</a></li>
                     <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Customers</a></li>
                 </ol>
             </div>
+
+            <!-- Stats Widgets -->
             <div class="row">
                 <div class="col-xl-3 col-xxl-4 col-lg-4 col-sm-4">
                     <div class="widget-stat card">
                         <div class="card-body p-4">
                             <div class="media ai-icon">
                                 <span class="me-3 bgl-primary text-primary">
-                                    <!-- <i class="ti-user"></i> -->
                                     <svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30"
                                         height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -30,7 +32,6 @@
                                 <div class="media-body">
                                     <p class="mb-1">Total Customers</p>
                                     <h4 class="mb-0">{{ $totalCustomers }}</h4>
-                                    {{-- <span class="badge badge-primary">+3.5%</span> --}}
                                 </div>
                             </div>
                         </div>
@@ -41,7 +42,6 @@
                         <div class="card-body p-4">
                             <div class="media ai-icon">
                                 <span class="me-3 bgl-primary text-primary">
-                                    <!-- <i class="ti-user"></i> -->
                                     <svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30"
                                         height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -53,7 +53,6 @@
                                 <div class="media-body">
                                     <p class="mb-1">Active Customers</p>
                                     <h4 class="mb-0">{{ $activeCustomers }}</h4>
-                                    {{-- <span class="badge badge-primary">+3.5%</span> --}}
                                 </div>
                             </div>
                         </div>
@@ -64,7 +63,6 @@
                         <div class="card-body p-4">
                             <div class="media ai-icon">
                                 <span class="me-3 bgl-primary text-primary">
-                                    <!-- <i class="ti-user"></i> -->
                                     <svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30"
                                         height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -76,14 +74,14 @@
                                 <div class="media-body">
                                     <p class="mb-1">Inactive Customers</p>
                                     <h4 class="mb-0">{{ $inactiveCustomers }}</h4>
-                                    {{-- <span class="badge badge-primary">+3.5%</span> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Row -->
+
+            <!-- Filter Section -->
             <div class="row">
                 <div class="col-xl-12">
                     <div class="filter cm-content-box box-primary">
@@ -110,6 +108,8 @@
                         <a href="{{ route('admin.view.customer.create') }}" type="button"
                             class="btn btn-sm btn-primary mb-4 open btn-loader">Create New Customer</a>
                     </div>
+
+                    <!-- Customer List Card -->
                     <div class="filter cm-content-box box-primary">
                         <div class="content-title SlideToolHeader">
                             <div class="cpa">
@@ -131,30 +131,51 @@
                         </div>
                         <div class="cm-content-body form excerpt">
                             <div class="card-body pb-4">
-                                <div class="table-responsive">
-                                    <table class="table">
+                                <div class="table-responsive font-sans">
+                                    <table class="table align-middle">
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                                <th>Customer Name</th>
                                                 <th>Company</th>
+                                                <th>Contact Details</th>
+                                                <th>Onboarding Date</th>
+                                                <th>Interested Services</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                <th class="text-end">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($customers as $index => $customer)
-
                                                 <tr>
                                                     <td>{{ $customers->firstItem() + $index }}</td>
-                                                    <td><a
-                                                            href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}">{{ $customer->name }}</a>
+                                                    <td>
+                                                        <a href="{{ route('admin.view.customer.preview', ['id' => $customer->id]) }}" class="font-w600 text-primary">
+                                                            {{ $customer->name }}
+                                                        </a>
                                                     </td>
-                                                    <td>{{ $customer->email }}</td>
-                                                    <td>{{ $customer->phone }}</td>
-                                                    <td>{{ $customer->company_name }}</td>
+                                                    <td><strong>{{ $customer->company_name }}</strong></td>
+                                                    <td>
+                                                        <div>{{ $customer->email }}</div>
+                                                        <small class="text-muted font-mono">{{ $customer->phone }}</small>
+                                                    </td>
+                                                    <td>
+                                                        @if(!is_null($customer->onboarding_date))
+                                                            <span class="font-mono">{{ \Carbon\Carbon::parse($customer->onboarding_date)->format('d M, Y') }}</span>
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td style="max-width: 200px; white-space: normal;">
+                                                        @if (!empty($customer->interested_services))
+                                                            @php $services = json_decode($customer->interested_services) ?? []; @endphp
+                                                            @foreach ($services as $service)
+                                                                <span class="badge badge-xs light badge-primary mb-1">{{ $service }}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             @if ($customer->status == 1)
@@ -164,13 +185,12 @@
                                                             @endif
                                                         </div>
                                                     </td>
-                                                    <td class="text-nowrap">
-
+                                                    <td class="text-end text-nowrap">
                                                         <a href="{{ route('admin.view.customer.update', ['id' => $customer->id]) }}"
                                                             class="btn btn-warning btn-sm content-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
-                                                        <!-- NEW: Reset Password trigger button -->
+                                                        <!-- Reset Password trigger button -->
                                                         <button type="button" class="btn btn-info btn-sm content-icon" data-bs-toggle="modal" data-bs-target="#resetCustomerPasswordModal{{ $customer->id }}">
                                                             <i class="fa fa-key"></i>
                                                         </button>
@@ -182,10 +202,10 @@
                                                             class="btn btn-success btn-sm content-icon">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
-                                                        {{-- <a href="javascript:handleDelete({{ $customer->id }});"
+                                                        <a href="javascript:handleDelete({{ $customer->id }});"
                                                             class="btn btn-danger btn-sm content-icon">
                                                             <i class="fa fa-times"></i>
-                                                        </a> --}}
+                                                        </a>
                                                     </td>
                                                 </tr>
 
@@ -220,6 +240,8 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+
+                                    <!-- Pagination -->
                                     <div class="d-flex align-items-center justify-content-between flex-wrap">
                                         <p class="mb-2 me-3">
                                             Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of
@@ -240,26 +262,6 @@
     <!--**********************************
                                                             Content body end
                                                         ***********************************-->
-@endsection
-
-@section('js')
-    <script>
-        function handleDelete(id) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this customer!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location =
-                            `{{ url('admin/customer/delete') }}/${id}`;
-                    }
-                });
-        }
-    </script>
 @endsection
 
 @section('js')

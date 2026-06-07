@@ -80,6 +80,41 @@
                                         </ul>
                                     </div>
                                 </div>
+                      <!-- Aligned Client Onboarding Documents Card without btn-loader class -->
+                        <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12 mt-4">
+                            <div class="card text-white bg-secondary">
+                                <a class="m-3 text-white font-w600" style="font-size: 1.15rem;">Client Onboarding Documents</a>
+                                <div class="card-body p-0">
+                                    <div class="list-group list-group-flush">
+
+                                        {{-- 1. Service Contract --}}
+                                        <a href="{{ route('admin.customer.download.contract', ['id' => $customer->id]) }}"
+                                           class="list-group-item d-flex justify-content-between align-items-center text-white bg-transparent border-bottom-0"
+                                           target="_blank" style="padding: 15px 20px;">
+                                            <span class="text-white"><i class="fa fa-file-contract me-2"></i> 1. Service Contract</span>
+                                            <span class="badge badge-sm light badge-light text-dark"><i class="fa fa-download me-1"></i> Download PDF</span>
+                                        </a>
+
+                                        {{-- 2. Welcome & PM Intro Letter --}}
+                                        <a href="{{ route('admin.customer.download.welcome', ['id' => $customer->id]) }}"
+                                           class="list-group-item d-flex justify-content-between align-items-center text-white bg-transparent border-bottom-0"
+                                           target="_blank" style="padding: 15px 20px;">
+                                            <span class="text-white"><i class="fa fa-envelope-open-text me-2"></i> 2. Welcome & PM Introduction</span>
+                                            <span class="badge badge-sm light badge-light text-dark"><i class="fa fa-download me-1"></i> Download PDF</span>
+                                        </a>
+
+                                        {{-- 3. Next Steps & Timeline Report --}}
+                                        <a href="{{ route('admin.customer.download.timeline', ['id' => $customer->id]) }}"
+                                           class="list-group-item d-flex justify-content-between align-items-center text-white bg-transparent border-bottom-0"
+                                           target="_blank" style="padding: 15px 20px;">
+                                            <span class="text-white"><i class="fa fa-route me-2"></i> 3. Next Steps & Timeline Report</span>
+                                            <span class="badge badge-sm light badge-light text-dark"><i class="fa fa-download me-1"></i> Download PDF</span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             </div>
                         </div>
 

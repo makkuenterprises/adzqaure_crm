@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 
 /*
@@ -379,6 +380,8 @@ class AdminCreateController extends Controller implements AdminCreate
             'state' => ['nullable', 'string'],
             'country' => ['nullable', 'string'],
             'profile' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp'],
+            'onboarding_date' => ['nullable', 'date'],                     // Added Validation
+            'interested_services' => ['nullable', 'array'],
         ]);
 
         if ($validation->fails()) {
@@ -398,6 +401,14 @@ class AdminCreateController extends Controller implements AdminCreate
             $customer->pincode = $request->input('pincode');
             $customer->state = $request->input('state');
             $customer->country = $request->input('country');
+             $customer->onboarding_date = $request->input('onboarding_date');
+
+             // Serialize multiselect array as a JSON string for database storage
+            if ($request->has('interested_services')) {
+                $customer->interested_services = json_encode($request->input('interested_services'));
+            } else {
+                $customer->interested_services = null;
+            }
 
             // Hash and save the password for standard Laravel Auth guard
             $customer->password = Hash::make($request->input('password'));
@@ -541,17 +552,23 @@ class AdminCreateController extends Controller implements AdminCreate
     | Handle Bill Create
     |--------------------------------------------------------------------------
     */
+   /*
+    |--------------------------------------------------------------------------
+    | Handle Bill Create (Updated with Automated Razorpay Payment Link Generation)
+    |--------------------------------------------------------------------------
+    */
     public function handleBillCreate(Request $request)
     {
         $validation = Validator::make($request->all(), [
             'customer_id' => ['required'],
+            'service_id' => ['nullable', 'exists:services,id'],
             'total' => ['required', 'numeric'],
             'bill_date' => ['required', 'string'],
             'due_date' => ['required', 'string'],
             'invoice_currency' => ['required', 'string'],
             'payment_status' => ['required', 'string'],
             'bill_note' => ['nullable', 'string'],
-            'discount_percentage' => ['nullable', 'numeric', 'min:0'], // <-- ADDED: Validation for discount percentage
+            'discount_percentage' => ['nullable', 'numeric', 'min:0'],
             'discount_amount' => ['nullable', 'numeric', 'min:0'],
         ]);
 
@@ -568,7 +585,6 @@ class AdminCreateController extends Controller implements AdminCreate
             }
 
             $items = [];
-
             for ($i = 0; $i < count($request->input('bill_item_name')); $i++) {
                 array_push($items, [
                     'bill_item_name' => $request->bill_item_name[$i],
@@ -578,42 +594,97 @@ class AdminCreateController extends Controller implements AdminCreate
                 ]);
             }
 
-            // --- Calculation & Saving Logic ---
             $total = (float)($request->input('total') ?? 0);
             $discountAmount = (float)($request->input('discount_amount') ?? 0);
             $tax = (float)($request->input('tax') ?? 0);
-            $netPayable = $total - $discountAmount + $tax; // Calculate net payable
+            $netPayable = $total - $discountAmount + $tax;
 
             $bill = new Bill();
             $bill->customer_id = $request->input('customer_id');
+            $bill->service_id = $request->input('service_id');
             $bill->items = json_encode($items);
             if ($request->apply_gst) {
                 $bill->tax = $request->input('tax');
             }
             $bill->payment_status = $request->input('payment_status');
-            $bill->total = $request->input('total');
+            $bill->total = $total;
             $bill->discount_percentage = $request->input('discount_percentage') ?? 0;
             $bill->discount_amount = $request->input('discount_amount') ?? 0;
-            $bill->net_payable = $netPayable; // <-- SAVE THE CALCULATED NET PAYABLE
+            $bill->net_payable = $netPayable;
             $bill->bill_date = $request->input('bill_date');
             $bill->due_date = $request->input('due_date');
             $bill->invoice_currency = $request->input('invoice_currency');
             $bill->bill_note = $request->input('bill_note');
-            $result = $bill->save();
+            $bill->save();
 
-            if ($result) {
-                return redirect()->route('admin.view.bill.list')->with('message', [
-                    'status' => 'success',
-                    'title' => 'Bill Created',
-                    'description' => 'Bill is successfully created.'
+            $msgDescription = 'Bill has been successfully created locally.';
+            $msgStatus = 'success';
+            $msgTitle = 'Bill Created';
+
+            // --- AUTOMATED RAZORPAY PAYMENT LINK GENERATION ---
+            try {
+                $customer = Customer::findOrFail($bill->customer_id);
+                $amountInPaise = round($netPayable * 100);
+
+                // Set a safe due timestamp (e.g. 1 year from now, or use your due_date)
+                $expiryTimestamp = Carbon::parse($bill->due_date)->addYear()->timestamp;
+
+                // Contact Razorpay API to generate a secure Payment Link
+                $response = Http::withBasicAuth(
+                    env('RAZORPAY_KEY_ID'),
+                    env('RAZORPAY_KEY_SECRET')
+                )->post('https://api.razorpay.com/v1/payment_links', [
+                    'amount' => $amountInPaise,
+                    'currency' => 'INR',
+                    'accept_partial' => false,
+                    'description' => "Invoice #ADZ/{$bill->created_at->year}/{$bill->id}",
+                    'customer' => [
+                        'name' => $customer->name,
+                        'email' => $customer->email,
+                        'contact' => $customer->phone,
+                    ],
+                    'notify' => [
+                        'sms' => true,
+                        'email' => true
+                    ],
+                    'reminder_enable' => true,
+                    'expire_by' => $expiryTimestamp,
                 ]);
-            } else {
-                return redirect()->back()->with('message', [
-                    'status' => 'error',
-                    'title' => 'An error occurred',
-                    'description' => 'There is an internal server issue please try again.'
-                ]);
+
+                if ($response->successful()) {
+                    $resData = $response->json();
+
+                    // Save short url and plink_id to DB
+                    $bill->razorpay_payment_link = $resData['short_url'] ?? null;
+                    $bill->razorpay_payment_link_id = $resData['id'] ?? null;
+                    $bill->save();
+
+                    $msgDescription .= ' Razorpay payment link has been registered.';
+                } else {
+                    $errorData = $response->json();
+                    $errorDescription = $errorData['error']['description'] ?? $response->body();
+
+                    // Trigger warning state so you know what failed on the API
+                    $msgTitle = 'Bill Created with API Warning';
+                    $msgStatus = 'warning';
+                    $msgDescription .= " Warning: Razorpay Link failed: {$errorDescription}";
+
+                    Log::error('Razorpay Payment Link generation failed: ' . $response->body());
+                }
+
+            } catch (\Exception $e) {
+                $msgTitle = 'Bill Created with API Exception';
+                $msgStatus = 'warning';
+                $msgDescription .= " Warning: Razorpay connection failed: " . $e->getMessage();
+
+                Log::error('Razorpay API error caught: ' . $e->getMessage());
             }
+
+            return redirect()->route('admin.view.bill.list')->with('message', [
+                'status' => $msgStatus,
+                'title' => $msgTitle,
+                'description' => $msgDescription
+            ]);
         }
     }
 
@@ -702,19 +773,20 @@ class AdminCreateController extends Controller implements AdminCreate
     | Handle Domain Hosting Create
     |--------------------------------------------------------------------------
     */
+    /*
+    |--------------------------------------------------------------------------
+    | Handle Domain Hosting Create (Updated with Automated Maintenance Invoicing)
+    |--------------------------------------------------------------------------
+    */
     public function handleDomainHostingCreate(Request $request)
     {
         $validation = Validator::make($request->all(), [
             'customer_id' => ['nullable', 'string', 'min:1', 'max:250'],
-
             'domain_name' => ['nullable', 'string', 'min:1', 'max:250'],
             'domain_purchase' => ['nullable'],
-            // 'domain_expiry' => ['nullable'],
             'domain_provider' => ['nullable', 'string', 'min:1', 'max:250'],
             'domain_renewal_price' => ['nullable', 'numeric'],
-
             'hosting_purchase' => ['nullable'],
-            // 'hosting_expiry' => ['nullable'],
             'hosting_provider' => ['nullable', 'string', 'min:1', 'max:250'],
             'hosting_renewal_price' => ['nullable', 'numeric'],
         ]);
@@ -727,25 +799,67 @@ class AdminCreateController extends Controller implements AdminCreate
             $domain_hosting->customer_id = $request->input('customer_id');
             $domain_hosting->domain_name = $request->input('domain_name');
             $domain_hosting->domain_purchase = $request->input('domain_purchase');
-            // $domain_hosting->domain_expiry = $request->input('domain_expiry');
             $domain_hosting->domain_provider = $request->input('domain_provider');
             $domain_hosting->domain_renewal_price = $request->input('domain_renewal_price');
             $domain_hosting->hosting_purchase = $request->input('hosting_purchase');
-            // $domain_hosting->hosting_expiry = $request->input('hosting_expiry');
             $domain_hosting->hosting_provider = $request->input('hosting_provider');
             $domain_hosting->hosting_renewal_price = $request->input('hosting_renewal_price');
             $result = $domain_hosting->save();
 
             if ($result) {
+
+                // --- AUTOMATED BILL GENERATION ---
+                $items = [];
+                $total = 0;
+
+                // Add Domain Setup item if pricing is specified
+                if ($request->filled('domain_name') && $request->input('domain_renewal_price') > 0) {
+                    array_push($items, [
+                        'bill_item_name' => 'Domain Setup & Maintenance (' . $request->input('domain_name') . ')',
+                        'bill_item_quantity' => 1,
+                        'bill_item_price' => $request->input('domain_renewal_price'),
+                        'bill_item_total' => $request->input('domain_renewal_price'),
+                    ]);
+                    $total += (float)$request->input('domain_renewal_price');
+                }
+
+                // Add Hosting Setup item if pricing is specified
+                if ($request->filled('hosting_purchase') && $request->input('hosting_renewal_price') > 0) {
+                    array_push($items, [
+                        'bill_item_name' => 'Web Hosting & Server Maintenance',
+                        'bill_item_quantity' => 1,
+                        'bill_item_price' => $request->input('hosting_renewal_price'),
+                        'bill_item_total' => $request->input('hosting_renewal_price'),
+                    ]);
+                    $total += (float)$request->input('hosting_renewal_price');
+                }
+
+                // Compile and save the pending invoice
+                if (count($items) > 0) {
+                    $bill = new Bill();
+                    $bill->domain_hosting_id = $domain_hosting->id;
+                    $bill->payment_for = "Domain Hosting";
+                    $bill->customer_id = $domain_hosting->customer_id;
+                    $bill->items = json_encode($items);
+                    $bill->payment_status = 'Pending';
+                    $bill->total = $total;
+                    $bill->net_payable = $total;
+                    $bill->bill_date = Carbon::now()->toDateString();
+                    $bill->due_date = Carbon::now()->addWeek()->toDateString(); // Automatically adds 1-week grace period
+                    $bill->invoice_currency = 'INR';
+                    $bill->bill_note = 'Auto-generated invoice for Domain & Hosting maintenance.';
+                    $bill->save();
+                }
+
                 return redirect()->back()->with('message', [
                     'status' => 'success',
                     'title' => 'Domain Hosting Created',
-                    'description' => 'Domain hosting is successfully created.'
+                    'description' => 'Domain hosting record saved, and maintenance invoice has been generated.'
                 ]);
             } else {
                 return redirect()->back()->with('message', [
                     'status' => 'error',
-                    'title' => 'An error occcured',
+                    'title' => 'An error occurred',
                     'description' => 'There is an internal server issue please try again.'
                 ]);
             }

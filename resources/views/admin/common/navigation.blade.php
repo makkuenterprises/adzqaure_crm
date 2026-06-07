@@ -17,11 +17,11 @@
                 </a>
             </li> --}}
 
-            <li><a href="{{ route('admin.view.lead.manager.list') }}" aria-expanded="false">
+            {{-- <li><a href="{{ route('admin.view.lead.manager.list') }}" aria-expanded="false">
                     <i class="fa fa-hourglass"></i>
                     <span class="nav-text">Leads Manager <span class="badge badge-xs badge-danger ms-2">New</span></span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
                     <i class="fa-solid fa-database"></i>
@@ -91,6 +91,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.payroll.attendance') }}">Attendance</a></li>
+                    <li><a href="{{ route('admin.payroll.attendance.bulk') }}">Bulk Attendance</a></li>
                     <li><a href="{{ route('admin.payroll.attendance.report') }}">Attendance Report</a></li>
                     <li><a href="{{ route('admin.payroll.salary-settings') }}">Salary Settings</a></li>
                     <li><a href="{{ route('admin.payroll.payslips') }}">Payslips</a></li>

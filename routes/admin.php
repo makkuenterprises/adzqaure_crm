@@ -39,6 +39,10 @@ Route::post('/salary-settings/{id}', [PayrollController::class, 'updateSalarySet
 Route::get('/payslips', [PayrollController::class, 'payslips'])->name('admin.payroll.payslips');
 Route::post('/payslips/generate', [PayrollController::class, 'generate'])->name('admin.payroll.payslips.generate');
 Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPayslip'])->name('admin.payroll.payslips.download');
+Route::post('/payslips/email/{id}', [PayrollController::class, 'emailPayslip'])->name('admin.payroll.payslips.email');
+
+Route::get('/attendance/bulk', [AttendanceController::class, 'viewBulk'])->name('admin.payroll.attendance.bulk');
+Route::post('/attendance/bulk/store', [AttendanceController::class, 'storeBulk'])->name('admin.payroll.attendance.bulk.store');
     });
 
     Route::prefix('settings')->group(function () {
@@ -108,6 +112,10 @@ Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPaysli
         Route::post('/update/{id}', [AdminUpdateController::class, 'handleCustomerUpdate'])->name('admin.handle.customer.update');
         Route::get('/delete/{id}', [AdminDeleteController::class, 'handleCustomerDelete'])->name('admin.handle.customer.delete');
         Route::post('/reset-password/{id}', [AdminUpdateController::class, 'handleCustomerResetPassword'])->name('admin.customer.reset-password');
+
+        Route::get('/download-contract/{id}', [AdminViewController::class, 'downloadServiceContract'])->name('admin.customer.download.contract');
+        Route::get('/download-welcome/{id}', [AdminViewController::class, 'downloadWelcomeLetter'])->name('admin.customer.download.welcome');
+        Route::get('/download-timeline/{id}', [AdminViewController::class, 'downloadTimelineReport'])->name('admin.customer.download.timeline');
     });
 
     Route::prefix('project')->group(function () {
@@ -145,6 +153,7 @@ Route::get('/payslips/download/{id}', [PayrollController::class, 'downloadPaysli
         // In your admin route group...
         Route::post('/settle/{id}', [PaymentHistoryController::class, 'settleBill'])->name('admin.bill.settle');
 
+        Route::post('/reminder/{id}', [PaymentHistoryController::class, 'sendRazorpayReminder'])->name('admin.bill.reminder');
     });
 
     Route::prefix('quotation')->group(callback: function () {

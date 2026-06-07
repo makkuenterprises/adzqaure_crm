@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\PaymentHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PaymentHistoryController extends Controller
 {
@@ -99,6 +100,44 @@ public function settleBill(Request $request, $billId)
         return redirect()->back()->with('success', 'Invoice has been successfully settled.');
     }
 
+
+    public function sendRazorpayReminder($id)
+    {
+        try {
+            $bill = Bill::findOrFail($id);
+
+            if (empty($bill->razorpay_payment_link_id)) {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'Reminder Failed',
+                    'description' => 'No active Razorpay payment link found for this invoice.'
+                ]);
+            }
+
+            // Trigger Razorpay API to notify customer via Email/SMS
+            $response = Http::withBasicAuth(
+                env('RAZORPAY_KEY_ID'),
+                env('RAZORPAY_KEY_SECRET')
+            )->post("https://api.razorpay.com/v1/payment_links/{$bill->razorpay_payment_link_id}/notify_by/email");
+
+            if ($response->failed()) {
+                throw new \Exception('Razorpay notification API request failed.');
+            }
+
+            return redirect()->back()->with('message', [
+                'status' => 'success',
+                'title' => 'Reminder Sent',
+                'description' => 'Payment reminder email successfully dispatched to the customer via Razorpay.'
+            ]);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'Reminder Failed',
+                'description' => 'Failed to send Razorpay reminder: ' . $e->getMessage()
+            ]);
+        }
+    }
 
 
 }

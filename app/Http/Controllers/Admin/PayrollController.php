@@ -12,6 +12,7 @@ use App\Models\CompanyDetail;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class PayrollController extends Controller
 {
@@ -167,7 +168,7 @@ class PayrollController extends Controller
             'description' => "Calculated and updated payslips for {$processed} employees."
         ]);
     }
-    
+
     /**
      * 4. Compile dynamic PDF payslips using the custom design layout
      */
@@ -178,5 +179,61 @@ class PayrollController extends Controller
 
         $pdf = Pdf::loadView('admin.documents.payslip-template', compact('payslip', 'company'));
         return $pdf->download("Payslip-{$payslip->employee->name}-{$payslip->month}-{$payslip->year}.pdf");
+    }
+
+    /**
+     * Compile payslip PDF in-memory and email it to the employee
+     */
+    public function emailPayslip($id)
+    {
+        try {
+            $payslip = Payslip::with('employee')->findOrFail($id);
+            $company = CompanyDetail::first();
+            $employeeEmail = $payslip->employee->email;
+
+            // Verification check: Ensure employee has an email address
+            if (empty($employeeEmail)) {
+                return redirect()->back()->with('message', [
+                    'status' => 'error',
+                    'title' => 'Email Failed',
+                    'description' => "Employee {$payslip->employee->name} does not have a registered email address."
+                ]);
+            }
+
+            // Compile PDF completely in-memory to generate raw binary data bytes
+            $pdf = Pdf::loadView('admin.documents.payslip-template', compact('payslip', 'company'));
+            $pdfData = $pdf->output(); // Retrieves the raw PDF byte string
+
+            $monthName = \Carbon\Carbon::create()->month($payslip->month)->format('F');
+            $subject = "Salary Payslip - {$monthName} {$payslip->year}";
+
+            // Send raw HTML email with the PDF attached in-memory
+            Mail::html("
+                <p>Dear <strong>{$payslip->employee->name}</strong>,</p>
+                <p>Please find attached your salary payslip for the month of <strong>{$monthName} {$payslip->year}</strong>.</p>
+                <br>
+                <p>Best regards,</p>
+                <p><strong>The Accounts Team</strong><br>" . ($company->brand_name ?? 'Adzquare') . "</p>
+            ", function ($message) use ($employeeEmail, $subject, $pdfData, $payslip) {
+                $message->to($employeeEmail)
+                    ->subject($subject)
+                    ->attachData($pdfData, "Payslip_{$payslip->month}_{$payslip->year}.pdf", [
+                        'mime' => 'application/pdf',
+                    ]);
+            });
+
+            return redirect()->back()->with('message', [
+                'status' => 'success',
+                'title' => 'Email Dispatched',
+                'description' => "Successfully emailed the payslip PDF to {$employeeEmail}."
+            ]);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'Email Delivery Failed',
+                'description' => 'An error occurred while trying to send the email: ' . $e->getMessage()
+            ]);
+        }
     }
 }
