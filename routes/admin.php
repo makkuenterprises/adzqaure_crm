@@ -116,6 +116,7 @@ Route::post('/attendance/bulk/store', [AttendanceController::class, 'storeBulk']
         Route::get('/download-contract/{id}', [AdminViewController::class, 'downloadServiceContract'])->name('admin.customer.download.contract');
         Route::get('/download-welcome/{id}', [AdminViewController::class, 'downloadWelcomeLetter'])->name('admin.customer.download.welcome');
         Route::get('/download-timeline/{id}', [AdminViewController::class, 'downloadTimelineReport'])->name('admin.customer.download.timeline');
+        Route::post('/onboarding/email/{id}', [AdminViewController::class, 'emailOnboardingPackage'])->name('admin.customer.email.onboarding');
     });
 
     Route::prefix('project')->group(function () {
@@ -154,6 +155,8 @@ Route::post('/attendance/bulk/store', [AttendanceController::class, 'storeBulk']
         Route::post('/settle/{id}', [PaymentHistoryController::class, 'settleBill'])->name('admin.bill.settle');
 
         Route::post('/reminder/{id}', [PaymentHistoryController::class, 'sendRazorpayReminder'])->name('admin.bill.reminder');
+
+        Route::post('/billing/email/{id}', [AdminViewController::class, 'emailInvoice'])->name('admin.bill.email');
     });
 
     Route::prefix('quotation')->group(callback: function () {

@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 
 use Carbon\Carbon; // Make sure to import Carbon
@@ -880,4 +881,95 @@ class AdminViewController extends Controller implements AdminView
         //dd($service);
         return view('admin.sections.service.service-update', compact('service', 'categories'));
     }
+
+    public function emailInvoice($id)
+{
+    try {
+        $bill = Bill::with('customer')->findOrFail($id);
+        $customer = $bill->customer;
+        $company = CompanyDetail::first();
+        $paymentSettings = PaymentSetting::all();
+
+        // 1. Compile PDF in-memory
+        $pdf = Pdf::loadView('admin.documents.bill-template', [
+            'bill' => $bill,
+            'customer' => $customer,
+            'company' => $company,
+            'paymentSettings' => $paymentSettings
+        ]);
+        $pdfData = $pdf->output();
+
+        // 2. Email the PDF
+        $subject = "Invoice #ADZ/{$bill->created_at->year}/{$bill->id} from " . ($company->brand_name ?? 'Adzquare');
+
+        Mail::html("
+            <div style='font-family: sans-serif; line-height: 1.6;'>
+                <p>Dear <strong>{$customer->name}</strong>,</p>
+                <p>Please find attached your invoice for <strong>{$bill->payment_for}</strong>.</p>
+                <p>We appreciate your continued partnership with Adzquare.</p>
+                <br>
+                <p>Best regards,<br><strong>The Adzquare Team</strong></p>
+            </div>
+        ", function ($message) use ($customer, $subject, $pdfData, $bill) {
+            $message->to($customer->email)
+                    ->subject($subject)
+                    ->attachData($pdfData, "Invoice_{$bill->id}.pdf", [
+                        'mime' => 'application/pdf',
+                    ]);
+        });
+
+        return redirect()->back()->with('message', [
+            'status' => 'success',
+            'title' => 'Email Sent',
+            'description' => 'Invoice has been emailed to ' . $customer->email
+        ]);
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('message', [
+            'status' => 'error',
+            'title' => 'Email Failed',
+            'description' => 'Error: ' . $e->getMessage()
+        ]);
+    }
+}
+
+public function emailOnboardingPackage($id)
+{
+    try {
+        $customer = Customer::findOrFail($id);
+        $company = CompanyDetail::first();
+
+        // Compile all 3 PDFs in memory
+        $contractPdf = Pdf::loadView('admin.documents.service-contract', compact('customer', 'company'))->output();
+        $welcomePdf = Pdf::loadView('admin.documents.welcome-letter', compact('customer', 'company'))->output();
+        $timelinePdf = Pdf::loadView('admin.documents.next-steps-timeline', compact('customer', 'company'))->output();
+
+        Mail::html("
+            <p>Dear <b>{$customer->name}</b>,</p>
+            <p>Welcome to Adzquare! We are excited to start working with {$customer->company_name}.</p>
+            <p>Please find attached your Onboarding Package including your Service Contract, Welcome Letter, and Implementation Roadmap.</p>
+            <br>
+            <p>Best regards,<br><b>The Adzquare Team</b></p>
+        ", function ($message) use ($customer, $contractPdf, $welcomePdf, $timelinePdf) {
+            $message->to($customer->email)
+                    ->subject('Your Adzquare Onboarding Package')
+                    ->attachData($contractPdf, 'Service_Contract.pdf', ['mime' => 'application/pdf'])
+                    ->attachData($welcomePdf, 'Welcome_Letter.pdf', ['mime' => 'application/pdf'])
+                    ->attachData($timelinePdf, 'Implementation_Roadmap.pdf', ['mime' => 'application/pdf']);
+        });
+
+        return redirect()->back()->with('message', [
+            'status' => 'success',
+            'title' => 'Package Sent',
+            'description' => 'All onboarding documents have been emailed to ' . $customer->email
+        ]);
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('message', [
+            'status' => 'error',
+            'title' => 'Email Failed',
+            'description' => $e->getMessage()
+        ]);
+    }
+}
 }

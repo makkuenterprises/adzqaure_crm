@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Service Contract - {{ $customer->name }}</title>
+    <title>Service Agreement - {{ $customer->name }}</title>
     <style>
         @page { margin: 0; }
         body {
             font-family: 'Helvetica Neue', 'Helvetica', 'DejaVu Sans', sans-serif;
             font-size: 11px;
-            color: #333;
-            line-height: 1.5;
+            color: #444;
+            line-height: 1.6;
             padding: 2.2cm 2cm 2cm 2cm;
         }
         .header-bg, .footer-bg { position: absolute; z-index: -10; left: 0; right: 0; width: 100%; }
@@ -20,12 +20,10 @@
         .contract-title { text-align: center; font-size: 16px; font-weight: bold; border-top: 1px solid #777; border-bottom: 1px solid #777; padding: 8px 0; margin: 20px 0; color: #f54f25; }
 
         h3 { font-size: 12px; font-weight: bold; margin-top: 15px; margin-bottom: 5px; color: #f54f25; }
-        p { margin: 0 0 10px 0; }
-        ol { margin: 5px 0 15px 0; padding-left: 20px; }
-        li { margin-bottom: 6px; }
+        p { margin: 0 0 10px 0; text-align: justify; }
 
         .sig-table { width: 100%; margin-top: 40px; border-collapse: collapse; }
-        .sig-table td { width: 50%; border: none; padding-top: 50px; text-align: center; }
+        .sig-table td { width: 50%; border: none; padding-top: 40px; text-align: center; }
         .sig-line { border-top: 1px solid #555; width: 80%; margin: 5px auto; }
     </style>
 </head>
@@ -38,45 +36,44 @@
             <tr>
                 <td>
                     <p class="company-name">{{ $company->brand_name ?? 'Adzquare' }}</p>
-                    <p style="font-size: 9px; margin: 2px 0 0 0;">Powered by {{ $company->company_name ?? 'Makku Enterprises' }}</p>
+                    <p style="font-size: 9px; margin: 2px 0 0 0;">Building Growth Together</p>
                 </td>
                 <td style="text-align: right;">
                     <img src="{{ public_path('admin_new/images/logo-full.png') }}" alt="Logo" style="max-height: 40px;">
                 </td>
             </tr>
         </table>
-        <div class="contract-title">FORMAL SERVICE CONTRACT</div>
+        <div class="contract-title">SERVICE AGREEMENT</div>
     </header>
 
     <main>
-        <p>This Service Contract (the "Contract") is entered into on <b>{{ date('d M Y') }}</b>, by and between:</p>
+        <p>This agreement outlines how we will work together to achieve your business goals. By starting this journey with <b>{{ $company->brand_name ?? 'Adzquare' }}</b>, we commit to transparency, quality, and your long-term success.</p>
 
-        <p><b>PROVIDER:</b> {{ $company->company_name ?? 'Makku Enterprises Pvt. Ltd.' }} dba <b>{{ $company->brand_name ?? 'Adzquare' }}</b>, located at {{ $company->company_address_street ?? 'India' }}.</p>
-        <p><b>CLIENT:</b> <b>{{ $customer->name }}</b>, representing <b>{{ $customer->company_name }}</b>, located at {{ $customer->street ?? 'India' }}.</p>
+        <p><b>PARTNERS:</b> This agreement is between <b>{{ $company->brand_name ?? 'Adzquare' }}</b> and <b>{{ $customer->name }}</b> of <b>{{ $customer->company_name }}</b>, dated <b>{{ date('d M Y') }}</b>.</p>
 
-        <h3>1. SCOPE OF SERVICES</h3>
-        <p>The Provider agrees to perform design, engineering, or administrative CRM implementation services as agreed upon in formal billing statements and project milestones. Deliverables will be provided incrementally according to clear technical backlogs.</p>
+        <h3>OUR COMMITMENT</h3>
+        <p>We believe in open communication. We will work closely with you to understand your vision, providing tailored services that help your business stand out. Whether it’s marketing, design, or development, we treat your business as our own.</p>
 
-        <h3>2. CONSIDERATION & PAYMENTS</h3>
-        <p>Payment details, pricing schedules, and taxes will be specified in individual Milestone Invoices. All invoices must be settled according to due dates specified on each bill to ensure active development sprints continue.</p>
+        <h3>TRANSPARENT WORKING</h3>
+        <p>We promise to keep you updated on all progress. Billing will always be based on clearly defined milestones, and we will never surprise you with hidden costs. Any changes to the scope of work will be discussed and agreed upon by both parties before proceeding.</p>
 
-        <h3>3. CONFIDENTIALITY</h3>
-        <p>Both parties agree to hold in strict confidence any proprietary information, user credentials, access tokens, database schemas, and intellectual property. No confidential material shall be shared with third parties without written consent.</p>
+        <h3>COLLABORATION</h3>
+        <p>Your input is vital. We thrive on your feedback and work best when we collaborate as a team. We respect your deadlines and strive to deliver high-quality results that drive real, measurable impact for your brand.</p>
 
-        <h3>4. CONTRACT TERMINATION</h3>
-        <p>Either party may terminate this contract with 30 days of written notice. Upon termination, all active hours completed up to the notice date must be paid by the Client, and all intellectual properties completed shall be handed over.</p>
+        <h3>PRIVACY & TRUST</h3>
+        <p>Your ideas, data, and access credentials are safe with us. We handle all shared information with the highest level of professional care and will never share your business insights with anyone else.</p>
+
+        <p style="margin-top: 20px;">We are excited to help you reach new heights. Let’s build something great together!</p>
 
         <table class="sig-table">
             <tr>
                 <td>
                     <div class="sig-line"></div>
-                    <p><b>For {{ $company->brand_name }}</b></p>
-                    <p>(Authorized Signatory)</p>
+                    <p><b>For {{ $company->brand_name ?? 'Adzquare' }}</b></p>
                 </td>
                 <td>
                     <div class="sig-line"></div>
                     <p><b>For {{ $customer->company_name }}</b></p>
-                    <p>(Client Authorized Signatory)</p>
                 </td>
             </tr>
         </table>

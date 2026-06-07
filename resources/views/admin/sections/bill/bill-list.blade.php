@@ -115,6 +115,14 @@
                                                             </form>
                                                         @endif
 
+                                                        <!-- Email Invoice Button -->
+                                                        <form action="{{ route('admin.bill.email', ['id' => $bill->id]) }}" method="POST" class="d-inline needs-loader">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-secondary btn-sm content-icon" title="Email Invoice to Customer">
+                                                                <i class="fa fa-envelope"></i>
+                                                            </button>
+                                                        </form>
+
                                                         <!-- Edit Button (Only visible if unpaid) -->
                                                         @if ($dueAmount > 0 && $bill->received_amount == 0)
                                                             <a href="{{ route('admin.view.bill.update', ['id' => $bill->id]) }}"
@@ -127,10 +135,10 @@
                                                         <a href="{{ route('admin.bill.history', ['bill' => $bill->id]) }}" class="btn btn-info btn-sm content-icon view-remarks" title="View Payment History">
                                                             <i class="fa fa-history"></i>
                                                         </a>
-                                                        <a href="{{ route('admin.handle.bill.duplicate', ['id' => $bill->id]) }}"
+                                                        {{-- <a href="{{ route('admin.handle.bill.duplicate', ['id' => $bill->id]) }}"
                                                             class="btn btn-success btn-sm content-icon" title="Duplicate Bill">
                                                             <i class="fa fa-window-maximize"></i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a href="{{ route('admin.handle.bill.invoice', ['id' => $bill->id]) }}"
                                                             class="btn btn-success btn-sm content-icon download-invoice-btn" title="Download Invoice PDF">
                                                             <i class="fa fa-download"></i>

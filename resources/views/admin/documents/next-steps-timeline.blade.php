@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Next Steps & Timeline - {{ $customer->name }}</title>
+    <title>Onboarding Roadmap - {{ $customer->name }}</title>
     <style>
         @page { margin: 0; }
         body {
             font-family: 'Helvetica Neue', 'Helvetica', 'DejaVu Sans', sans-serif;
             font-size: 11px;
-            color: #333;
+            color: #444;
             line-height: 1.5;
             padding: 2.2cm 2cm 2cm 2cm;
         }
@@ -16,12 +16,17 @@
         .header-bg { top: 0; height: 120px; }
         .footer-bg { bottom: 0; height: 100px; }
 
-        .company-name { font-size: 20px; font-weight: bold; color: #f54f25; margin: 0; }
-        .report-title { text-align: center; font-size: 16px; font-weight: bold; border-top: 1px solid #777; border-bottom: 1px solid #777; padding: 8px 0; margin: 20px 0; color: #f54f25; }
+        .company-name { font-size: 18px; font-weight: bold; color: #f54f25; margin: 0; }
+        .company-sub { font-size: 9px; color: #777; margin: 2px 0 0 0; }
+        .logo-img { max-height: 40px; float: right; }
+
+        .report-title { text-align: center; font-size: 14px; font-weight: bold; border-top: 1px solid #777; border-bottom: 1px solid #777; padding: 8px 0; margin: 20px 0; color: #f54f25; text-transform: uppercase; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; font-weight: bold; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f8f8f8; font-weight: bold; color: #333; }
+
+        .phase-name { font-weight: bold; color: #f54f25; }
     </style>
 </head>
 <body>
@@ -33,64 +38,63 @@
             <tr>
                 <td>
                     <p class="company-name">{{ $company->brand_name ?? 'Adzquare' }}</p>
-                    <p style="font-size: 9px; margin: 2px 0 0 0;">Powered by {{ $company->company_name ?? 'Makku Enterprises' }}</p>
+                    <p class="company-sub">Your Growth Partner</p>
                 </td>
                 <td style="text-align: right;">
-                    <img src="{{ public_path('admin_new/images/logo-full.png') }}" alt="Logo" style="max-height: 40px;">
+                    <img src="{{ public_path('admin_new/images/logo-full.png') }}" alt="Logo" class="logo-img">
                 </td>
             </tr>
         </table>
-        <div class="report-title">NEXT STEPS & IMPLEMENTATION ROADMAP</div>
+        <div class="report-title">Implementation Roadmap & Next Steps</div>
     </header>
 
     <main>
-        <p>Prepared For: <b>{{ $customer->name }}</b> ({{ $customer->company_name }})</p>
-        <p>This report outlines the onboarding steps and initial implementation timeline for your services.</p>
+        <p>Dear <b>{{ $customer->name }}</b>,</p>
+        <p>At <b>{{ $company->brand_name ?? 'Adzquare' }}</b>, we follow a structured, transparent process to ensure every project meets our quality standards. This roadmap outlines the typical phases we take to bring your vision to life.</p>
 
         <table>
             <thead>
                 <tr>
-                    <th style="width: 15%;">Phase</th>
-                    <th style="width: 45%;">Key Objectives / Activities</th>
-                    <th style="width: 20%;">Target Duration</th>
-                    <th style="width: 20%;">Status</th>
+                    <th style="width: 20%;">Phase</th>
+                    <th style="width: 50%;">Key Objectives</th>
+                    <th style="width: 30%;">Outcome</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><b>Phase 1</b></td>
-                    <td><b>Kickoff & Discovery</b><br>Initial alignment meeting, requirement mapping, and environment sandboxing.</td>
-                    <td>Days 1 – 3</td>
-                    <td><span style="color: orange; font-weight: bold;">In-Progress</span></td>
+                    <td><span class="phase-name">01. Discovery</span></td>
+                    <td>Alignment meeting, requirement gathering, and objective setting.</td>
+                    <td>Strategy Approval</td>
                 </tr>
                 <tr>
-                    <td><b>Phase 2</b></td>
-                    <td><b>Sprint Planning</b><br>Finalization of backlog tickets, UX wireframing, and architecture approvals.</td>
-                    <td>Days 4 – 7</td>
-                    <td>Pending</td>
+                    <td><span class="phase-name">02. Planning</span></td>
+                    <td>Resource allocation, timeline finalization, and backlog preparation.</td>
+                    <td>Project Blueprint</td>
                 </tr>
                 <tr>
-                    <td><b>Phase 3</b></td>
-                    <td><b>Execution Sprints</b><br>Dynamic development, UI designs implementation, and beta code deployments.</td>
-                    <td>Weeks 2 – 3</td>
-                    <td>Pending</td>
+                    <td><span class="phase-name">03. Execution</span></td>
+                    <td>Active development, creative production, or campaign deployment.</td>
+                    <td>Progress Updates</td>
                 </tr>
                 <tr>
-                    <td><b>Phase 4</b></td>
-                    <td><b>QA & Acceptance</b><br>Internal testing, bug-fixing, and Client User Acceptance Testing (UAT).</td>
-                    <td>Week 4</td>
-                    <td>Pending</td>
+                    <td><span class="phase-name">04. Quality Check</span></td>
+                    <td>Rigorous testing, review, and Client feedback integration (UAT).</td>
+                    <td>Refined Solution</td>
                 </tr>
                 <tr>
-                    <td><b>Phase 5</b></td>
-                    <td><b>Handoff & Support</b><br>Live system deployment, training coordination, and launching SLA support desk.</td>
-                    <td>On-going</td>
-                    <td>Pending</td>
+                    <td><span class="phase-name">05. Handoff</span></td>
+                    <td>Final delivery, documentation, and handover to support/maintenance.</td>
+                    <td>Successful Launch</td>
                 </tr>
             </tbody>
         </table>
 
-        <p style="margin-top: 20px;">** Note: Sprints schedules may shift slightly depending on prompt approval of milestone designs and invoices clearance.</p>
+        <h3>What happens next?</h3>
+        <p>Your dedicated Project Manager will be reaching out shortly to schedule your <b>Kickoff Call</b>. During this call, we will walk you through the specifics of your first sprint and define the immediate action items. We prioritize clear, consistent communication so you always know where your project stands.</p>
+
+        <p>We are excited to begin this collaborative work. If you have any questions in the meantime, please use your <b>Client Hub</b> to send us a quick message.</p>
+
+        <p style="margin-top: 30px;">Best regards,<br><br><b>The Adzquare Team</b></p>
     </main>
 </body>
 </html>

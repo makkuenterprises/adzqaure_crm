@@ -80,10 +80,24 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
                       <!-- Aligned Client Onboarding Documents Card without btn-loader class -->
                         <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12 mt-4">
+
+                             <div class="card-footer bg-white border-top-0 pt-0">
+                                    <form action="{{ route('admin.customer.email.onboarding', ['id' => $customer->id]) }}" method="POST" class="needs-loader">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fa fa-paper-plane me-2"></i> Send All Onboarding Docs via Email
+                                        </button>
+                                    </form>
+                                </div>
+
+
                             <div class="card text-white bg-secondary">
                                 <a class="m-3 text-white font-w600" style="font-size: 1.15rem;">Client Onboarding Documents</a>
+
                                 <div class="card-body p-0">
                                     <div class="list-group list-group-flush">
 
