@@ -21,12 +21,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    // --- PUBLIC AUTHENTICATION ---
-    // Used by Mobile App login screens to authenticate and receive Sanctum tokens
+    // --- PUBLIC AUTHENTICATION & ONBOARDING (No Sanctum Token Required) ---
     Route::post('/customer/login', [ApiAuthController::class, 'customerLogin']);
     Route::post('/employee/login', [ApiAuthController::class, 'employeeLogin']);
 
-    // --- PROTECTED ROUTES ---
+    // PUBLIC OTP MODULES (Required for your Flutter App's onboarding, login and PIN verification)
+    Route::prefix('customer')->group(function () {
+        Route::post('/register/send-otp', [ApiAuthController::class, 'sendRegistrationOtp']);
+        Route::post('/register/verify', [ApiAuthController::class, 'verifyAndRegister']);
+        Route::post('/login/send-otp', [ApiAuthController::class, 'sendLoginOtp']);
+        Route::post('/login/verify', [ApiAuthController::class, 'verifyLoginOtp']);
+    });
+
+    // --- PROTECTED ROUTES (Sanctum Token Required) ---
     Route::middleware('auth:sanctum')->group(function () {
 
         // --- SESSION & IDENTITY ---
@@ -45,6 +52,7 @@ Route::prefix('v1')->group(function () {
         // --- CUSTOMER PANEL API ---
         Route::prefix('customer')->group(function () {
             // Dashboard: Fetches active projects/packages, AI insights, and small summary stats for fast mobile loading
+            Route::get('/services', [CustomerApiController::class, 'getServicesList']);
             Route::get('/ongoing-services', [CustomerApiController::class, 'getOngoingServices']);
             Route::get('/stats-summary', [CustomerApiController::class, 'getStatsSummary']);
             Route::get('/ai-insights', [CustomerApiController::class, 'getAiInsights']);
@@ -64,6 +72,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/chat/messages', [ChatApiController::class, 'sendCustomerMessage']);
             Route::get('/call-bookings', [CallBookingApiController::class, 'getCustomerBookings']);
             Route::post('/call-bookings', [CallBookingApiController::class, 'bookCall']);
+            Route::get('/documents', [CustomerApiController::class, 'getServiceDocuments']);
+            Route::get('/graphics', [CustomerApiController::class, 'getCustomerGraphics']);
         });
 
         // --- EMPLOYEE PANEL API ---

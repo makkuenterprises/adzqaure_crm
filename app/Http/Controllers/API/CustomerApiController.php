@@ -13,6 +13,7 @@ use App\Models\Bill;
 use App\Models\PaymentHistory;
 use Illuminate\Support\Facades\Http;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class CustomerApiController extends Controller
 {
@@ -350,6 +351,9 @@ class CustomerApiController extends Controller
     /**
      * Update customer profile details (Supports both 'profile' and 'profile_base64' keys)
      */
+    /**
+     * Update customer profile details (Fully aligned with cPanel SQL table structure)
+     */
     public function updateProfile(Request $request)
     {
         $customer = $request->user();
@@ -358,34 +362,48 @@ class CustomerApiController extends Controller
             'name' => 'nullable|string|max:255',
             'email' => 'nullable|email|string|max:255|unique:customers,email,' . $customer->id,
             'phone' => 'nullable|string|max:20|unique:customers,phone,' . $customer->id,
-            'company' => 'nullable|string|max:255',     // Aligned with React's "company" key
+            'whatsapp' => 'nullable|string|max:20', // Aligned with DB column 'whatsapp'
+            'company' => 'nullable|string|max:255',
+            'business_summary' => 'nullable|string|max:1000',
             'website' => 'nullable|string|max:255',
-            'avatar' => 'nullable|string',              // Aligned with React's "avatar" key
+            'street' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'pincode' => 'nullable|string|max:20',
+            'state' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'avatar' => 'nullable|string',
             'profile' => 'nullable|string',
             'profile_base64' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
+            Log::error("Profile Update Validation Failed: " . json_encode($validator->errors()));
             return response()->json([
                 'status' => 'error',
+                'message' => 'Validation failed',
                 'errors' => $validator->errors()
             ], 422);
         }
 
         // Dynamically update text fields
-        if ($request->filled('name')) $customer->name = $request->name;
-        if ($request->filled('email')) $customer->email = $request->email;
-        if ($request->filled('phone')) $customer->phone = $request->phone;
-        if ($request->filled('company')) $customer->company_name = $request->company; // Map "company" to DB "company_name"
-        if ($request->filled('website')) $customer->website = $request->website;
+        if ($request->has('name')) $customer->name = $request->name;
+        if ($request->has('email')) $customer->email = $request->email;
+        if ($request->has('phone')) $customer->phone = $request->phone;
+        if ($request->has('whatsapp')) $customer->whatsapp = $request->whatsapp; // Maps to 'whatsapp' column
+        if ($request->has('company')) $customer->company_name = $request->company;
+        if ($request->has('website')) $customer->website = $request->website;
+        if ($request->has('street')) $customer->street = $request->street;
+        if ($request->has('city')) $customer->city = $request->city;
+        if ($request->has('pincode')) $customer->pincode = $request->pincode;
+        if ($request->has('state')) $customer->state = $request->state;
+        if ($request->has('country')) $customer->country = $request->country;
+        if ($request->has('business_summary')) $customer->business_summary = $request->business_summary;
 
-        // Smart Dual-Field Base64 Image Parser (Interpreting React's "avatar" key)
+        // Smart Dual-Field Base64 Image Parser
         $imageData = $request->input('avatar') ?? $request->input('profile') ?? $request->input('profile_base64');
 
-        // Check if the received string is indeed a Base64 Data URI
         if ($imageData && (str_starts_with($imageData, 'data:image') || preg_match('/^data:image\/(\w+);base64,/', $imageData))) {
             try {
-                // Strip the base64 prefix if present (e.g., "data:image/png;base64,...")
                 if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
                     $imageData = substr($imageData, strpos($imageData, ',') + 1);
                     $type = strtolower($type[1]); // png, jpg, jpeg, webp
@@ -405,15 +423,12 @@ class CustomerApiController extends Controller
                     mkdir($destinationPath, 0755, true);
                 }
 
-                // Save decoded image binary directly to storage
                 file_put_contents($destinationPath . '/' . $fileName, $imageData);
 
-                // Delete old profile picture from server if it exists
                 if ($customer->profile && file_exists(public_path('admin/customers/' . $customer->profile))) {
                     unlink(public_path('admin/customers/' . $customer->profile));
                 }
 
-                // Save the generated filename to the database profile column
                 $customer->profile = $fileName;
 
             } catch (\Exception $e) {
@@ -424,12 +439,99 @@ class CustomerApiController extends Controller
             }
         }
 
-        $customer->save();
+        // Secure DB Save wrapping with direct SQL error reporting
+        try {
+            $customer->save();
+        } catch (\Exception $e) {
+            Log::error("Profile Update SQL Error: " . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Database SQL Error: ' . $e->getMessage()
+            ], 500);
+        }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Profile updated successfully.',
-            'profile' => $customer // <-- Aligned with React's "res.profile" expectation
+            'profile' => $customer
+        ]);
+    }
+
+    /**
+     * Get all active services for the dropdown selection
+     */
+    public function getServicesList()
+    {
+        // If you have a Service model:
+        $services = \App\Models\Service::all();
+
+        // If you do not have a services table yet, return this fallback array:
+        /*
+        $services = [
+            ['id' => 1, 'name' => 'Digital Marketing'],
+            ['id' => 2, 'name' => 'Laravel Development'],
+            ['id' => 3, 'name' => 'Mobile App Development'],
+            ['id' => 4, 'name' => 'Consultancy']
+        ];
+        */
+
+        return response()->json([
+            'status' => 'success',
+            'services' => $services
+        ]);
+    }
+    /**
+     * Retrieve all shared reports, proposals, and deliverables for the customer
+     */
+    public function getServiceDocuments(Request $request)
+    {
+        $customer = $request->user();
+
+        // Query your existing service_documents table
+        $documents = \App\Models\ServiceDocument::where('customer_id', $customer->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Safely parse local storage paths into absolute web URLs
+        $documents->transform(function ($doc) {
+            if ($doc->file_path && !str_starts_with($doc->file_path, 'http')) {
+                $doc->file_url = asset('storage/' . $doc->file_path);
+            } else {
+                $doc->file_url = $doc->file_path ?? $doc->file_url ?? '';
+            }
+            return $doc;
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'documents' => $documents
+        ]);
+    }
+
+    /**
+     * Get all completed graphic design posters for the customer
+     */
+    public function getCustomerGraphics(Request $request)
+    {
+        $customer = $request->user();
+
+        $graphics = \App\Models\CustomerGraphic::where('customer_id', $customer->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Format relative cPanel storage paths into absolute secure URLs
+        $graphics->transform(function ($g) {
+            if ($g->image_path && !str_starts_with($g->image_path, 'http')) {
+                $g->image_url = asset('storage/' . $g->image_path);
+            } else {
+                $g->image_url = $g->image_path;
+            }
+            return $g;
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'graphics' => $graphics
         ]);
     }
 }

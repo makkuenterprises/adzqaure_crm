@@ -30,6 +30,7 @@ class Customer extends Authenticatable
         'gender',
         'phone_alternate',
         'company_name',
+        'business_summary', 
         'whatsapp',
         'website',
         'other',

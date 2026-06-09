@@ -5,20 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CallBooking extends Model
+class CustomerGraphic extends Model
 {
     use HasFactory;
 
-    protected $table = 'call_bookings';
+    protected $table = 'customer_graphics';
 
     protected $fillable = [
         'customer_id',
-        'purpose',
-        'booking_date',
-        'time_slot',
-        'status',
-        'meeting_link',
-        'notes',
+        'title',
+        'image_path',
     ];
 
     public function customer()
